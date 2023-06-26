@@ -19,9 +19,7 @@ export const CurrentCompetiton = () => {
 		<Box position={"relative"} m={"40"}>
 			<Flex>
 				<Card
-					direction={{ base: "column", sm: "row" }}
 					overflow="hidden"
-					variant="outline"
 					background="rgba(29, 29, 29, 0.5)"
 					borderRadius={5}
 					width={"140vh"}
@@ -65,10 +63,14 @@ export const CurrentCompetiton = () => {
 											height="15"
 											src="/icons/swords.svg"
 											alt="swords"
+											_hover={{ fill: "black" }}
 										/>
 									}
 									m={3}
 									ml={"-36"}
+									_hover={{
+										bg: "gray",
+									}}
 									fontSize={16}
 									textColor={"white"}
 									fontWeight={400}

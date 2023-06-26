@@ -28,14 +28,13 @@ export const Hero = () => {
 				/>
 				<Flex justifyContent="center" alignItems="center" height="100vh">
 					<Box>
-						<Text justifyItems="center" fontSize="96" fontWeight={700}>
-							Challenger
+						<Text fontSize="96" fontWeight={700}>
+							The Challenger
 						</Text>
-						<Text fontSize="28" fontWeight={400}>
+						<Text fontSize="28" textAlign={"center"} fontWeight={400}>
 							Complete Challenges. Develop New Skills.
 						</Text>
-						<Text fontSize="28" fontWeight={400}>
-							{" "}
+						<Text fontSize="28" textAlign={"center"} fontWeight={400}>
 							Earn Rewards. Share Your Achievements.
 						</Text>
 						<Center p={7}>
@@ -49,6 +48,9 @@ export const Hero = () => {
 									/>
 								}
 								fontSize={16}
+								_hover={{
+									bg: "transparent",
+								}}
 								textColor={"white"}
 								fontWeight={400}
 								border="1px solid #FFFFFF"

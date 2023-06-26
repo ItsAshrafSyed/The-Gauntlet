@@ -94,6 +94,9 @@ export const TrendingChallenges = () => {
 								m={3}
 								ml={"-36"}
 								fontSize={16}
+								_hover={{
+									bg: "gray",
+								}}
 								textColor={"white"}
 								fontWeight={400}
 								border="1px solid #FFFFFF"

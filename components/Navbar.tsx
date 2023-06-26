@@ -33,35 +33,39 @@ export const Navbar = () => {
 			<Box>
 				<ButtonGroup spacing={7}>
 					<Button
-						colorScheme=""
+						colorScheme="white"
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/")}
+
+						// onClick={() => router.push("/")}
 					>
 						Home
 					</Button>
 					<Button
-						colorScheme=""
+						colorScheme="white"
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/about")}
+						// onClick={() => router.push("/about")}
 					>
 						Leader Board
 					</Button>
 					<Button
-						colorScheme=""
+						colorScheme="white"
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/contact")}
+						// onClick={() => router.push("/contact")}
 					>
 						Challenges
 					</Button>
 					<Button
 						borderRadius="9999"
 						variant="solid"
+						_hover={{
+							bg: "transparent",
+						}}
 						fontSize={14}
 						textColor="white"
 						fontWeight={400}
