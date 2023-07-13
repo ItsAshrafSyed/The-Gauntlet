@@ -31,7 +31,7 @@ export const Navbar = () => {
 			</Box>
 			<Spacer />
 			<Box>
-				<ButtonGroup spacing={7}>
+				<ButtonGroup spacing={7} fontFamily={"Inter"}>
 					<Button
 						colorScheme="white"
 						variant="link"

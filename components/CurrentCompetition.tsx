@@ -77,6 +77,9 @@ export const CurrentCompetiton = () => {
 									border="1px solid #FFFFFF"
 									borderRadius={9999}
 									background={"transparent"}
+									onClick={() => {
+										window.location.href = "/challenges";
+									}}
 								>
 									VIEW ALL CHALLENGES
 								</Button>
