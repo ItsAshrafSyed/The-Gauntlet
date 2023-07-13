@@ -21,7 +21,12 @@ export const Navbar = () => {
 			borderBottomColor={"gray.500"}
 			borderBottomWidth={0.1}
 		>
-			<Box p="2">
+			<Box
+				p="2"
+				onClick={() => {
+					window.location.href = "/";
+				}}
+			>
 				<HStack>
 					<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
 					<Heading size="md" fontWeight={400} fontSize={24}>
@@ -56,7 +61,9 @@ export const Navbar = () => {
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-						// onClick={() => router.push("/contact")}
+						onClick={() => {
+							window.location.href = "/challenges";
+						}}
 					>
 						Challenges
 					</Button>
