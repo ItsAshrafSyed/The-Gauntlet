@@ -11,9 +11,10 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
-import { relative } from "path";
+import { useRouter } from "next/router";
 
 export const Hero = () => {
+	const router = useRouter();
 	return (
 		<>
 			<Box position="relative">
@@ -56,9 +57,7 @@ export const Hero = () => {
 								border="1px solid #FFFFFF"
 								borderRadius={9999}
 								background="linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
-								onClick={() => {
-									window.location.href = "/challenges";
-								}}
+								onClick={() => router.push("/challenges")}
 							>
 								VIEW CHALLENGES
 							</Button>

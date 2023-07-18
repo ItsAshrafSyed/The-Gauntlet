@@ -15,9 +15,10 @@ import {
 	SimpleGrid,
 } from "@chakra-ui/react";
 import { CurrentCompetiton } from "./CurrentCompetition";
-import { relative } from "path";
+import { useRouter } from "next/router";
 
 export const TrendingChallenges = () => {
+	const router = useRouter();
 	return (
 		<Box position="relative">
 			<Image
@@ -102,9 +103,7 @@ export const TrendingChallenges = () => {
 								border="1px solid #FFFFFF"
 								borderRadius={9999}
 								background={"transparent"}
-								onClick={() => {
-									window.location.href = "/challenges";
-								}}
+								onClick={() => router.push("/challenges")}
 							>
 								VIEW ALL CHALLENGES
 							</Button>

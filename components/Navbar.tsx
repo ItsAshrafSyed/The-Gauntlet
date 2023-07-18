@@ -61,9 +61,7 @@ export const Navbar = () => {
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => {
-							window.location.href = "/challenges";
-						}}
+						onClick={() => router.push("/challenges")}
 					>
 						Challenges
 					</Button>

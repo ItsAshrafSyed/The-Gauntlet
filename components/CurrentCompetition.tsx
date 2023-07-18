@@ -13,8 +13,10 @@ import {
 	VStack,
 	Flex,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export const CurrentCompetiton = () => {
+	const router = useRouter();
 	return (
 		<Box position={"relative"} m={"40"}>
 			<Flex>
@@ -77,9 +79,7 @@ export const CurrentCompetiton = () => {
 									border="1px solid #FFFFFF"
 									borderRadius={9999}
 									background={"transparent"}
-									onClick={() => {
-										window.location.href = "/challenges";
-									}}
+									onClick={() => router.push("/challenges")}
 								>
 									VIEW ALL CHALLENGES
 								</Button>
