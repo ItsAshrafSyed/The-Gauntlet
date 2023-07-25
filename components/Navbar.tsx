@@ -9,9 +9,17 @@ import {
 	Button,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+
+const WalletMultiButtonDynamic = dynamic(
+	async () =>
+		(await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+	{ ssr: false }
+);
 
 export const Navbar = () => {
 	const router = useRouter();
+
 	return (
 		<Flex
 			bg={"black"}
@@ -21,12 +29,7 @@ export const Navbar = () => {
 			borderBottomColor={"gray.500"}
 			borderBottomWidth={0.1}
 		>
-			<Box
-				p="2"
-				onClick={() => {
-					window.location.href = "/";
-				}}
-			>
+			<Box p="2" onClick={() => router.push("/")}>
 				<HStack>
 					<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
 					<Heading size="md" fontWeight={400} fontSize={24}>
@@ -42,8 +45,7 @@ export const Navbar = () => {
 						variant="link"
 						fontWeight={500}
 						fontSize={20}
-
-						// onClick={() => router.push("/")}
+						onClick={() => router.push("/")}
 					>
 						Home
 					</Button>
@@ -65,7 +67,7 @@ export const Navbar = () => {
 					>
 						Challenges
 					</Button>
-					<Button
+					{/* <Button
 						borderRadius="9999"
 						variant="solid"
 						_hover={{
@@ -79,8 +81,9 @@ export const Navbar = () => {
 							"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
 						}
 					>
-						CONNECT
-					</Button>
+						
+					</Button> */}
+					<WalletMultiButtonDynamic />
 				</ButtonGroup>
 			</Box>
 		</Flex>

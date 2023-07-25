@@ -1,0 +1,29 @@
+import { ChakraProvider, HStack, Container } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
+import { WorkspaceProvider } from "../src/providers/WorkspaceProvider";
+import { WalletContextProvider } from "../src/providers/WalletContextProvider";
+// import { SessionUserProvider } from "../providers/SessionUserProvider";
+
+interface LayoutProps {
+	children: ReactNode;
+}
+
+export default function AppLayout({ children }: LayoutProps) {
+	return (
+		<ChakraProvider>
+			<WalletContextProvider>
+				<WorkspaceProvider>
+					{/* <SessionUserProvider> */}
+					<main>
+						<Container maxW="100vw" minHeight={"100vh"}>
+							{children}
+						</Container>
+					</main>
+					{/* </SessionUserProvider> */}
+				</WorkspaceProvider>
+			</WalletContextProvider>
+		</ChakraProvider>
+	);
+}

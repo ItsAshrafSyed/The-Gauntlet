@@ -6,7 +6,7 @@ const globalStyles = extendTheme({
 		global: {
 			body: {
 				bg: "#000000",
-				fontFamily: "Rubik",
+				fontFamily: "Inter",
 				fontStyle: "normal",
 				color: "#ffffff",
 			},
