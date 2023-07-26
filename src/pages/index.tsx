@@ -2,11 +2,8 @@ import { Hero } from "../../components/Hero";
 import { Box } from "@chakra-ui/react";
 import { TrendingChallenges } from "../../components/TrendingChallenges";
 import { CreateOwnChallenge } from "../../components/CreateOwnChallenge";
-import AppLayout from "../../components/AppLayout";
-import { NextPageWithLayout } from "./_app";
-import { ReactElement } from "react";
 
-const Index: NextPageWithLayout = () => {
+export default function Home() {
 	return (
 		<Box>
 			<Hero />
@@ -14,9 +11,4 @@ const Index: NextPageWithLayout = () => {
 			<CreateOwnChallenge />
 		</Box>
 	);
-};
-Index.getLayout = function getLayout(page: ReactElement) {
-	return <AppLayout>{page}</AppLayout>;
-};
-
-export default Index;
+}

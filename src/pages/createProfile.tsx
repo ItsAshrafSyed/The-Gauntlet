@@ -27,7 +27,7 @@ export default function CreateProfile() {
 				}}
 			>
 				<FormControl>
-					<FormLabel mt={5}>Profile Name</FormLabel>
+					<FormLabel mt={5}>Full Name</FormLabel>
 					<Input
 						type="text"
 						name="profileName"

@@ -17,9 +17,11 @@ export default function AppLayout({ children }: LayoutProps) {
 				<WorkspaceProvider>
 					{/* <SessionUserProvider> */}
 					<main>
+						<Navbar />
 						<Container maxW="100vw" minHeight={"100vh"}>
 							{children}
 						</Container>
+						<Footer />
 					</main>
 					{/* </SessionUserProvider> */}
 				</WorkspaceProvider>
