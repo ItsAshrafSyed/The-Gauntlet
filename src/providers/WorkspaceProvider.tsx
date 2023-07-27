@@ -18,7 +18,7 @@ export interface Workspace {
 	provider?: AnchorProvider;
 	program?: Program<Challenger>;
 	wallet?: AnchorWallet;
-	forumClient?: ChallengerClient;
+	challengerClient?: ChallengerClient;
 }
 
 const WorkspaceProvider: FC<{ children: ReactNode }> = ({ children }) => {

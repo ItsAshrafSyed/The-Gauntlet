@@ -14,62 +14,19 @@ import {
 	Card,
 	CardBody,
 	SimpleGrid,
-	useDisclosure,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
 	HStack,
 } from "@chakra-ui/react";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+
 import { TopActiveUsers } from "./TopActiveUsers";
 import { UpcomingEvents } from "./UpcomingEvens";
 import { useWorkspace } from "../src/providers/WorkspaceProvider";
-import { useState, useEffect } from "react";
+
 import { useRouter } from "next/router";
 
 export const CreateOwnChallenge = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { provider, program, forumClient, wallet } = useWorkspace();
-	const walletAdapterModalContext = useWalletModal();
-	const [hasProfile, setHasProfile] = useState(false);
-
-	const handleCreateChallege = () => {
-		if (wallet?.publicKey) {
-			hasProfile
-				? Router.push("/createChallenge")
-				: Router.push("/createProfile");
-		} else {
-			walletAdapterModalContext.setVisible(true);
-		}
-	};
-
 	const Router = useRouter();
 	return (
 		<>
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>Modal Title</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody textColor={"black"}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae,
-						cumque. A voluptatum sapiente officia reiciendis saepe ullam
-						mollitia tempora, neque fuga doloremque magnam consequuntur autem
-						voluptates atque quibusdam, ex eos!
-					</ModalBody>
-
-					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={onClose}>
-							Close
-						</Button>
-						<Button variant="ghost">Secondary Action</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
 			<Box position="relative">
 				<Box m={"36"} mt={"85vh"}>
 					<HStack>
@@ -125,7 +82,7 @@ export const CreateOwnChallenge = () => {
 										challenges of the event! 🏆
 									</Text>
 								</CardBody>
-								<Button
+								{/* <Button
 									leftIcon={
 										<Image
 											width="15"
@@ -151,10 +108,10 @@ export const CreateOwnChallenge = () => {
 									background={
 										"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
 									}
-									onClick={handleCreateChallege}
+									
 								>
 									CREATE CHALLENGE
-								</Button>
+								</Button> */}
 							</Card>
 						</Flex>
 						<Image
