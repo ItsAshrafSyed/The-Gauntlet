@@ -31,49 +31,152 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
+import { PublicKey } from "@solana/web3.js";
+import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
 import { useRouter } from "next/router";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+
 import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { DailyChallenge } from "../../../components/DailyChallenge";
-import { on } from "events";
 
 export default function Challenges() {
 	const Router = useRouter();
-	const [hasProfile, setHasProfile] = useState(false);
 	const [isModerator, setIsModerator] = useState(false);
-	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { provider, program, challengerClient, wallet } = useWorkspace();
+	const [hasProfile, setHasProfile] = useState(false);
+	const [profile, setProfile] = useState<any>(null);
+
+	useEffect(() => {
+		if (!provider) return;
+		if (!provider.wallet) return;
+		if (!program) return;
+		if (profile) {
+			setHasProfile(true);
+			return;
+		}
+		const [profilePda] = PublicKey.findProgramAddressSync(
+			[
+				Buffer.from("user_profile"),
+				CRUX_KEY.toBytes(),
+				provider.wallet.publicKey.toBytes(),
+			],
+			CHALLENGER_PROGRAM_ID
+		);
+		async function checkProfile() {
+			const profileAccount = await program?.account.userProfile.fetchNullable(
+				profilePda
+			);
+			console.log(profileAccount?.isModerator);
+			setIsModerator(profileAccount?.isModerator ? true : false);
+			setHasProfile(profileAccount ? true : false);
+		}
+		checkProfile();
+	}, [provider, program, profile, provider?.wallet]);
 
 	return (
 		<>
-			<Box position={"relative"}>
-				<DailyChallenge />
-			</Box>
+			{isModerator ? (
+				<Box position={"relative"}>
+					<HStack m={10} spacing={5}>
+						<Button
+							leftIcon={
+								<Image
+									width="15"
+									height="15"
+									src="/icons/plus.svg"
+									alt="plus"
+								/>
+							}
+							position={"absolute"}
+							right={"60vh"}
+							borderRadius="9999"
+							variant="solid"
+							fontSize={14}
+							width={"33vh"}
+							height={"6vh"}
+							textColor="white"
+							fontWeight={400}
+							border="1px solid #E5E7EB"
+							_hover={{
+								bg: "transparent",
+							}}
+							background={
+								"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
+							}
+							onClick={() => Router.push("/createChallenge")}
+						>
+							CREATE CHALLENGE
+						</Button>
+
+						<Button
+							position={"absolute"}
+							right={"10vw"}
+							borderRadius="9999"
+							variant="solid"
+							fontSize={14}
+							width={"33vh"}
+							height={"6vh"}
+							textColor="white"
+							fontWeight={400}
+							border="1px solid #E5E7EB"
+							_hover={{
+								bg: "transparent",
+							}}
+							background={
+								"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
+							}
+						>
+							VIEW SUBMISSIONS
+						</Button>
+					</HStack>
+					<HStack m={"20"}>
+						<Text fontSize={"48"} fontWeight={"700"}>
+							{" "}
+							All Challenges
+						</Text>
+					</HStack>
+
+					<Card
+						mx={"32"}
+						position={"absolute"}
+						color={"white"}
+						width={"40vw"}
+						height={"40vh"}
+						borderRadius={"16"}
+						border={"1px solid var(--grey, #848895)"}
+						backgroundColor={"#111"}
+					>
+						<Text>dynamic data from db</Text>
+					</Card>
+				</Box>
+			) : (
+				<Box position={"relative"}>
+					<HStack m={"20"}>
+						<Text fontSize={"48"} fontWeight={"700"}>
+							{" "}
+							All Challenges
+						</Text>
+					</HStack>
+
+					<Card
+						mx={"32"}
+						position={"absolute"}
+						color={"white"}
+						width={"40vw"}
+						height={"40vh"}
+						borderRadius={"16"}
+						border={"1px solid var(--grey, #848895)"}
+						backgroundColor={"#111"}
+					>
+						<Text>dynamic data from db</Text>
+					</Card>
+				</Box>
+			)}
 		</>
 	);
 }
 
 {
-	/* <Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>Modal Title</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody textColor={"black"}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae,
-						cumque. A voluptatum sapiente officia reiciendis saepe ullam
-						mollitia tempora, neque fuga doloremque magnam consequuntur autem
-						voluptates atque quibusdam, ex eos!
-					</ModalBody>
-
-					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={onClose}>
-							Close
-						</Button>
-						<Button variant="ghost">Secondary Action</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
+	/* 
 			<Box position={"relative"}>
 				<Button
 					leftIcon={

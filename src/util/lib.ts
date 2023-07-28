@@ -13,26 +13,26 @@ export const shortenWalletAddress = (address: string) => {
 
 export const getTagFromString = (tagString: string) => {
 	switch (tagString.toLowerCase()) {
-		case "daosandgovernance":
-			return tagValues.DaosAndGovernance;
-		case "dataandanalytics":
-			return tagValues.DataAndAnalytics;
-		case "defi":
-			return tagValues.DeFi;
-		case "development":
-			return tagValues.Development;
+		case "client":
+			return tagValues.Client;
+		case "concept":
+			return tagValues.Concept;
+		case "deploy":
+			return tagValues.Deploy;
 		case "gaming":
 			return tagValues.Gaming;
-		case "mobile":
-			return tagValues.Mobile;
 		case "nfts":
 			return tagValues.Nfts;
-		case "payments":
-			return tagValues.Payments;
-		case "toolsandinfrastructure":
-			return tagValues.ToolsAndInfrastructure;
-		case "trading":
-			return tagValues.Trading;
+		case "sdk":
+			return tagValues.Sdk;
+		case "social":
+			return tagValues.Social;
+		case "staking":
+			return tagValues.Staking;
+		case "video":
+			return tagValues.Video;
+		case "wallets":
+			return tagValues.Wallets;
 		default:
 			return null;
 	}
@@ -40,26 +40,26 @@ export const getTagFromString = (tagString: string) => {
 
 export const getDisplayStringFromTag = (tag: string) => {
 	switch (tag.toLowerCase()) {
-		case "daosandgovernance":
-			return "DAOs and Governance";
-		case "dataandanalytics":
-			return "Data and Analytics";
-		case "defi":
-			return "DeFi";
-		case "development":
-			return "Development";
+		case "client":
+			return "Client";
+		case "concept":
+			return "Concept";
+		case "deploy":
+			return "Deploy";
 		case "gaming":
 			return "Gaming";
-		case "mobile":
-			return "Mobile";
 		case "nfts":
-			return "NFTs";
-		case "payments":
-			return "Payments";
-		case "toolsandinfrastructure":
-			return "Tools and Infrastructure";
-		case "trading":
-			return "Trading";
+			return "Nfts";
+		case "sdk":
+			return "Sdk";
+		case "social":
+			return "Social";
+		case "staking":
+			return "Staking";
+		case "video":
+			return "Video";
+		case "wallets":
+			return "Wallets";
 		default:
 			return null;
 	}

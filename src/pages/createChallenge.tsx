@@ -18,7 +18,6 @@ import {
 	FormErrorMessage,
 	FormHelperText,
 } from "@chakra-ui/react";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 import { useState } from "react";
 
 export default function CreateChallenge() {
@@ -83,11 +82,11 @@ export default function CreateChallenge() {
 				</FormControl>
 
 				<FormControl>
-					<FormLabel mt={3}>Reward</FormLabel>
+					<FormLabel mt={3}>Reputation</FormLabel>
 					<Input
 						type="text"
 						name="challengeReward"
-						placeholder="Enter a reward amount"
+						placeholder="Enter reputation number "
 						value={data.challengeReward}
 						onChange={(e) => {
 							setData({ ...data, challengeReward: e.target.value });
@@ -97,7 +96,7 @@ export default function CreateChallenge() {
 
 				<FormControl>
 					<FormLabel mt={3}>Challenge Category</FormLabel>
-					<Select
+					{/* <Select
 						placeholder="Choose a category"
 						value={data.challengeCategory}
 						onChange={(e) => {
@@ -107,7 +106,7 @@ export default function CreateChallenge() {
 						<option value="Defi">Defi</option>
 						<option value="NFT">NFT</option>
 						<option value="DePIN">DePIN</option>
-					</Select>
+					</Select> */}
 				</FormControl>
 
 				<FormControl>

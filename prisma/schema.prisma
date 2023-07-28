@@ -20,6 +20,7 @@ model Challenge {
   imageURL         String?
   pubKey           String?
   authorPubKey     String
+  reputation       Int
   challengerPubKey String
   title            String
   isConfirmed      Boolean  @default(false)

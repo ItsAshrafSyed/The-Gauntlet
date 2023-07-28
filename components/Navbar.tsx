@@ -60,6 +60,7 @@ export const Navbar = () => {
 			const profileAccount = await program?.account.userProfile.fetchNullable(
 				profilePda
 			);
+			console.log(profileAccount?.isModerator);
 			setHasProfile(profileAccount ? true : false);
 		}
 		checkProfile();
@@ -91,7 +92,6 @@ export const Navbar = () => {
 			],
 			CHALLENGER_PROGRAM_ID
 		);
-		console.log(profilePda.toBase58());
 
 		let profileAccount = await program?.account.userProfile.fetchNullable(
 			profilePda
@@ -125,10 +125,10 @@ export const Navbar = () => {
 		profileAccount = await program?.account.userProfile.fetchNullable(
 			profilePda
 		);
-		console.log(profileAccount);
 		setProfile(profileAccount);
 		setHasProfile(true);
 		setIsSubmitting(false);
+		onClose();
 	};
 
 	return (
