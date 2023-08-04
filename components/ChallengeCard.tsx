@@ -11,7 +11,7 @@ import {
 	Wrap,
 } from "@chakra-ui/react";
 import UserAvatarLink from "./UserAvatarLink";
-import BountyBadge from "./BountyBadge";
+import ReputationBadge from "./ReputationBadge";
 import moment from "moment";
 import { FC } from "react";
 
@@ -68,7 +68,7 @@ const ChallengeCard: FC<ChallengeCardProps> = (props) => {
 						</Text>
 					</VStack>
 					<VStack spacing={-0.5}>
-						<BountyBadge reputation={props.reputation} />
+						<ReputationBadge reputation={props.reputation} />
 					</VStack>
 				</HStack>
 			</CardHeader>

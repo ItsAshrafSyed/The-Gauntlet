@@ -39,7 +39,7 @@ export const Hero = () => {
 							Earn Rewards. Share Your Achievements.
 						</Text>
 						<Center p={7}>
-							<Button
+							{/* <Button
 								leftIcon={
 									<Image
 										width="15"
@@ -60,7 +60,7 @@ export const Hero = () => {
 								onClick={() => router.push("/challenges")}
 							>
 								VIEW CHALLENGES
-							</Button>
+							</Button> */}
 						</Center>
 					</Box>
 				</Flex>

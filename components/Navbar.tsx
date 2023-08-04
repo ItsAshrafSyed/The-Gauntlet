@@ -223,7 +223,7 @@ export const Navbar = () => {
 							fontSize={20}
 							onClick={handleChallengesClick}
 						>
-							Challenges
+							View Challenges
 						</Button>
 						{/* <Button
 						borderRadius="9999"
