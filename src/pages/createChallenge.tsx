@@ -5,124 +5,309 @@ import {
 	HStack,
 	Text,
 	Input,
-	RadioGroup,
-	Radio,
-	Select,
 	Textarea,
 	Button,
-	background,
+	NumberInput,
+	NumberInputField,
+	NumberInputStepper,
+	NumberIncrementStepper,
+	NumberDecrementStepper,
 } from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
+
+import { createRoot } from "react-dom/client";
 import {
 	FormControl,
 	FormLabel,
 	FormErrorMessage,
 	FormHelperText,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import DateTimePicker from "react-datetime-picker";
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+import styles from "./DateTimePicker.module.css";
+import { fetchApiResponse, getTagFromString } from "../util/lib";
+import { useWorkspace } from "../providers/WorkspaceProvider";
+import { PublicKey } from "@solana/web3.js";
+import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
+import { BN } from "@coral-xyz/anchor";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
+
+const Links: string[] = [];
+
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
+type TagMultiSelectOptions = {
+	value: string;
+	label: string;
+};
+
+const tagOptions = [
+	{ value: "client", label: "Client" },
+	{ value: "nfts", label: "Nfts" },
+	{ value: "concept", label: "Concept" },
+	{ value: "deploy", label: "Deploy" },
+	{ value: "gaming", label: "Gaming" },
+	{ value: "sdk", label: "Sdk" },
+	{ value: "social", label: "Social" },
+	{ value: "video", label: "Video" },
+	{ value: "staking", label: "Staking" },
+	{ value: "wallets", label: "Wallets" },
+] as TagMultiSelectOptions[];
 
 export default function CreateChallenge() {
-	const [data, setData] = useState({
-		challengeName: "",
-		challengeDescription: "",
-		challengeURL: "",
-		challengeReward: "",
-		challengeCategory: "",
-		challengeDifficulty: "",
-	});
+	const { provider, program, challengerClient, wallet } = useWorkspace();
+	const [isModerator, setIsModerator] = useState(false);
+	const [hasProfile, setHasProfile] = useState(false);
+	const [selectedTags, setSelectedTags] = useState<TagMultiSelectOptions[]>([]);
+	const [challengePeriod, setChallengePeriod] = useState<Value>(new Date());
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [canSubmitChallenge, setCanSubmitChallenge] = useState(false);
+	const [reputationString, setReputationString] = useState("5");
+	const [challengeTitle, setChallengeTitle] = useState("");
+	const [challengeDetails, setChallengeDetails] = useState("");
+
+	useEffect(() => {
+		setCanSubmitChallenge(
+			challengeTitle.length > 0 &&
+				challengeDetails.length > 0 &&
+				reputationString.length > 0 &&
+				selectedTags.length > 0 &&
+				challengePeriod !== null
+		);
+	}, [
+		challengeTitle,
+		challengeDetails,
+		reputationString,
+		selectedTags,
+		challengePeriod,
+	]);
+
+	useEffect(() => {
+		if (!provider) return;
+		if (!provider.wallet) return;
+		if (!program) return;
+		const [profilePda] = PublicKey.findProgramAddressSync(
+			[
+				Buffer.from("user_profile"),
+				CRUX_KEY.toBytes(),
+				provider.wallet.publicKey.toBytes(),
+			],
+			CHALLENGER_PROGRAM_ID
+		);
+		async function checkProfile() {
+			const profileAccount = await program?.account.userProfile.fetchNullable(
+				profilePda
+			);
+			setIsModerator(profileAccount?.isModerator ? true : false);
+			setHasProfile(profileAccount ? true : false);
+		}
+		checkProfile();
+	}, [provider, program, hasProfile, provider?.wallet, wallet]);
+
+	useEffect(() => {
+		const datePickerContainer = document.getElementById("datePickerContainer");
+		if (datePickerContainer) {
+			const dateTimePicker = (
+				<DateTimePicker
+					onChange={setChallengePeriod}
+					value={challengePeriod}
+					portalContainer={datePickerContainer}
+					className={styles.inputGroup}
+					calendarClassName={styles.wrapper}
+					clockClassName={styles.wrapper}
+					dayPlaceholder="dd"
+					monthPlaceholder="mm"
+					yearPlaceholder="yyyy"
+					hourPlaceholder="hh"
+					minutePlaceholder="mm"
+				/>
+			);
+			// ReactDOM.render(dateTimePicker, datePickerContainer);
+			createRoot(datePickerContainer).render(dateTimePicker);
+		}
+	}, [challengePeriod]);
+
+	const convertToUnixTimestamp = (challengePeriod: Date) => {
+		return Math.floor(challengePeriod.getTime() / 1000);
+	};
+
+	const resetForm = () => {
+		setSelectedTags([]);
+		setReputationString("5");
+		setChallengeTitle("");
+		setChallengePeriod(new Date());
+		setChallengeDetails("");
+	};
+
+	const handleCreateChallenge = async () => {
+		if (!canSubmitChallenge) return;
+		if (
+			!provider ||
+			!program ||
+			!challengerClient ||
+			!wallet ||
+			!hasProfile ||
+			!isModerator
+		)
+			return;
+		setIsSubmitting(true);
+
+		// this will convert challenge period to unix timestamp
+		const challengePeriodUnix = convertToUnixTimestamp(challengePeriod as Date);
+
+		try {
+			const hashedChallengeJson = await (
+				await fetch("/api/hash", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ toHash: challengeDetails }),
+				})
+			).json();
+
+			let hashedChallengeAsPubKey: PublicKey;
+			hashedChallengeAsPubKey = new PublicKey(
+				hashedChallengeJson.output.data as Buffer
+			);
+
+			const tagsToSend = selectedTags.map((tag) =>
+				// @ts-ignore hack to support Anchor enums
+				getTagFromString(tag.value)
+			);
+
+			await fetchApiResponse({
+				url: "/api/challenges",
+				method: "POST",
+				body: {
+					title: challengeTitle,
+					content: challengeDetails,
+					challengePeriod: challengePeriod,
+					authorPubKey: provider.wallet?.publicKey?.toBase58(),
+				},
+			})
+				.then(async (res: any) => {
+					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenge/${res.data.id}`;
+
+					const result = await challengerClient?.createChallenge(
+						CRUX_KEY,
+						provider.wallet?.publicKey,
+						hashedChallengeAsPubKey,
+						challengeTitle,
+						contentDataUrl,
+						// @ts-ignore hack to support Anchor enums
+						tagsToSend,
+						new BN(challengePeriodUnix),
+						new BN(parseFloat(reputationString))
+					);
+					await fetchApiResponse({
+						url: "/api/challenges",
+						method: "PUT",
+						body: {
+							id: res.data.id,
+							pubKey: result?.challenge.toBase58(),
+						},
+					});
+				})
+				.catch((err) => {
+					console.log("error occured in then block", err);
+				});
+
+			// const result = await challengerClient?.createChallenge(
+			// 	CRUX_KEY,
+			// 	provider.wallet?.publicKey,
+			// 	hashedChallengeAsPubKey,
+			// 	challengeTitle,
+			// 	contentDataUrl,
+			// 	// @ts-ignore hack to support Anchor enums
+			// 	tagsToSend,
+			// 	new BN(challengePeriodUnix),
+			// 	new BN(parseFloat(reputationString))
+			// );
+		} catch (e) {
+			console.log("error occured in the try block", e);
+			resetForm();
+			setIsSubmitting(false);
+			return;
+		}
+		resetForm();
+		setIsSubmitting(false);
+	};
 
 	return (
 		<Box position={"relative"} mx={"25vw"} my={"4vh"}>
 			<Text fontSize={"30"} fontWeight={"500"}>
 				Create Challenge
 			</Text>
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					console.log(data);
-				}}
-			>
+			<Box>
 				<FormControl>
-					<FormLabel mt={5}>Challenge Name</FormLabel>
+					<FormLabel mt={5}>Challenge Title</FormLabel>
 					<Input
 						type="text"
-						name="challengeName"
-						placeholder="Enter a challenge name"
-						value={data.challengeName}
+						name="challengeTitle"
+						placeholder="Enter a challenge Title"
+						value={challengeTitle}
 						onChange={(e) => {
-							setData({ ...data, challengeName: e.target.value });
+							setChallengeTitle(e.target.value);
 						}}
 					/>
 				</FormControl>
 
 				<FormControl>
-					<FormLabel mt={3}>Challenge Description</FormLabel>
+					<FormLabel mt={3}>Challenge Details</FormLabel>
 					<Textarea
-						name="challengeDescription"
-						placeholder="Enter a challenge description"
-						value={data.challengeDescription}
+						name="challengeDetails"
+						placeholder="Enter a challenge details"
+						value={challengeDetails}
 						onChange={(e) => {
-							setData({ ...data, challengeDescription: e.target.value });
+							setChallengeDetails(e.target.value);
 						}}
 						h={"20vh"}
 					/>
 				</FormControl>
-				{/* <FormLabel mt={3}>Challenge Period</FormLabel> */}
 
 				<FormControl>
-					<FormLabel mt={3}>Website URL</FormLabel>
-					<Input
-						type="text"
-						name="challengeURL"
-						placeholder="Enter a website URL"
-						value={data.challengeURL}
-						onChange={(e) => {
-							setData({ ...data, challengeURL: e.target.value });
-						}}
-					/>
+					<FormLabel mt={3}> Select Challange Period</FormLabel>
+					<div id="datePickerContainer" />
 				</FormControl>
 
 				<FormControl>
 					<FormLabel mt={3}>Reputation</FormLabel>
-					<Input
-						type="text"
+					<NumberInput
 						name="challengeReward"
+						textColor={"white"}
 						placeholder="Enter reputation number "
-						value={data.challengeReward}
+						value={reputationString}
 						onChange={(e) => {
-							setData({ ...data, challengeReward: e.target.value });
+							setReputationString(e);
+						}}
+					>
+						<NumberInputField placeholder="Enter reputation reward" />
+						<NumberInputStepper>
+							<NumberIncrementStepper />
+							<NumberDecrementStepper />
+						</NumberInputStepper>
+					</NumberInput>
+				</FormControl>
+
+				<FormControl textColor={"black"}>
+					<FormLabel mt={3} textColor={"white"}>
+						Tags
+					</FormLabel>
+					<Select
+						isMulti
+						placeholder="Select tags"
+						options={tagOptions}
+						value={selectedTags}
+						onChange={(selected) => {
+							setSelectedTags(selected as TagMultiSelectOptions[]);
 						}}
 					/>
-				</FormControl>
-
-				<FormControl>
-					<FormLabel mt={3}>Challenge Category</FormLabel>
-					{/* <Select
-						placeholder="Choose a category"
-						value={data.challengeCategory}
-						onChange={(e) => {
-							setData({ ...data, challengeCategory: e.target.value });
-						}}
-					>
-						<option value="Defi">Defi</option>
-						<option value="NFT">NFT</option>
-						<option value="DePIN">DePIN</option>
-					</Select> */}
-				</FormControl>
-
-				<FormControl>
-					<FormLabel mt={3}>Challenge Difficulty</FormLabel>
-					<RadioGroup
-						value={data.challengeDifficulty}
-						onChange={(e) => {
-							setData({ ...data, challengeDifficulty: e });
-						}}
-					>
-						<HStack spacing="24px">
-							<Radio value="easy">Easy</Radio>
-							<Radio value="medium">Medium</Radio>
-							<Radio value="hard">Hard</Radio>
-						</HStack>
-					</RadioGroup>
 				</FormControl>
 
 				<FormControl mt={5}>
@@ -139,11 +324,14 @@ export default function CreateChallenge() {
 						background={
 							"linear-gradient(135deg, #6366F1 0%, #D946EF 50%, #EC4899 100%)"
 						}
+						isLoading={isSubmitting}
+						isDisabled={!canSubmitChallenge}
+						onClick={handleCreateChallenge}
 					>
 						Submit
 					</Button>
 				</FormControl>
-			</form>
+			</Box>
 		</Box>
 	);
 }

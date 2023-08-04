@@ -17,10 +17,10 @@ model Challenge {
   contentHash      String?
   dateCreated      DateTime @default(now())
   dateUpdated      DateTime @updatedAt
+  challengePeriod  String
   imageURL         String?
   pubKey           String?
   authorPubKey     String
-  reputation       Int
   challengerPubKey String
   title            String
   isConfirmed      Boolean  @default(false)

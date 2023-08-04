@@ -11,7 +11,7 @@ export default function Challenge() {
 				<Stack>
 					<Box textAlign={"left"}>
 						<Text fontSize={"64"} fontWeight={"700"} fontFamily={"Inter"}>
-							Details About the challenge {challengeId}{" "}
+							Details About the challenge {challengeId}
 						</Text>
 						<Text
 							width={"70vw"}
