@@ -36,9 +36,9 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
-import { DailyChallenge } from "../../../components/DailyChallenge";
+import { DailyChallenge } from "../../components/DailyChallenge";
 import { fetchApiResponse } from "@/util/lib";
-import ChallengeCard from "../../../components/ChallengeCard";
+import ChallengeCard from "../../components/ChallengeCard";
 
 type Challenge = {
 	id: string;
@@ -98,7 +98,6 @@ export default function Challenges() {
 			const profileAccount = await program?.account.userProfile.fetchNullable(
 				profilePda
 			);
-			console.log(profileAccount?.isModerator);
 			setIsModerator(profileAccount?.isModerator ? true : false);
 			setHasProfile(profileAccount ? true : false);
 		}
@@ -167,19 +166,6 @@ export default function Challenges() {
 							All Challenges
 						</Text>
 					</HStack>
-
-					{/* <Card
-						mx={"32"}
-						position={"absolute"}
-						color={"white"}
-						width={"40vw"}
-						height={"40vh"}
-						borderRadius={"16"}
-						border={"1px solid var(--grey, #848895)"}
-						backgroundColor={"#111"}
-					>
-						<Text>dynamic data from db</Text>
-					</Card> */}
 
 					<VStack align="center">
 						{challenges?.map((challenge: Challenge, index: number) => (

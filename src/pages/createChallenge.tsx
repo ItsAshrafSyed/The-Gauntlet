@@ -33,9 +33,6 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { BN } from "@coral-xyz/anchor";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
-
-const Links: string[] = [];
 
 type ValuePiece = Date | null;
 
@@ -192,7 +189,7 @@ export default function CreateChallenge() {
 				},
 			})
 				.then(async (res: any) => {
-					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenge/${res.data.id}`;
+					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenges/${res.data.id}`;
 
 					const result = await challengerClient?.createChallenge(
 						CRUX_KEY,
@@ -205,6 +202,7 @@ export default function CreateChallenge() {
 						new BN(challengePeriodUnix),
 						new BN(parseFloat(reputationString))
 					);
+
 					await fetchApiResponse({
 						url: "/api/challenges",
 						method: "PUT",
@@ -217,18 +215,6 @@ export default function CreateChallenge() {
 				.catch((err) => {
 					console.log("error occured in then block", err);
 				});
-
-			// const result = await challengerClient?.createChallenge(
-			// 	CRUX_KEY,
-			// 	provider.wallet?.publicKey,
-			// 	hashedChallengeAsPubKey,
-			// 	challengeTitle,
-			// 	contentDataUrl,
-			// 	// @ts-ignore hack to support Anchor enums
-			// 	tagsToSend,
-			// 	new BN(challengePeriodUnix),
-			// 	new BN(parseFloat(reputationString))
-			// );
 		} catch (e) {
 			console.log("error occured in the try block", e);
 			resetForm();

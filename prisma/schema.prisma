@@ -36,6 +36,7 @@ model Submission {
   pubKey           String?
   authorPubKey     String
   challengePubKey  String
+  challengeId      Int
   isConfirmed      Boolean  @default(false)
 
   @@index([challengePubKey])

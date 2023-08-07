@@ -20,10 +20,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useWorkspace } from "../src/providers/WorkspaceProvider";
-import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../src/util/constants";
+import { useWorkspace } from "../providers/WorkspaceProvider";
+import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
-import { fetchApiResponse } from "../src/util/lib";
+import { fetchApiResponse } from "../util/lib";
 
 const WalletMultiButtonDynamic = dynamic(
 	async () =>
@@ -60,7 +60,6 @@ export const Navbar = () => {
 			const profileAccount = await program?.account.userProfile.fetchNullable(
 				profilePda
 			);
-			console.log(profileAccount?.isModerator);
 			setHasProfile(profileAccount ? true : false);
 		}
 		checkProfile();

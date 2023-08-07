@@ -19,7 +19,7 @@ import {
 
 import { TopActiveUsers } from "./TopActiveUsers";
 import { UpcomingEvents } from "./UpcomingEvens";
-import { useWorkspace } from "../src/providers/WorkspaceProvider";
+import { useWorkspace } from "../providers/WorkspaceProvider";
 
 import { useRouter } from "next/router";
 

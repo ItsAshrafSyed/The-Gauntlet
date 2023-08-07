@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
 	CHALLENGER_PROGRAM_ID,
 	CHALLENGER_PUBKEY,
+	CRUX_KEY,
 } from "../../../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { createWorkspace } from "../../../util/api";
@@ -35,7 +36,7 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 	const [profilePda] = PublicKey.findProgramAddressSync(
 		[
 			Buffer.from("user_profile"),
-			CHALLENGER_PUBKEY.toBytes(),
+			CRUX_KEY.toBytes(),
 			new PublicKey(pubKey).toBytes(),
 		],
 		CHALLENGER_PROGRAM_ID
@@ -52,6 +53,7 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 				},
 				select: {
 					pubKey: true,
+					profilePdaPubKey: true,
 					username: true,
 					bio: true,
 					avatarUrl: true,
@@ -60,7 +62,7 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 			}),
 
 			// forum client uses fetch which throws if not found, nullable easier to work with
-			program?.account.userProfile.fetchNullable(profilePda),
+			await program?.account.userProfile.fetchNullable(profilePda),
 		]);
 
 		if (!user || !onChainProfile) {

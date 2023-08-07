@@ -10,12 +10,14 @@ import {
 	Stack,
 	Badge,
 	Wrap,
+	VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import ReputationBadge from "../../../components/ReputationBadge";
-import UserAvatarLink from "../../../components/UserAvatarLink";
+import ReputationBadge from "../../components/ReputationBadge";
+import UserAvatarLink from "../../components/UserAvatarLink";
 import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
+import SubmissionCard from "../../components/SubmissionCard";
 
 export default function Challenge() {
 	const [title, setTitle] = useState<string>("");
@@ -24,12 +26,14 @@ export default function Challenge() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [authorAvatarUrl, setAuthorAvatarUrl] = useState<string>("");
 	const [authorProfileId, setAuthorProfileId] = useState<string>("");
-	const [challengeId, setChallengeId] = useState<string>("");
+	const [challengeId, setChallengeId] = useState<number>(0);
 	const [challengePubKey, setChallengePubKey] = useState<string>("");
 
 	const {
 		metadata: sessionUserMetadata,
 		isConnected,
+		isModerator,
+		hasProfile,
 		publicKey: sessionUserPubKey,
 	} = useSessionUser();
 	const router = useRouter();
@@ -60,7 +64,7 @@ export default function Challenge() {
 			}
 		}
 		loadData();
-	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl]);
+	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	return (
 		<Box m={"16vh"} position={"relative"}>
@@ -76,7 +80,7 @@ export default function Challenge() {
 										placeholder={authorProfileId}
 										avatarUrl={authorAvatarUrl}
 									/>
-									<Text fontSize={"64"} fontWeight={"700"}>
+									<Text fontSize={"37"} fontWeight={"700"}>
 										{title}
 									</Text>
 								</HStack>
@@ -103,6 +107,22 @@ export default function Challenge() {
 					</Stack>
 				</Box>
 			</Flex>
+			<VStack spacing={6} minWidth={"80%"} align={"center"}>
+				{hasProfile ? (
+					isModerator ? (
+						<></>
+					) : (
+						<SubmissionCard
+							userProfilePubKey={sessionUserPubKey}
+							userAvatarUrl={sessionUserMetadata?.avatarUrl}
+							challengePubKey={challengePubKey}
+							challengeId={challengeId}
+						/>
+					)
+				) : (
+					<></>
+				)}
+			</VStack>
 		</Box>
 	);
 }

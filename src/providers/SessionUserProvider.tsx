@@ -17,12 +17,16 @@ export type SessionUserMetadata = {
 
 export type SessionUserContext = {
 	isConnected: boolean;
+	hasProfile: boolean;
+	isModerator: boolean;
 	publicKey: string | null;
 	metadata: SessionUserMetadata | null;
 };
 
 const SessionUserContext = createContext({
 	isConnected: false,
+	hasProfile: false,
+	isModerator: false,
 	publicKey: null,
 	metadata: null,
 } as SessionUserContext);
@@ -30,8 +34,10 @@ const SessionUserContext = createContext({
 export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 	children,
 }) => {
-	const { wallet } = useWorkspace();
+	const { wallet, program } = useWorkspace();
 	const [metadata, setMetadata] = useState<SessionUserMetadata | null>(null);
+	const [isModerator, setIsModerator] = useState(false);
+	const [hasProfile, setHasProfile] = useState(false);
 
 	const publicKey = useMemo(() => {
 		return wallet ? wallet.publicKey.toBase58() : null;
@@ -55,10 +61,13 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 		async function loadData() {
 			try {
 				// todo use actual type for User response
-				const { user } = await fetchApiResponse<any>({
+				const response = await fetchApiResponse<any>({
 					url: `/api/users/${publicKey}`,
 				});
-
+				const user = response.data.user;
+				if (user) {
+					setHasProfile(true);
+				}
 				setMetadata(
 					user
 						? {
@@ -67,6 +76,10 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 						  }
 						: null
 				);
+				const profileAccount = await program?.account.userProfile.fetchNullable(
+					user.profilePdaPubKey
+				);
+				setIsModerator(profileAccount?.isModerator ? true : false);
 			} catch (err) {
 				console.log("error", err);
 				return;
@@ -74,13 +87,15 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 		}
 
 		loadData();
-	}, [publicKey]);
+	}, [publicKey, program, wallet]);
 
 	return (
 		<SessionUserContext.Provider
 			value={{
 				isConnected,
 				publicKey,
+				hasProfile,
+				isModerator,
 				metadata,
 			}}
 		>
