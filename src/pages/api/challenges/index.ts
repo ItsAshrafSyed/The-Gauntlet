@@ -5,7 +5,6 @@ import { hash } from "blake3";
 import { getDisplayStringFromTag } from "../../../util/lib";
 import { CHALLENGER_PUBKEY } from "../../../util/constants";
 import { createWorkspace } from "../../../util/api";
-import CreateChallenge from "@/pages/createChallenge";
 
 const prisma = new PrismaClient();
 

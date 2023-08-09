@@ -2,6 +2,7 @@ import { useSessionUser } from "@/providers/SessionUserProvider";
 import { fetchApiResponse } from "@/util/lib";
 import {
 	Box,
+	Heading,
 	Flex,
 	HStack,
 	Image,
@@ -11,13 +12,16 @@ import {
 	Badge,
 	Wrap,
 	VStack,
+	Divider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import ReputationBadge from "../../components/ReputationBadge";
 import UserAvatarLink from "../../components/UserAvatarLink";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 import SubmissionCard from "../../components/SubmissionCard";
+import SubmitSubmissionCard from "../../components/SubmitSubmissionCard";
+import moment from "moment";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 export default function Challenge() {
 	const [title, setTitle] = useState<string>("");
@@ -28,6 +32,7 @@ export default function Challenge() {
 	const [authorProfileId, setAuthorProfileId] = useState<string>("");
 	const [challengeId, setChallengeId] = useState<number>(0);
 	const [challengePubKey, setChallengePubKey] = useState<string>("");
+	const [submissions, setSubmissions] = useState<any[]>([]);
 
 	const {
 		metadata: sessionUserMetadata,
@@ -43,22 +48,45 @@ export default function Challenge() {
 		if (!id) return;
 		async function loadData() {
 			try {
-				const challengeResult = await fetchApiResponse<any>({
-					url: `/api/challenges/${id}`,
-				});
+				const [challengeResult, submissionResult] = await Promise.all([
+					fetchApiResponse<any>({ url: `/api/challenges/${id}` }),
+					fetchApiResponse<any>({
+						url: `/api/submissions?challengeId=${id}`,
+					}),
+				]);
 				if (!challengeResult.data) {
 					router.push("/challenges");
 					return;
 				}
 				const challenge = challengeResult.data.challenge;
+				const submissions = submissionResult.data.submissions ?? [];
+
+				let sortedSubmissions = [];
+				if (submissions.length > 0) {
+					// @ts-ignore Type is any so TS doesn't know this exists
+					sortedSubmissions = submissions.sort((a, b) => {
+						moment(b.dateUpdated).diff(moment(a.dateUpdated));
+					});
+				}
+
+				// const challengeAuthor =
+				// 	challenge.authorPubKey === sessionUserPubKey
+				// 		? {
+				// 				avatarUrl: sessionUserMetadata?.avatarUrl,
+				// 				pubKey: sessionUserPubKey,
+				// 		  }
+				// 		: await fetchApiResponse<any>({
+				// 				url: `/api/users/${challenge.authorPubKey}`,
+				// 		  });
+				setAuthorAvatarUrl(challenge.avatarUrl);
+				setAuthorProfileId(challenge.authorPubKey);
 				setTitle(challenge.title);
 				setContent(challenge.content);
 				setReputation(challenge.reputation);
 				setTags(challenge.tags);
-				setAuthorProfileId(challenge.authorPubKey);
+				setSubmissions(sortedSubmissions);
 				setChallengeId(challenge.id);
 				setChallengePubKey(challenge.pubKey);
-				setAuthorAvatarUrl(challenge.avatarUrl);
 			} catch (e) {
 				console.log(e);
 			}
@@ -107,12 +135,22 @@ export default function Challenge() {
 					</Stack>
 				</Box>
 			</Flex>
+			<Divider />
+			<HStack justifyContent={"space-between"}>
+				<Heading as="h3" size="lg" my={4}>
+					{!submissions.length || submissions.length === 0
+						? "No submissions yet"
+						: `${submissions.length} Submission${
+								submissions.length > 1 ? "s" : ""
+						  }`}
+				</Heading>
+			</HStack>
 			<VStack spacing={6} minWidth={"80%"} align={"center"}>
 				{hasProfile ? (
 					isModerator ? (
 						<></>
 					) : (
-						<SubmissionCard
+						<SubmitSubmissionCard
 							userProfilePubKey={sessionUserPubKey}
 							userAvatarUrl={sessionUserMetadata?.avatarUrl}
 							challengePubKey={challengePubKey}
@@ -122,6 +160,16 @@ export default function Challenge() {
 				) : (
 					<></>
 				)}
+				{submissions.map((submission: any, index: number) => (
+					<SubmissionCard
+						key={index}
+						submission={submission.content}
+						submissionTimestamp={submission.dateUpdated}
+						userAvatarUrl={submission.authorAvatarUrl}
+						userProfilePubKey={submission.authorPubKey}
+						awarded={submission.awarded}
+					/>
+				))}
 			</VStack>
 		</Box>
 	);

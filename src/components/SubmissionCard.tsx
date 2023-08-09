@@ -1,133 +1,49 @@
 import {
+	Badge,
 	Card,
 	CardBody,
+	CardHeader,
 	HStack,
-	Textarea,
-	CardFooter,
-	Button,
+	VStack,
+	Text,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import UserAvatarLink from "./UserAvatarLink";
-import { useWorkspace } from "../providers/WorkspaceProvider";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { PublicKey } from "@solana/web3.js";
-import { fetchApiResponse } from "../util/lib";
+import moment from "moment";
 
-export default function SubmissionCard({
-	challengePubKey,
-	challengeId,
-	userProfilePubKey,
+const SubmissionCard = ({
+	submission,
+	submissionTimestamp,
 	userAvatarUrl,
-}: any) {
-	const [submission, setSubmission] = useState<string>("");
-	const [canSubmit, setCanSubmit] = useState<boolean>(false);
-	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const { program, wallet, challengerClient, provider } = useWorkspace();
-	const walletAdapterModalContext = useWalletModal();
+	userProfilePubKey,
+	awarded,
+}: any) => (
+	<Card
+		maxWidth={"80%"}
+		minWidth={"80%"}
+		bg="#111"
+		textColor={"white"}
+		border={"1px"}
+		rounded={"lg"}
+	>
+		<CardHeader>
+			<HStack justify={"space-between"} align="start" mb={2}>
+				<UserAvatarLink
+					profileId={userProfilePubKey}
+					username="Fozzy"
+					placeholder={userProfilePubKey}
+					avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
+					size={["xs", "md"]}
+				/>
+				<VStack align="start" spacing={0}>
+					<Text>submitted {moment(submissionTimestamp).fromNow()}</Text>
+					{awarded ? <Badge colorScheme={"yellow"}>Awarded</Badge> : <></>}
+				</VStack>
+			</HStack>
+		</CardHeader>
+		<CardBody mt={-4}>
+			<Text>{submission}</Text>
+		</CardBody>
+	</Card>
+);
 
-	useEffect(() => {
-		if (!submission) return;
-
-		setCanSubmit(submission.length > 0);
-	}, [submission]);
-
-	const handleSubmission = async () => {
-		if (!program || !challengerClient) return;
-		if (!challengePubKey || !challengeId) return;
-		if (!wallet) {
-			walletAdapterModalContext.setVisible(true);
-			return;
-		}
-		console.log("handleSubmission");
-		setIsSubmitting(true);
-		try {
-			const hashedSubmissionJson = await (
-				await fetch("/api/hash", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ toHash: submission }),
-				})
-			).json();
-			const hashedSubmissionAsPubkey = new PublicKey(
-				hashedSubmissionJson.output.data as Buffer
-			);
-
-			await fetchApiResponse({
-				url: "/api/submissions",
-				method: "POST",
-				body: {
-					content: submission,
-					challengePubKey: challengePubKey,
-					challengeId: challengeId,
-					authorPubKey: wallet?.publicKey?.toBase58(),
-				},
-			})
-				.then(async (res: any) => {
-					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenges/${challengeId}/${res.data.id}`;
-					const result = await challengerClient?.createSubmission(
-						challengePubKey,
-						wallet?.publicKey,
-						hashedSubmissionAsPubkey,
-						contentDataUrl
-					);
-
-					await fetchApiResponse({
-						url: "/api/submissions",
-						method: "PUT",
-						body: {
-							id: res.data.id,
-							pubKey: result?.submission.toBase58(),
-						},
-					});
-				})
-				.catch((e) => {
-					console.log("error occured in the catch block", e);
-				});
-		} catch (e) {
-			console.log("error occured in the try block", e);
-			setIsSubmitting(false);
-			return;
-		}
-		setIsSubmitting(false);
-		setSubmission("");
-	};
-
-	return (
-		<Card
-			bg="#111"
-			rounded={"lg"}
-			width={"70vw"}
-			textColor={"white"}
-			border={"1px"}
-			m={"4vh"}
-		>
-			<CardBody>
-				<HStack justify={"space-between"} align="start" mb={2}>
-					<UserAvatarLink
-						profileId={userProfilePubKey}
-						placeholder={userProfilePubKey}
-						avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
-						size={["xs", "md"]}
-					/>
-					<Textarea
-						placeholder="Enter your submission here"
-						value={submission}
-						onChange={(e) => setSubmission(e.target.value)}
-					/>
-				</HStack>
-			</CardBody>
-			<CardFooter mt={-4} justifyContent={"end"}>
-				<Button
-					colorScheme="yellow"
-					isLoading={isSubmitting}
-					isDisabled={!canSubmit}
-					onClick={handleSubmission}
-				>
-					Submit
-				</Button>
-			</CardFooter>
-		</Card>
-	);
-}
+export default SubmissionCard;

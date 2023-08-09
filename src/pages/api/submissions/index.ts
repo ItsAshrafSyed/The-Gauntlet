@@ -3,6 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { hash } from "blake3";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PUBKEY } from "../../../util/constants";
+import { createWorkspace } from "../../../util/api";
+import { on } from "events";
 
 const prisma = new PrismaClient();
 
@@ -29,6 +31,10 @@ export default async function handler(
 		case "PUT": {
 			return await updateSubmission(req, res);
 		}
+		case "GET": {
+			return await getSubmissionsForChallenge(req, res);
+		}
+
 		default: {
 			return res.status(405).json({ message: "Method not allowed" });
 		}
@@ -78,5 +84,96 @@ async function updateSubmission(req: NextApiRequest, res: NextApiResponse) {
 	} catch (e) {
 		console.error("Request error", e);
 		res.status(500).json({ error: "Error updating submission" });
+	}
+}
+
+async function getSubmissionsForChallenge(
+	req: NextApiRequest,
+	res: NextApiResponse
+) {
+	const { challengeId } = req.query;
+	const { program } = createWorkspace();
+
+	if (!challengeId || typeof challengeId !== "string") {
+		return res.status(400).json({ message: "Invalid challengeId" });
+	}
+
+	try {
+		const submissions = await prisma.submission.findMany({
+			where: {
+				challengeId: parseInt(challengeId),
+			},
+			select: {
+				id: true,
+				content: true,
+				pubKey: true,
+				authorPubKey: true,
+				dateUpdated: true,
+			},
+		});
+		console.log("submissions", submissions);
+
+		let submissionsWithOnChainData = await Promise.all(
+			submissions.map(async (submission) => {
+				if (!submission.pubKey) return null;
+				const submissionPubKey = new PublicKey(submission.pubKey);
+				const onChainData = await program.account.submission.fetchNullable(
+					submissionPubKey
+				);
+				if (!onChainData) return null;
+
+				return onChainData
+					? {
+							...submission,
+					  }
+					: null;
+			})
+		);
+
+		submissionsWithOnChainData = submissionsWithOnChainData.filter(
+			(submission) => submission !== null
+		);
+
+		const profilesToGet = submissionsWithOnChainData.reduce(
+			(acc, submission) => {
+				if (
+					submission?.authorPubKey &&
+					!acc.includes(submission.authorPubKey)
+				) {
+					acc.push(submission.authorPubKey);
+				}
+				return acc;
+			},
+			[] as string[]
+		);
+
+		const profiles = await prisma.userProfile.findMany({
+			where: {
+				pubKey: {
+					in: profilesToGet,
+				},
+			},
+			select: {
+				pubKey: true,
+				avatarUrl: true,
+			},
+		});
+
+		const decorated = submissionsWithOnChainData.map((submission) => {
+			const profile = profiles.find(
+				(profile) => profile.pubKey === submission?.authorPubKey
+			);
+			return {
+				...submission,
+				avatarUrl: profile?.avatarUrl ?? null,
+			};
+		});
+
+		return res.status(200).json({ data: { submissions: decorated } });
+	} catch (error) {
+		console.error("Request error", error);
+		res.status(500).json({
+			error: "Error getting submissions",
+		});
 	}
 }
