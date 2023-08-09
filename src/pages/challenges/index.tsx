@@ -108,58 +108,31 @@ export default function Challenges() {
 		<>
 			{isModerator ? (
 				<Box position={"relative"}>
-					<HStack m={10} spacing={5}>
-						<Button
-							leftIcon={
-								<Image
-									width="15"
-									height="15"
-									src="/icons/plus.svg"
-									alt="plus"
-								/>
-							}
-							position={"absolute"}
-							right={"60vh"}
-							borderRadius="9999"
-							variant="solid"
-							fontSize={14}
-							width={"33vh"}
-							height={"6vh"}
-							textColor="white"
-							fontWeight={400}
-							border="1px solid #E5E7EB"
-							_hover={{
-								bg: "transparent",
-							}}
-							background={
-								"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
-							}
-							onClick={() => Router.push("/createChallenge")}
-						>
-							CREATE CHALLENGE
-						</Button>
+					<Button
+						leftIcon={
+							<Image width="15" height="15" src="/icons/plus.svg" alt="plus" />
+						}
+						position={"absolute"}
+						right={"20vh"}
+						borderRadius="9999"
+						variant="solid"
+						fontSize={14}
+						width={"33vh"}
+						height={"6vh"}
+						textColor="white"
+						fontWeight={400}
+						border="1px solid #E5E7EB"
+						_hover={{
+							bg: "transparent",
+						}}
+						background={
+							"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
+						}
+						onClick={() => Router.push("/createChallenge")}
+					>
+						CREATE CHALLENGE
+					</Button>
 
-						<Button
-							position={"absolute"}
-							right={"10vw"}
-							borderRadius="9999"
-							variant="solid"
-							fontSize={14}
-							width={"33vh"}
-							height={"6vh"}
-							textColor="white"
-							fontWeight={400}
-							border="1px solid #E5E7EB"
-							_hover={{
-								bg: "transparent",
-							}}
-							background={
-								"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
-							}
-						>
-							VIEW SUBMISSIONS
-						</Button>
-					</HStack>
 					<HStack m={"20"}>
 						<Text fontSize={"48"} fontWeight={"700"}>
 							{" "}
