@@ -111,7 +111,6 @@ async function getSubmissionsForChallenge(
 				dateUpdated: true,
 			},
 		});
-		console.log("submissions", submissions);
 
 		let submissionsWithOnChainData = await Promise.all(
 			submissions.map(async (submission) => {
