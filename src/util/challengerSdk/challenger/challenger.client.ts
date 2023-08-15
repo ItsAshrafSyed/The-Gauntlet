@@ -24,6 +24,13 @@ export const tagValues = {
     Wallets: {wallets: {}},
 }
 
+// Enum: SubmissionState
+export const submissionState = {
+    Completed: {completed: {}},
+    Rejected: {rejected: {}},
+    Pending: {pending: {}},
+}
+
 export type Tags = IdlTypes<Challenger>['Tags'];
 
 export type SubmissionState = IdlTypes<Challenger>['SubmissionState'];
