@@ -12,7 +12,7 @@ import {
 
 // Enum: Tags
 export const tagValues = {
-<<<<<<< HEAD
+
     Client: {client: {}},
     Concept: {concept: {}},
     Deploy: {deploy: {}},
@@ -35,23 +35,6 @@ export const submissionState = {
 export type Tags = IdlTypes<Challenger>['Tags'];
 
 export type SubmissionState = IdlTypes<Challenger>['SubmissionState'];
-=======
-	Client: { client: {} },
-	Concept: { concept: {} },
-	Deploy: { deploy: {} },
-	Gaming: { gaming: {} },
-	Nfts: { nfts: {} },
-	Sdk: { sdk: {} },
-	Social: { social: {} },
-	Staking: { staking: {} },
-	Video: { video: {} },
-	Wallets: { wallets: {} },
-};
-
-export type Tags = IdlTypes<Challenger>["Tags"];
-
-export type SubmissionState = IdlTypes<Challenger>["SubmissionState"];
->>>>>>> 3b44c8e07f081dfc06b69665ed01b4518529cf7c
 
 export interface CruxCounts {
 	profileCount: BN;
