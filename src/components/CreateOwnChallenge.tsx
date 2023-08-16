@@ -28,7 +28,7 @@ export const CreateOwnChallenge = () => {
 	return (
 		<>
 			<Box position="relative">
-				<Box m={"36"} mt={"85vh"}>
+				{/* <Box m={"36"} mt={"85vh"}>
 					<HStack>
 						<Image
 							width="60%"
@@ -44,7 +44,7 @@ export const CreateOwnChallenge = () => {
 						<Spacer />
 						<UpcomingEvents />
 					</HStack>
-				</Box>
+				</Box> */}
 				<Box position={"absolute"} mt={-7} ml={"20"}>
 					<HStack>
 						<Flex>

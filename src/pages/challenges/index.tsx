@@ -1,34 +1,4 @@
-import {
-	Box,
-	HStack,
-	Text,
-	VStack,
-	Image,
-	Card,
-	Button,
-	CardHeader,
-	CardBody,
-	IconButton,
-	Input,
-	InputGroup,
-	Icon,
-	Center,
-	Menu,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	useDisclosure,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
-	Flex,
-	InputLeftElement,
-	Spacer,
-} from "@chakra-ui/react";
+import { Box, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
@@ -36,7 +6,6 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
-import { DailyChallenge } from "../../components/DailyChallenge";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeCard from "../../components/ChallengeCard";
 
@@ -164,19 +133,6 @@ export default function Challenges() {
 							All Challenges
 						</Text>
 					</HStack>
-
-					{/* <Card
-						mx={"32"}
-						position={"absolute"}
-						color={"white"}
-						width={"40vw"}
-						height={"40vh"}
-						borderRadius={"16"}
-						border={"1px solid var(--grey, #848895)"}
-						backgroundColor={"#111"}
-					>
-						<Text>dynamic data from db</Text>
-					</Card> */}
 
 					<VStack align="center">
 						{challenges?.map((challenge: Challenge, index: number) => (

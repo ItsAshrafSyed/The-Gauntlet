@@ -12,15 +12,49 @@ import {
 import UserAvatarLink from "./UserAvatarLink";
 import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
+import { useWorkspace } from "../providers/WorkspaceProvider";
+import { getSubmissionStateFromString } from "@/util/lib";
+import { get } from "http";
 
 const SubmissionCard = ({
 	submission,
 	submissionTimestamp,
 	userAvatarUrl,
 	userProfilePubKey,
+	submissionPubKey,
 	awarded,
 }: any) => {
 	const { isModerator, hasProfile } = useSessionUser();
+	const { program, wallet, challengerClient } = useWorkspace();
+	const handleAcceptSubmission = async () => {
+		if (!program || !wallet || !isModerator || !hasProfile || !challengerClient)
+			return;
+		const submissionState = getSubmissionStateFromString("Completed");
+
+		const transaction = await challengerClient.evaluateSubmission(
+			submissionPubKey,
+			wallet.publicKey,
+			// @ts-ignore hack to support Anchor enums
+			submissionState
+		);
+
+		console.log(transaction);
+	};
+	const handleRejectSubmission = async () => {
+		if (!program || !wallet || !isModerator || !hasProfile || !challengerClient)
+			return;
+		const submissionState = getSubmissionStateFromString("Rejected");
+
+		const transaction = await challengerClient.evaluateSubmission(
+			submissionPubKey,
+			wallet.publicKey,
+			// @ts-ignore hack to support Anchor enums
+			submissionState
+		);
+
+		console.log(transaction);
+	};
+
 	return (
 		<Card
 			maxWidth={"80%"}
@@ -53,8 +87,8 @@ const SubmissionCard = ({
 					{hasProfile ? (
 						isModerator ? (
 							<>
-								<Button>Accept</Button>
-								<Button>Reject</Button>
+								<Button onClick={handleAcceptSubmission}>Accept</Button>
+								<Button onClick={handleRejectSubmission}>Reject</Button>
 							</>
 						) : (
 							<></>

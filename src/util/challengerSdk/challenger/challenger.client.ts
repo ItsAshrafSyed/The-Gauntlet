@@ -12,29 +12,28 @@ import {
 
 // Enum: Tags
 export const tagValues = {
-
-    Client: {client: {}},
-    Concept: {concept: {}},
-    Deploy: {deploy: {}},
-    Gaming: {gaming: {}},
-    Nfts: {nfts: {}},
-    Sdk: {sdk: {}},
-    Social: {social: {}},
-    Staking: {staking: {}},
-    Video: {video: {}},
-    Wallets: {wallets: {}},
-}
+	Client: { client: {} },
+	Concept: { concept: {} },
+	Deploy: { deploy: {} },
+	Gaming: { gaming: {} },
+	Nfts: { nfts: {} },
+	Sdk: { sdk: {} },
+	Social: { social: {} },
+	Staking: { staking: {} },
+	Video: { video: {} },
+	Wallets: { wallets: {} },
+};
 
 // Enum: SubmissionState
 export const submissionState = {
-    Completed: {completed: {}},
-    Rejected: {rejected: {}},
-    Pending: {pending: {}},
-}
+	Completed: { completed: {} },
+	Rejected: { rejected: {} },
+	Pending: { pending: {} },
+};
 
-export type Tags = IdlTypes<Challenger>['Tags'];
+export type Tags = IdlTypes<Challenger>["Tags"];
 
-export type SubmissionState = IdlTypes<Challenger>['SubmissionState'];
+export type SubmissionState = IdlTypes<Challenger>["SubmissionState"];
 
 export interface CruxCounts {
 	profileCount: BN;

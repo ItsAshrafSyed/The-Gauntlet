@@ -168,6 +168,7 @@ export default function Challenge() {
 						userAvatarUrl={submission.authorAvatarUrl}
 						userProfilePubKey={submission.authorPubKey}
 						awarded={submission.awarded}
+						submissionPubKey={submission.pubKey}
 					/>
 				))}
 			</VStack>

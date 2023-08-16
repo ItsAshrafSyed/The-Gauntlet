@@ -33,7 +33,7 @@ export const TrendingChallenges = () => {
 			<Box>
 				<CurrentCompetiton />
 			</Box>
-			<Box mt={"-14"}>
+			{/* <Box mt={"-14"}>
 				<Flex justifyContent="center">
 					<Box>
 						<Center fontFamily={"Inter"} fontSize={48} fontWeight={700}>
@@ -110,7 +110,7 @@ export const TrendingChallenges = () => {
 						</Flex>
 					</Box>
 				</Flex>
-			</Box>
+			</Box> */}
 		</Box>
 	);
 };

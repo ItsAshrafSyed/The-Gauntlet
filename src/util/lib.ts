@@ -1,4 +1,6 @@
+import { Switch } from "@chakra-ui/react";
 import { tagValues } from "./challengerSdk";
+import { submissionState } from "./challengerSdk";
 
 export const shortenWalletAddress = (address: string) => {
 	if (!address || address.length <= 8) {
@@ -9,6 +11,17 @@ export const shortenWalletAddress = (address: string) => {
 		address.length - 4,
 		address.length
 	)}`;
+};
+
+export const getSubmissionStateFromString = (submissionStateString: string) => {
+	switch (submissionStateString.toLowerCase()) {
+		case "completed":
+			return submissionState.Completed;
+		case "rejected":
+			return submissionState.Rejected;
+		default:
+			return null;
+	}
 };
 
 export const getTagFromString = (tagString: string) => {
