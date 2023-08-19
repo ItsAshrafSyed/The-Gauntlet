@@ -24,6 +24,7 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
+import { useSessionUser } from "../providers/SessionUserProvider";
 
 const WalletMultiButtonDynamic = dynamic(
 	async () =>
@@ -33,44 +34,45 @@ const WalletMultiButtonDynamic = dynamic(
 
 export const Navbar = () => {
 	const router = useRouter();
-	const [hasProfile, setHasProfile] = useState(false);
+	//const [hasProfile, setHasProfile] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { provider, program, challengerClient, wallet } = useWorkspace();
 	const walletAdapterModalContext = useWalletModal();
+	const { hasProfile } = useSessionUser();
 
-	useEffect(() => {
-		if (!provider) return;
-		if (!provider.wallet) return;
-		if (!program) return;
-		if (profile) {
-			setHasProfile(true);
-			return;
-		}
-		const [profilePda] = PublicKey.findProgramAddressSync(
-			[
-				Buffer.from("user_profile"),
-				CRUX_KEY.toBytes(),
-				provider.wallet.publicKey.toBytes(),
-			],
-			CHALLENGER_PROGRAM_ID
-		);
-		async function checkProfile() {
-			const profileAccount = await program?.account.userProfile.fetchNullable(
-				profilePda
-			);
-			setHasProfile(profileAccount ? true : false);
-		}
-		checkProfile();
-	}, [
-		provider,
-		program,
-		profile,
-		provider?.wallet,
-		walletAdapterModalContext,
-		wallet,
-	]);
+	// useEffect(() => {
+	// 	if (!provider) return;
+	// 	if (!provider.wallet) return;
+	// 	if (!program) return;
+	// 	if (profile) {
+	// 		setHasProfile(true);
+	// 		return;
+	// 	}
+	// 	const [profilePda] = PublicKey.findProgramAddressSync(
+	// 		[
+	// 			Buffer.from("user_profile"),
+	// 			CRUX_KEY.toBytes(),
+	// 			provider.wallet.publicKey.toBytes(),
+	// 		],
+	// 		CHALLENGER_PROGRAM_ID
+	// 	);
+	// 	async function checkProfile() {
+	// 		const profileAccount = await program?.account.userProfile.fetchNullable(
+	// 			profilePda
+	// 		);
+	// 		setHasProfile(profileAccount ? true : false);
+	// 	}
+	// 	checkProfile();
+	// }, [
+	// 	provider,
+	// 	program,
+	// 	profile,
+	// 	provider?.wallet,
+	// 	walletAdapterModalContext,
+	// 	wallet,
+	// ]);
 
 	const handleChallengesClick = () => {
 		if (wallet) {
@@ -132,7 +134,7 @@ export const Navbar = () => {
 			profilePda
 		);
 		setProfile(profileAccount);
-		setHasProfile(true);
+		// setHasProfile(true);
 		setIsSubmitting(false);
 		onClose();
 	};

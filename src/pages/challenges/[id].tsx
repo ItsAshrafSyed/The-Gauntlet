@@ -21,7 +21,6 @@ import UserAvatarLink from "../../components/UserAvatarLink";
 import SubmissionCard from "../../components/SubmissionCard";
 import SubmitSubmissionCard from "../../components/SubmitSubmissionCard";
 import moment from "moment";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 export default function Challenge() {
 	const [title, setTitle] = useState<string>("");
