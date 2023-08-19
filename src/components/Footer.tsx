@@ -9,15 +9,12 @@ import {
 	ButtonGroup,
 	Button,
 } from "@chakra-ui/react";
-import { link } from "fs";
-import { relative } from "path";
-import { start } from "repl";
 
 export const Footer = () => {
 	return (
-		<Box position={"relative"}>
+		<Box>
 			<Flex>
-				<Box mt={"80vh"} width={"100%"} height={"50vh"} background={"#000000"}>
+				<Box width={"100%"} height={"50vh"} background={"#000000"} mt={"auto"}>
 					<HStack>
 						<VStack p={10}>
 							<HStack>

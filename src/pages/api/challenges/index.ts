@@ -118,6 +118,7 @@ async function getChallenges(req: NextApiRequest, res: NextApiResponse) {
 							pubKey: challengePubKey.toBase58(),
 							reputation: onChainData.reputation.toNumber(),
 							tags: tagsAsStrings,
+							challengeExpiration: onChainData.challengeExpiresTs.toNumber(),
 					  }
 					: null;
 			})

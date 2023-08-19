@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
-import ChallengeCard from "../../components/ChallengeCard";
+import ChallengeTableView from "../../components/ChallengeTableView";
 
 type Challenge = {
 	id: string;
@@ -19,6 +19,7 @@ type Challenge = {
 	tags: string[];
 	avatarUrl: string;
 	dateUpdated: Date;
+	challengeExpiration: number;
 };
 
 export default function Challenges() {
@@ -39,8 +40,6 @@ export default function Challenges() {
 			challenges.sort((a: Challenge, b: Challenge) =>
 				moment(b.dateUpdated).diff(moment(a.dateUpdated))
 			);
-
-			console.log(challenges);
 
 			setChallenges(challenges);
 		}
@@ -111,7 +110,7 @@ export default function Challenges() {
 
 					<VStack align="center">
 						{challenges?.map((challenge: Challenge, index: number) => (
-							<ChallengeCard
+							<ChallengeTableView
 								key={index}
 								title={challenge.title}
 								content={challenge.content}
@@ -121,6 +120,7 @@ export default function Challenges() {
 								authorPubKey={challenge.authorPubKey}
 								authorAvatarUrl={challenge.avatarUrl}
 								lastActivity={challenge.dateUpdated}
+								challengeExpiration={challenge.challengeExpiration}
 							/>
 						))}
 					</VStack>
@@ -136,7 +136,7 @@ export default function Challenges() {
 
 					<VStack align="center">
 						{challenges?.map((challenge: Challenge, index: number) => (
-							<ChallengeCard
+							<ChallengeTableView
 								key={index}
 								title={challenge.title}
 								content={challenge.content}
@@ -146,6 +146,7 @@ export default function Challenges() {
 								authorPubKey={challenge.authorPubKey}
 								authorAvatarUrl={challenge.avatarUrl}
 								lastActivity={challenge.dateUpdated}
+								challengeExpiration={challenge.challengeExpiration}
 							/>
 						))}
 					</VStack>

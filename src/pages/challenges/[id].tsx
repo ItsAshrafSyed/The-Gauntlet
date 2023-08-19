@@ -95,83 +95,185 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	return (
-		<Box m={"16vh"} position={"relative"}>
-			<Flex>
-				<Box>
-					<Stack spacing={8}>
-						<Stack>
-							<HStack align="baseline" justify={"space-between"}>
-								<HStack spacing={4}>
-									<UserAvatarLink
-										size={["md", "lg"]}
-										profileId={authorProfileId}
-										placeholder={authorProfileId}
-										avatarUrl={authorAvatarUrl}
-									/>
-									<Text fontSize={"37"} fontWeight={"700"}>
-										{title}
-									</Text>
-								</HStack>
-
-								<ReputationBadge reputation={reputation} />
-							</HStack>
-							<Wrap>
-								{tags?.map((tag: string, index: number) => (
-									<Badge fontSize={"xs"} colorScheme="green" key={index}>
-										{tag}
-									</Badge>
-								))}
-							</Wrap>
-						</Stack>
-						<Text
-							my={"1rem"}
-							mx={"2rem"}
-							width={"70vw"}
-							fontSize={"24"}
-							fontWeight={"400"}
-						>
+		<Box m={14}>
+			<Box>
+				<Text fontSize={"64"} fontWeight={"700"}>
+					{title}
+				</Text>
+				<Text fontSize={20} fontWeight={500} mt={4}>
+					Author: {authorProfileId}
+				</Text>
+				<HStack spacing={6}>
+					{/* <Box
+					background={"#111"}
+					borderRadius={"20"}
+					width={"60vw"}
+					position={"relative"}
+				> */}
+					<Box
+						background={"#1B1B1B"}
+						width={"60vw"}
+						borderRadius={"12"}
+						// position={"absolute"}
+					>
+						<Text padding={"6"} fontSize={"16"} fontWeight={"500"}>
 							{content}
 						</Text>
-					</Stack>
-				</Box>
-			</Flex>
-			<Divider />
-			<HStack justifyContent={"space-between"}>
-				<Heading as="h3" size="lg" my={4}>
-					{!submissions.length || submissions.length === 0
-						? "No submissions yet"
-						: `${submissions.length} Submission${
-								submissions.length > 1 ? "s" : ""
-						  }`}
-				</Heading>
-			</HStack>
-			<VStack spacing={6} minWidth={"80%"} align={"center"}>
-				{hasProfile ? (
-					isModerator ? (
-						<></>
+					</Box>
+					{/* </Box> */}
+					<Box>
+						<Stack spacing={8}>
+							<Box
+								background={"#111"}
+								width={"20vw"}
+								padding={"10"}
+								borderRadius={"20"}
+							>
+								<Text fontSize={"24"} fontWeight={"700"}>
+									Reward
+								</Text>
+								<Wrap>
+									<Image src="/icons/xp.svg" alt="xp" />
+									{reputation}
+								</Wrap>
+							</Box>
+							<Box>
+								<Box
+									background={"#111"}
+									width={"20vw"}
+									padding={"10"}
+									borderRadius={"20"}
+								>
+									<Text fontSize={"24"} fontWeight={"700"}>
+										Players{" "}
+										{!submissions.length || submissions.length === 0
+											? "0"
+											: `${submissions.length}`}
+									</Text>
+								</Box>
+							</Box>
+						</Stack>
+					</Box>
+				</HStack>
+			</Box>
+			<Box mt={"6"}>
+				<Divider />
+				<HStack justifyContent={"space-between"}>
+					<Heading as="h3" size="lg" my={4}>
+						{!submissions.length || submissions.length === 0
+							? "No submissions yet"
+							: `${submissions.length} Submission${
+									submissions.length > 1 ? "s" : ""
+							  }`}
+					</Heading>
+				</HStack>
+				<VStack spacing={6} minWidth={"80%"} align={"center"}>
+					{hasProfile ? (
+						isModerator ? (
+							<></>
+						) : (
+							<SubmitSubmissionCard
+								userProfilePubKey={sessionUserPubKey}
+								userAvatarUrl={sessionUserMetadata?.avatarUrl}
+								challengePubKey={challengePubKey}
+								challengeId={challengeId}
+							/>
+						)
 					) : (
-						<SubmitSubmissionCard
-							userProfilePubKey={sessionUserPubKey}
-							userAvatarUrl={sessionUserMetadata?.avatarUrl}
-							challengePubKey={challengePubKey}
-							challengeId={challengeId}
+						<></>
+					)}
+					{submissions.map((submission: any, index: number) => (
+						<SubmissionCard
+							key={index}
+							submission={submission.content}
+							submissionTimestamp={submission.dateUpdated}
+							userAvatarUrl={submission.authorAvatarUrl}
+							userProfilePubKey={submission.authorPubKey}
+							awarded={submission.awarded}
+							submissionPubKey={submission.pubKey}
 						/>
-					)
-				) : (
-					<></>
-				)}
-				{submissions.map((submission: any, index: number) => (
-					<SubmissionCard
-						key={index}
-						submission={submission.content}
-						submissionTimestamp={submission.dateUpdated}
-						userAvatarUrl={submission.authorAvatarUrl}
-						userProfilePubKey={submission.authorPubKey}
-						awarded={submission.awarded}
-						submissionPubKey={submission.pubKey}
-					/>
-				))}
-			</VStack>
+					))}
+				</VStack>
+			</Box>
 		</Box>
 	);
 }
+
+// <Box m={"16vh"} position={"relative"}>
+// 	<Flex>
+// 		<Box>
+// 			<Stack spacing={8}>
+// 				<Stack>
+// 					<HStack align="baseline" justify={"space-between"}>
+// 						<HStack spacing={4}>
+// 							<UserAvatarLink
+// 								size={["md", "lg"]}
+// 								profileId={authorProfileId}
+// 								placeholder={authorProfileId}
+// 								avatarUrl={authorAvatarUrl}
+// 							/>
+// 							<Text fontSize={"37"} fontWeight={"700"}>
+// 								{title}
+// 							</Text>
+// 						</HStack>
+
+// 						<ReputationBadge reputation={reputation} />
+// 					</HStack>
+// 					<Wrap>
+// 						{tags?.map((tag: string, index: number) => (
+// 							<Badge fontSize={"xs"} colorScheme="green" key={index}>
+// 								{tag}
+// 							</Badge>
+// 						))}
+// 					</Wrap>
+// 				</Stack>
+// 				<Text
+// 					my={"1rem"}
+// 					mx={"2rem"}
+// 					width={"70vw"}
+// 					fontSize={"24"}
+// 					fontWeight={"400"}
+// 				>
+// 					{content}
+// 				</Text>
+// 			</Stack>
+// 		</Box>
+// 	</Flex>
+// 	<Divider />
+// 	<HStack justifyContent={"space-between"}>
+// 		<Heading as="h3" size="lg" my={4}>
+// {!submissions.length || submissions.length === 0
+// 	? "No submissions yet"
+// 	: `${submissions.length} Submission${
+// 			submissions.length > 1 ? "s" : ""
+// 	  }`}
+// 		</Heading>
+// 	</HStack>
+// 	<VStack spacing={6} minWidth={"80%"} align={"center"}>
+// 		{hasProfile ? (
+// 			isModerator ? (
+// 				<></>
+// 			) : (
+// 				<SubmitSubmissionCard
+// 					userProfilePubKey={sessionUserPubKey}
+// 					userAvatarUrl={sessionUserMetadata?.avatarUrl}
+// 					challengePubKey={challengePubKey}
+// 					challengeId={challengeId}
+// 				/>
+// 			)
+// 		) : (
+// 			<></>
+// 		)}
+// 		{submissions.map((submission: any, index: number) => (
+// 			<SubmissionCard
+// 				key={index}
+// 				submission={submission.content}
+// 				submissionTimestamp={submission.dateUpdated}
+// 				userAvatarUrl={submission.authorAvatarUrl}
+// 				userProfilePubKey={submission.authorPubKey}
+// 				awarded={submission.awarded}
+// 				submissionPubKey={submission.pubKey}
+// 			/>
+// 		))}
+// 	</VStack>
+// </Box>

@@ -14,7 +14,6 @@ import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { getSubmissionStateFromString } from "@/util/lib";
-import { get } from "http";
 
 const SubmissionCard = ({
 	submission,

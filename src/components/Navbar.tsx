@@ -63,7 +63,14 @@ export const Navbar = () => {
 			setHasProfile(profileAccount ? true : false);
 		}
 		checkProfile();
-	}, [provider, program, profile, provider?.wallet, walletAdapterModalContext]);
+	}, [
+		provider,
+		program,
+		profile,
+		provider?.wallet,
+		walletAdapterModalContext,
+		wallet,
+	]);
 
 	const handleChallengesClick = () => {
 		if (wallet) {
