@@ -3,6 +3,15 @@ import {
 	CardBody,
 	HStack,
 	Textarea,
+	Box,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalCloseButton,
+	useDisclosure,
+	ModalBody,
 	CardFooter,
 	Button,
 } from "@chakra-ui/react";
@@ -12,6 +21,7 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
+import { on } from "events";
 
 export default function SubmitSubmissionCard({
 	challengePubKey,
@@ -24,6 +34,7 @@ export default function SubmitSubmissionCard({
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const { program, wallet, challengerClient, provider } = useWorkspace();
 	const walletAdapterModalContext = useWalletModal();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
 		if (!submission) return;
@@ -85,6 +96,7 @@ export default function SubmitSubmissionCard({
 				.catch((e) => {
 					console.log("error occured in the catch block", e);
 				});
+			onOpen();
 		} catch (e) {
 			console.log("error occured in the try block", e);
 			setIsSubmitting(false);
@@ -95,39 +107,68 @@ export default function SubmitSubmissionCard({
 	};
 
 	return (
-		<Card
-			bg="#111"
-			rounded={"lg"}
-			width={"70vw"}
-			textColor={"white"}
-			border={"1px"}
-			m={"4vh"}
-		>
-			<CardBody>
-				<HStack justify={"space-between"} align="start" mb={2}>
-					<UserAvatarLink
-						profileId={userProfilePubKey}
-						placeholder={userProfilePubKey}
-						avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
-						size={["xs", "md"]}
-					/>
-					<Textarea
-						placeholder="Enter your submission here"
-						value={submission}
-						onChange={(e) => setSubmission(e.target.value)}
-					/>
-				</HStack>
-			</CardBody>
-			<CardFooter mt={-4} justifyContent={"end"}>
-				<Button
-					colorScheme="yellow"
-					isLoading={isSubmitting}
-					isDisabled={!canSubmit}
-					onClick={handleSubmission}
+		<>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent
+					textColor={"green"}
+					background="rgba(0, 0, 0, 0.5)"
+					border={"1px solid #E5E7EB"}
 				>
-					Submit
-				</Button>
-			</CardFooter>
-		</Card>
+					<ModalHeader>Success</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>Successfully submitted submission</ModalBody>
+
+					<ModalFooter>
+						<Button
+							mr={3}
+							onClick={onClose}
+							borderRadius={"9999"}
+							border="1px solid #E5E7EB"
+							_hover={{
+								bg: "transparent",
+								color: "white",
+							}}
+						>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Card
+				bg="#111"
+				rounded={"lg"}
+				width={"70vw"}
+				textColor={"white"}
+				border={"1px"}
+				m={"4vh"}
+			>
+				<CardBody>
+					<HStack justify={"space-between"} align="start" mb={2}>
+						<UserAvatarLink
+							profileId={userProfilePubKey}
+							placeholder={userProfilePubKey}
+							avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
+							size={["xs", "md"]}
+						/>
+						<Textarea
+							placeholder="Enter your submission here"
+							value={submission}
+							onChange={(e) => setSubmission(e.target.value)}
+						/>
+					</HStack>
+				</CardBody>
+				<CardFooter mt={-4} justifyContent={"end"}>
+					<Button
+						colorScheme="yellow"
+						isLoading={isSubmitting}
+						isDisabled={!canSubmit}
+						onClick={handleSubmission}
+					>
+						Submit
+					</Button>
+				</CardFooter>
+			</Card>
+		</>
 	);
 }

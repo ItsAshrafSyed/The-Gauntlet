@@ -38,6 +38,11 @@ export const Navbar = () => {
 	const [profile, setProfile] = useState<any>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const {
+		isOpen: isModalOpen,
+		onOpen: onModalOpen,
+		onClose: onModalClose,
+	} = useDisclosure();
 	const { provider, program, challengerClient, wallet } = useWorkspace();
 	const walletAdapterModalContext = useWalletModal();
 	const { hasProfile } = useSessionUser();
@@ -47,7 +52,7 @@ export const Navbar = () => {
 	// 	if (!provider.wallet) return;
 	// 	if (!program) return;
 	// 	if (profile) {
-	// 		setHasProfile(true);
+	// 		// setHasProfile(true);
 	// 		return;
 	// 	}
 	// 	const [profilePda] = PublicKey.findProgramAddressSync(
@@ -62,7 +67,7 @@ export const Navbar = () => {
 	// 		const profileAccount = await program?.account.userProfile.fetchNullable(
 	// 			profilePda
 	// 		);
-	// 		setHasProfile(profileAccount ? true : false);
+	// 		// setHasProfile(profileAccount ? true : false);
 	// 	}
 	// 	checkProfile();
 	// }, [
@@ -137,10 +142,38 @@ export const Navbar = () => {
 		// setHasProfile(true);
 		setIsSubmitting(false);
 		onClose();
+		onModalOpen();
 	};
 
 	return (
 		<>
+			<Modal isOpen={isModalOpen} onClose={onModalClose}>
+				<ModalOverlay />
+				<ModalContent
+					textColor={"green"}
+					background="rgba(0, 0, 0, 0.5)"
+					border={"1px solid #E5E7EB"}
+				>
+					<ModalHeader>Success</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>Successfully created profile.</ModalBody>
+
+					<ModalFooter>
+						<Button
+							mr={3}
+							onClick={onModalClose}
+							borderRadius={"9999"}
+							border="1px solid #E5E7EB"
+							_hover={{
+								bg: "transparent",
+								color: "white",
+							}}
+						>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent

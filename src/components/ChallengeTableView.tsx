@@ -11,13 +11,11 @@ import {
 	Image,
 	Wrap,
 } from "@chakra-ui/react";
-import UserAvatarLink from "./UserAvatarLink";
-import ReputationBadge from "./ReputationBadge";
 import moment from "moment";
 import { FC } from "react";
 import { useRouter } from "next/router";
 
-type ChallengeCardProps = {
+type ChallengeTableViewProps = {
 	title?: string;
 	content?: string;
 	reputation: number;
@@ -29,7 +27,7 @@ type ChallengeCardProps = {
 	lastActivity?: Date;
 };
 
-const ChallengeTableView: FC<ChallengeCardProps> = (props) => {
+const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 	const router = useRouter();
 
 	// Countdown function

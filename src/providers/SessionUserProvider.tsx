@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useWorkspace } from "./WorkspaceProvider";
 import { fetchApiResponse } from "../util/lib";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 export type SessionUserMetadata = {
 	username: string;
@@ -34,10 +35,11 @@ const SessionUserContext = createContext({
 export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 	children,
 }) => {
-	const { wallet, program } = useWorkspace();
+	const { wallet, program, provider } = useWorkspace();
 	const [metadata, setMetadata] = useState<SessionUserMetadata | null>(null);
 	const [isModerator, setIsModerator] = useState(false);
 	const [hasProfile, setHasProfile] = useState(false);
+	const walletAdapterModalContext = useWalletModal();
 
 	const publicKey = useMemo(() => {
 		return wallet ? wallet.publicKey.toBase58() : null;
@@ -87,7 +89,14 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 		}
 
 		loadData();
-	}, [publicKey, program, wallet]);
+	}, [
+		publicKey,
+		program,
+		wallet,
+		walletAdapterModalContext,
+		provider,
+		provider?.wallet,
+	]);
 
 	return (
 		<SessionUserContext.Provider

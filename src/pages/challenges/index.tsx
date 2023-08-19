@@ -8,6 +8,7 @@ import moment from "moment";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeTableView from "../../components/ChallengeTableView";
+import { useSessionUser } from "../../providers/SessionUserProvider";
 
 type Challenge = {
 	id: string;
@@ -24,11 +25,12 @@ type Challenge = {
 
 export default function Challenges() {
 	const Router = useRouter();
-	const [isModerator, setIsModerator] = useState(false);
+	//const [isModerator, setIsModerator] = useState(false);
 	const { provider, program, challengerClient, wallet } = useWorkspace();
-	const [hasProfile, setHasProfile] = useState(false);
+	//const [hasProfile, setHasProfile] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
+	const { hasProfile, isModerator } = useSessionUser();
 
 	useEffect(() => {
 		async function getChallenges() {
@@ -46,31 +48,31 @@ export default function Challenges() {
 		getChallenges();
 	}, [program]);
 
-	useEffect(() => {
-		if (!provider) return;
-		if (!provider.wallet) return;
-		if (!program) return;
-		if (profile) {
-			setHasProfile(true);
-			return;
-		}
-		const [profilePda] = PublicKey.findProgramAddressSync(
-			[
-				Buffer.from("user_profile"),
-				CRUX_KEY.toBytes(),
-				provider.wallet.publicKey.toBytes(),
-			],
-			CHALLENGER_PROGRAM_ID
-		);
-		async function checkProfile() {
-			const profileAccount = await program?.account.userProfile.fetchNullable(
-				profilePda
-			);
-			setIsModerator(profileAccount?.isModerator ? true : false);
-			setHasProfile(profileAccount ? true : false);
-		}
-		checkProfile();
-	}, [provider, program, profile, provider?.wallet, wallet]);
+	// useEffect(() => {
+	// 	if (!provider) return;
+	// 	if (!provider.wallet) return;
+	// 	if (!program) return;
+	// 	if (profile) {
+	// 		setHasProfile(true);
+	// 		return;
+	// 	}
+	// 	const [profilePda] = PublicKey.findProgramAddressSync(
+	// 		[
+	// 			Buffer.from("user_profile"),
+	// 			CRUX_KEY.toBytes(),
+	// 			provider.wallet.publicKey.toBytes(),
+	// 		],
+	// 		CHALLENGER_PROGRAM_ID
+	// 	);
+	// 	async function checkProfile() {
+	// 		const profileAccount = await program?.account.userProfile.fetchNullable(
+	// 			profilePda
+	// 		);
+	// 		setIsModerator(profileAccount?.isModerator ? true : false);
+	// 		setHasProfile(profileAccount ? true : false);
+	// 	}
+	// 	checkProfile();
+	// }, [provider, program, profile, provider?.wallet, wallet]);
 
 	return (
 		<>

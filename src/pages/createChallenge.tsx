@@ -7,6 +7,14 @@ import {
 	Input,
 	Textarea,
 	Button,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	useDisclosure,
+	ModalCloseButton,
 	NumberInput,
 	NumberInputField,
 	NumberInputStepper,
@@ -61,6 +69,7 @@ export default function CreateChallenge() {
 	const [reputationString, setReputationString] = useState("5");
 	const [challengeTitle, setChallengeTitle] = useState("");
 	const [challengeDetails, setChallengeDetails] = useState("");
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
 		setCanSubmitChallenge(
@@ -217,101 +226,131 @@ export default function CreateChallenge() {
 		}
 		resetForm();
 		setIsSubmitting(false);
+		onOpen();
 	};
 
 	return (
-		<Box position={"relative"} mx={"25vw"} my={"4vh"}>
-			<Text fontSize={"30"} fontWeight={"500"}>
-				Create Challenge
-			</Text>
-			<Box>
-				<FormControl>
-					<FormLabel mt={5}>Challenge Title</FormLabel>
-					<Input
-						type="text"
-						name="challengeTitle"
-						placeholder="Enter a challenge Title"
-						value={challengeTitle}
-						onChange={(e) => {
-							setChallengeTitle(e.target.value);
-						}}
-					/>
-				</FormControl>
+		<>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent
+					textColor={"green"}
+					background="rgba(0, 0, 0, 0.5)"
+					border={"1px solid #E5E7EB"}
+				>
+					<ModalHeader>Success</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>Successfully created a challenge</ModalBody>
 
-				<FormControl>
-					<FormLabel mt={3}>Challenge Details</FormLabel>
-					<Textarea
-						name="challengeDetails"
-						placeholder="Enter a challenge details"
-						value={challengeDetails}
-						onChange={(e) => {
-							setChallengeDetails(e.target.value);
-						}}
-						h={"20vh"}
-					/>
-				</FormControl>
+					<ModalFooter>
+						<Button
+							mr={3}
+							onClick={onClose}
+							borderRadius={"9999"}
+							border="1px solid #E5E7EB"
+							_hover={{
+								bg: "transparent",
+								color: "white",
+							}}
+						>
+							Close
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Box position={"relative"} mx={"25vw"} my={"4vh"}>
+				<Text fontSize={"30"} fontWeight={"500"}>
+					Create Challenge
+				</Text>
+				<Box>
+					<FormControl>
+						<FormLabel mt={5}>Challenge Title</FormLabel>
+						<Input
+							type="text"
+							name="challengeTitle"
+							placeholder="Enter a challenge Title"
+							value={challengeTitle}
+							onChange={(e) => {
+								setChallengeTitle(e.target.value);
+							}}
+						/>
+					</FormControl>
 
-				<FormControl>
-					<FormLabel mt={3}> Select Challange Period</FormLabel>
-					<div id="datePickerContainer" />
-				</FormControl>
+					<FormControl>
+						<FormLabel mt={3}>Challenge Details</FormLabel>
+						<Textarea
+							name="challengeDetails"
+							placeholder="Enter a challenge details"
+							value={challengeDetails}
+							onChange={(e) => {
+								setChallengeDetails(e.target.value);
+							}}
+							h={"20vh"}
+						/>
+					</FormControl>
 
-				<FormControl>
-					<FormLabel mt={3}>Reputation</FormLabel>
-					<NumberInput
-						name="challengeReward"
-						textColor={"white"}
-						placeholder="Enter reputation number "
-						value={reputationString}
-						onChange={(e) => {
-							setReputationString(e);
-						}}
-					>
-						<NumberInputField placeholder="Enter reputation reward" />
-						<NumberInputStepper>
-							<NumberIncrementStepper />
-							<NumberDecrementStepper />
-						</NumberInputStepper>
-					</NumberInput>
-				</FormControl>
+					<FormControl>
+						<FormLabel mt={3}> Select Challange Period</FormLabel>
+						<div id="datePickerContainer" />
+					</FormControl>
 
-				<FormControl textColor={"black"}>
-					<FormLabel mt={3} textColor={"white"}>
-						Tags
-					</FormLabel>
-					<Select
-						isMulti
-						placeholder="Select tags"
-						options={tagOptions}
-						value={selectedTags}
-						onChange={(selected) => {
-							setSelectedTags(selected as TagMultiSelectOptions[]);
-						}}
-					/>
-				</FormControl>
+					<FormControl>
+						<FormLabel mt={3}>Reputation</FormLabel>
+						<NumberInput
+							name="challengeReward"
+							textColor={"white"}
+							placeholder="Enter reputation number "
+							value={reputationString}
+							onChange={(e) => {
+								setReputationString(e);
+							}}
+						>
+							<NumberInputField placeholder="Enter reputation reward" />
+							<NumberInputStepper>
+								<NumberIncrementStepper />
+								<NumberDecrementStepper />
+							</NumberInputStepper>
+						</NumberInput>
+					</FormControl>
 
-				<FormControl mt={5}>
-					<Button
-						type="submit"
-						value="Submit"
-						variant={"solid"}
-						textColor={"white"}
-						_hover={{
-							bg: "transparent",
-						}}
-						borderRadius={"9999"}
-						border="1px solid #E5E7EB"
-						background={
-							"linear-gradient(135deg, #6366F1 0%, #D946EF 50%, #EC4899 100%)"
-						}
-						isLoading={isSubmitting}
-						isDisabled={!canSubmitChallenge}
-						onClick={handleCreateChallenge}
-					>
-						Submit
-					</Button>
-				</FormControl>
+					<FormControl textColor={"black"}>
+						<FormLabel mt={3} textColor={"white"}>
+							Tags
+						</FormLabel>
+						<Select
+							isMulti
+							placeholder="Select tags"
+							options={tagOptions}
+							value={selectedTags}
+							onChange={(selected) => {
+								setSelectedTags(selected as TagMultiSelectOptions[]);
+							}}
+						/>
+					</FormControl>
+
+					<FormControl mt={5}>
+						<Button
+							type="submit"
+							value="Submit"
+							variant={"solid"}
+							textColor={"white"}
+							_hover={{
+								bg: "transparent",
+							}}
+							borderRadius={"9999"}
+							border="1px solid #E5E7EB"
+							background={
+								"linear-gradient(135deg, #6366F1 0%, #D946EF 50%, #EC4899 100%)"
+							}
+							isLoading={isSubmitting}
+							isDisabled={!canSubmitChallenge}
+							onClick={handleCreateChallenge}
+						>
+							Submit
+						</Button>
+					</FormControl>
+				</Box>
 			</Box>
-		</Box>
+		</>
 	);
 }
