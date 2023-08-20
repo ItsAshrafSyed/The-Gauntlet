@@ -32,6 +32,7 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { BN } from "@coral-xyz/anchor";
+import { useRouter } from "next/router";
 
 type ValuePiece = Date | null;
 
@@ -67,6 +68,7 @@ export default function CreateChallenge() {
 	const [challengeTitle, setChallengeTitle] = useState("");
 	const [challengeDetails, setChallengeDetails] = useState("");
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const router = useRouter();
 
 	useEffect(() => {
 		setCanSubmitChallenge(
@@ -255,99 +257,98 @@ export default function CreateChallenge() {
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
-			<Box position={"relative"} mx={"25vw"} my={"4vh"}>
-				<Text fontSize={"30"} fontWeight={"500"}>
-					Create Challenge
-				</Text>
-				<Box>
-					<FormControl>
-						<FormLabel mt={5}>Challenge Title</FormLabel>
-						<Input
-							type="text"
-							name="challengeTitle"
-							placeholder="Enter a challenge Title"
-							value={challengeTitle}
-							onChange={(e) => {
-								setChallengeTitle(e.target.value);
-							}}
-						/>
-					</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}>Challenge Details</FormLabel>
-						<Textarea
-							name="challengeDetails"
-							placeholder="Enter a challenge details"
-							value={challengeDetails}
-							onChange={(e) => {
-								setChallengeDetails(e.target.value);
-							}}
-							h={"20vh"}
-						/>
-					</FormControl>
+			<>
+				<Box position={"relative"} mx={"25vw"} my={"4vh"}>
+					<Text fontSize={"30"} fontWeight={"500"}>
+						Create Challenge
+					</Text>
+					<Box>
+						<FormControl>
+							<FormLabel mt={5}>Challenge Title</FormLabel>
+							<Input
+								type="text"
+								name="challengeTitle"
+								placeholder="Enter a challenge Title"
+								value={challengeTitle}
+								onChange={(e) => {
+									setChallengeTitle(e.target.value);
+								}}
+							/>
+						</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}> Select Challange Period</FormLabel>
-						<div id="datePickerContainer" />
-					</FormControl>
+						<FormControl>
+							<FormLabel mt={3}>Challenge Details</FormLabel>
+							<Textarea
+								name="challengeDetails"
+								placeholder="Enter a challenge details"
+								value={challengeDetails}
+								onChange={(e) => {
+									setChallengeDetails(e.target.value);
+								}}
+								h={"20vh"}
+							/>
+						</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}>Reputation</FormLabel>
-						<NumberInput
-							name="challengeReward"
-							textColor={"white"}
-							placeholder="Enter reputation number "
-							value={reputationString}
-							onChange={(e) => {
-								setReputationString(e);
-							}}
-						>
-							<NumberInputField placeholder="Enter reputation reward" />
-							<NumberInputStepper>
-								<NumberIncrementStepper />
-								<NumberDecrementStepper />
-							</NumberInputStepper>
-						</NumberInput>
-					</FormControl>
+						<FormControl>
+							<FormLabel mt={3}> Select Challange Period</FormLabel>
+							<div id="datePickerContainer" />
+						</FormControl>
 
-					<FormControl textColor={"black"}>
-						<FormLabel mt={3} textColor={"white"}>
-							Tags
-						</FormLabel>
-						<Select
-							isMulti
-							placeholder="Select tags"
-							options={tagOptions}
-							value={selectedTags}
-							onChange={(selected) => {
-								setSelectedTags(selected as TagMultiSelectOptions[]);
-							}}
-						/>
-					</FormControl>
+						<FormControl>
+							<FormLabel mt={3}>Reputation</FormLabel>
+							<NumberInput
+								name="challengeReward"
+								textColor={"white"}
+								placeholder="Enter reputation number "
+								value={reputationString}
+								onChange={(e) => {
+									setReputationString(e);
+								}}
+							>
+								<NumberInputField placeholder="Enter reputation reward" />
+								<NumberInputStepper>
+									<NumberIncrementStepper />
+									<NumberDecrementStepper />
+								</NumberInputStepper>
+							</NumberInput>
+						</FormControl>
 
-					<FormControl mt={5}>
-						<Button
-							type="submit"
-							value="Submit"
-							variant={"solid"}
-							textColor={"white"}
-							_hover={{
-								bg: "transparent",
-							}}
-							borderRadius={"9999"}
-							border="1px solid #E5E7EB"
-							background={
-								"linear-gradient(135deg, #6366F1 0%, #D946EF 50%, #EC4899 100%)"
-							}
-							isLoading={isSubmitting}
-							isDisabled={!canSubmitChallenge}
-							onClick={handleCreateChallenge}
-						>
-							Submit
-						</Button>
-					</FormControl>
+						<FormControl textColor={"black"}>
+							<FormLabel mt={3} textColor={"white"}>
+								Tags
+							</FormLabel>
+							<Select
+								isMulti
+								placeholder="Select tags"
+								options={tagOptions}
+								value={selectedTags}
+								onChange={(selected) => {
+									setSelectedTags(selected as TagMultiSelectOptions[]);
+								}}
+							/>
+						</FormControl>
+
+						<FormControl mt={5}>
+							<Button
+								variant={"solid"}
+								textColor={"white"}
+								_hover={{
+									bg: "transparent",
+								}}
+								border="1px solid #FFB84D"
+								borderRadius={"8"}
+								background="#261B0B"
+								isLoading={isSubmitting}
+								isDisabled={!canSubmitChallenge}
+								onClick={handleCreateChallenge}
+							>
+								Submit
+							</Button>
+						</FormControl>
+					</Box>
 				</Box>
-			</Box>
+			</>
 		</>
 	);
 }

@@ -9,6 +9,7 @@ import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeTableView from "../../components/ChallengeTableView";
 import { useSessionUser } from "../../providers/SessionUserProvider";
+import { Router } from "next/router";
 
 type Challenge = {
 	id: string;
@@ -31,6 +32,7 @@ export default function Challenges() {
 	const [profile, setProfile] = useState<any>(null);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
 	const { hasProfile, isModerator } = useSessionUser();
+	const router = useRouter();
 
 	useEffect(() => {
 		async function getChallenges() {
@@ -84,20 +86,16 @@ export default function Challenges() {
 						}
 						position={"absolute"}
 						right={"20vh"}
-						borderRadius="9999"
 						variant="solid"
 						fontSize={14}
-						width={"33vh"}
-						height={"6vh"}
 						textColor="white"
 						fontWeight={400}
-						border="1px solid #E5E7EB"
+						border="1px solid #FFB84D"
+						borderRadius={"8"}
+						background="#261B0B"
 						_hover={{
 							bg: "transparent",
 						}}
-						background={
-							"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
-						}
 						onClick={() => Router.push("/createChallenge")}
 					>
 						CREATE CHALLENGE

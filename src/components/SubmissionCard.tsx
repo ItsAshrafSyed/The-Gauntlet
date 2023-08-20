@@ -160,10 +160,32 @@ const SubmissionCard = ({
 					{hasProfile ? (
 						isModerator ? (
 							<>
-								<Button size={"sm"} onClick={handleAcceptSubmission}>
+								<Button
+									size={"sm"}
+									border="1px solid #FFB84D"
+									borderRadius={"8"}
+									background="#261B0B"
+									variant={"solid"}
+									textColor={"white"}
+									_hover={{
+										bg: "transparent",
+									}}
+									onClick={handleAcceptSubmission}
+								>
 									Accept
 								</Button>
-								<Button size={"sm"} onClick={handleRejectSubmission}>
+								<Button
+									size={"sm"}
+									border="1px solid #FFB84D"
+									borderRadius={"8"}
+									background="#261B0B"
+									variant={"solid"}
+									textColor={"white"}
+									_hover={{
+										bg: "transparent",
+									}}
+									onClick={handleRejectSubmission}
+								>
 									Reject
 								</Button>
 							</>

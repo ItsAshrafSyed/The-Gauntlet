@@ -25,8 +25,6 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
 import { useSessionUser } from "../providers/SessionUserProvider";
-import { color } from "framer-motion";
-import { colors } from "@mui/material";
 
 const WalletMultiButtonDynamic = dynamic(
 	async () =>
