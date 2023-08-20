@@ -6,7 +6,7 @@ import {
 	Flex,
 	Text,
 	Spacer,
-	ButtonGroup,
+	Heading,
 	Button,
 } from "@chakra-ui/react";
 
@@ -14,21 +14,32 @@ export const Footer = () => {
 	return (
 		<Box>
 			<Flex>
-				<Box width={"100%"} height={"50vh"} background={"#000000"} mt={"auto"}>
-					<HStack>
-						<VStack p={10}>
+				<Box width={"100%"} height={"30vh"} background={"#000000"}>
+					<HStack justifyContent="center" mt={"10vh"}>
+						<VStack>
 							<HStack>
 								<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
-								<Image
+								{/* <Image
 									src="/icons/solana.svg"
 									width={107}
 									height={16}
 									alt="logo"
-								/>
+								/> */}
+								<Text
+									fontSize={"48"}
+									fontWeight={"500"}
+									fontFamily={"Readex Pro"}
+								>
+									The Gauntlet
+								</Text>
 							</HStack>
+							<Text>© 2023 xAndria</Text>
 							<HStack>
 								<Image
 									src="/icons/twitter.svg"
+									onClick={() =>
+										window.open("https://twitter.com/xAndriaOnchain", "_blank")
+									}
 									width={8}
 									height={6}
 									alt="logo"
@@ -48,15 +59,16 @@ export const Footer = () => {
 									alt="logo"
 								/>
 							</HStack>
-							<Image
+
+							{/* <Image
 								mt={-5}
 								src="/icons/copyright.svg"
 								width={120}
 								height={24}
 								alt="logo"
-							/>
+							/> */}
 						</VStack>
-						<Box ml={"40vh"} mt={10}>
+						{/* <Box ml={"40vh"} mt={10}>
 							<HStack spacing={"30vh"}>
 								<VStack alignItems={"start"}>
 									<Text fontWeight={400} fontSize={16}>
@@ -218,7 +230,7 @@ export const Footer = () => {
 									</Button>
 								</VStack>
 							</HStack>
-						</Box>
+						</Box> */}
 					</HStack>
 				</Box>
 			</Flex>

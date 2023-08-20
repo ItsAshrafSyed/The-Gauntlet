@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<Box>
 			<Hero />
-			<TrendingChallenges />
+			{/* <TrendingChallenges /> */}
 			{/* <CreateOwnChallenge /> */}
 		</Box>
 	);

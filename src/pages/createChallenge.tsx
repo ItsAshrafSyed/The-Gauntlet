@@ -1,8 +1,5 @@
 import {
 	Box,
-	Flex,
-	VStack,
-	HStack,
 	Text,
 	Input,
 	Textarea,

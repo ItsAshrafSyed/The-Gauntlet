@@ -25,6 +25,8 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
 import { useSessionUser } from "../providers/SessionUserProvider";
+import { color } from "framer-motion";
+import { colors } from "@mui/material";
 
 const WalletMultiButtonDynamic = dynamic(
 	async () =>
@@ -231,8 +233,8 @@ export const Navbar = () => {
 				<Box p="2" onClick={() => router.push("/")}>
 					<HStack>
 						<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
-						<Heading size="md" fontWeight={400} fontSize={24}>
-							Challenger
+						<Heading size="md" fontWeight={500} fontSize={24}>
+							The Gauntlet
 						</Heading>
 					</HStack>
 				</Box>
@@ -255,7 +257,7 @@ export const Navbar = () => {
 							fontSize={20}
 							// onClick={() => router.push("/about")}
 						>
-							Leader Board
+							Leaderboard
 						</Button>
 						<Button
 							colorScheme="white"
