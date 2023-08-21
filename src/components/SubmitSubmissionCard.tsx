@@ -76,7 +76,7 @@ export default function SubmitSubmissionCard({
 				},
 			})
 				.then(async (res: any) => {
-					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenges/${challengeId}`;
+					const contentDataUrl = `https://thegauntlet.vercel.app/challenges/${challengeId}`;
 					const result = await challengerClient?.createSubmission(
 						challengePubKey,
 						wallet?.publicKey,

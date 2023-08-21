@@ -1,12 +1,8 @@
 import {
 	Box,
 	Flex,
-	Heading,
 	Image,
-	Spacer,
-	ButtonGroup,
 	Button,
-	AbsoluteCenter,
 	Center,
 	Text,
 	useDisclosure,

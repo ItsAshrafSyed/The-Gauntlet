@@ -191,7 +191,7 @@ export default function CreateChallenge() {
 				},
 			})
 				.then(async (res: any) => {
-					const contentDataUrl = `https://challenger-hyt7.vercel.app/challenges/${res.data.id}`;
+					const contentDataUrl = `https://thegauntlet.vercel.app/challenges/${res.data.id}`;
 
 					const result = await challengerClient?.createChallenge(
 						CRUX_KEY,

@@ -1,4 +1,15 @@
-import { Box, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
+import {
+	Box,
+	HStack,
+	Text,
+	VStack,
+	Image,
+	Button,
+	Card,
+	Wrap,
+	Badge,
+	Heading,
+} from "@chakra-ui/react";
 import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
@@ -135,6 +146,33 @@ export default function Challenges() {
 					</HStack>
 
 					<VStack align="center">
+						<Card
+							bg="#111"
+							rounded={"lg"}
+							width={"140vh"}
+							textColor={"white"}
+							border={"1px"}
+							padding={"5"}
+							align="baseline"
+						>
+							<HStack spacing={4}>
+								<Text fontSize={"20"} fontWeight={"700"} width={"25vw"}>
+									Challenge
+								</Text>
+								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+									Category
+								</Wrap>
+								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+									Points
+								</Wrap>
+								<Text width={"14vw"} fontSize={"20"} fontWeight={"700"}>
+									Last Activity
+								</Text>
+								<Text width={"15vw"} fontSize={"20"} fontWeight={"700"}>
+									Expiration
+								</Text>
+							</HStack>
+						</Card>
 						{challenges?.map((challenge: Challenge, index: number) => (
 							<ChallengeTableView
 								key={index}

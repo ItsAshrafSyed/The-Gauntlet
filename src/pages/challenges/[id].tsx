@@ -63,9 +63,16 @@ export default function Challenge() {
 				let sortedSubmissions = [];
 				if (submissions.length > 0) {
 					// @ts-ignore Type is any so TS doesn't know this exists
-					sortedSubmissions = submissions.sort((a, b) => {
-						moment(b.dateUpdated).diff(moment(a.dateUpdated));
-					});
+					sortedSubmissions = submissions
+						.sort(
+							(
+								a: { dateUpdated: moment.MomentInput },
+								b: { dateUpdated: moment.MomentInput }
+							) => {
+								moment(b.dateUpdated).diff(moment(a.dateUpdated));
+							}
+						)
+						.reverse();
 				}
 
 				// const challengeAuthor =
