@@ -44,10 +44,10 @@ export const Hero = () => {
 
 	const handleChallengesClick = () => {
 		if (wallet) {
-			if (hasProfile) {
-				router.push("/challenges");
-			} else {
+			if (!hasProfile) {
 				onOpen();
+			} else {
+				router.push("/challenges");
 			}
 		} else {
 			walletAdapterModalContext.setVisible(true);
@@ -195,8 +195,8 @@ export const Hero = () => {
 				<Image
 					position="absolute"
 					objectFit={"cover"}
-					width="1000"
-					height="800"
+					width="100%"
+					height="100%"
 					zIndex={-1}
 					src="/images/centre_unsplash.png"
 					alt="bgimg"

@@ -160,9 +160,16 @@ export default function SubmitSubmissionCard({
 				</CardBody>
 				<CardFooter mt={-4} justifyContent={"end"}>
 					<Button
-						colorScheme="yellow"
 						isLoading={isSubmitting}
 						isDisabled={!canSubmit}
+						border="1px solid #FFB84D"
+						borderRadius={"8"}
+						background="#261B0B"
+						variant={"solid"}
+						textColor={"white"}
+						_hover={{
+							bg: "transparent",
+						}}
 						onClick={handleSubmission}
 					>
 						Submit
