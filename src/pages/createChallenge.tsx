@@ -33,6 +33,7 @@ import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { BN } from "@coral-xyz/anchor";
 import { useRouter } from "next/router";
+import { useSessionUser } from "../providers/SessionUserProvider";
 
 type ValuePiece = Date | null;
 
@@ -69,6 +70,8 @@ export default function CreateChallenge() {
 	const [challengeDetails, setChallengeDetails] = useState("");
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const router = useRouter();
+	const { hasProfile: hasProfileSession, isModerator: isModeratorSession } =
+		useSessionUser();
 
 	useEffect(() => {
 		setCanSubmitChallenge(
@@ -296,7 +299,7 @@ export default function CreateChallenge() {
 						</FormControl>
 
 						<FormControl>
-							<FormLabel mt={3}>Reputation</FormLabel>
+							<FormLabel mt={3}>Points</FormLabel>
 							<NumberInput
 								name="challengeReward"
 								textColor={"white"}

@@ -16,8 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import ReputationBadge from "../../components/ReputationBadge";
-import UserAvatarLink from "../../components/UserAvatarLink";
 import SubmissionCard from "../../components/SubmissionCard";
 import SubmitSubmissionCard from "../../components/SubmitSubmissionCard";
 import moment from "moment";

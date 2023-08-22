@@ -45,6 +45,12 @@ export default function Challenges() {
 	const { hasProfile, isModerator } = useSessionUser();
 	const router = useRouter();
 
+	// useEffect(() => {
+	// 	if (!hasProfile) {
+	// 		router.push("/");
+	// 	}
+	// }, [hasProfile, router]);
+
 	useEffect(() => {
 		async function getChallenges() {
 			if (!program) return;
