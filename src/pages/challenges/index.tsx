@@ -9,6 +9,11 @@ import {
 	Wrap,
 	Badge,
 	Heading,
+	Stack,
+	Spacer,
+	SimpleGrid,
+	Flex,
+	Select,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import { useState, useEffect, use } from "react";
@@ -20,7 +25,11 @@ import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeTableView from "../../components/ChallengeTableView";
 import { useSessionUser } from "../../providers/SessionUserProvider";
-import { Router } from "next/router";
+import { BsFillGridFill } from "react-icons/bs";
+import { MdOutlineStorage } from "react-icons/md";
+import { table } from "console";
+import Challenge from "./[id]";
+import ChallengeGridView from "@/components/ChallengeGridView";
 
 type Challenge = {
 	id: string;
@@ -39,17 +48,14 @@ export default function Challenges() {
 	const Router = useRouter();
 	//const [isModerator, setIsModerator] = useState(false);
 	const { provider, program, challengerClient, wallet } = useWorkspace();
+	const [gridView, setGridView] = useState(false);
+	const [tableView, setTableView] = useState(true);
+	const [selectedTag, setSelectedTag] = useState("");
 	//const [hasProfile, setHasProfile] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
 	const { hasProfile, isModerator } = useSessionUser();
 	const router = useRouter();
-
-	// useEffect(() => {
-	// 	if (!hasProfile) {
-	// 		router.push("/");
-	// 	}
-	// }, [hasProfile, router]);
 
 	useEffect(() => {
 		async function getChallenges() {
@@ -66,6 +72,19 @@ export default function Challenges() {
 		}
 		getChallenges();
 	}, [program]);
+
+	const handleGridClick = () => {
+		setGridView(true);
+		setTableView(false);
+	};
+	const handleTableClick = () => {
+		setGridView(false);
+		setTableView(true);
+	};
+
+	const filteredChallenges = challenges?.filter((challenge: Challenge) =>
+		challenge.tags.includes(selectedTag)
+	);
 
 	// useEffect(() => {
 	// 	if (!provider) return;
@@ -95,14 +114,15 @@ export default function Challenges() {
 
 	return (
 		<>
-			{isModerator ? (
-				<Box position={"relative"}>
+			<Box position={"relative"}>
+				{isModerator ? (
 					<Button
 						leftIcon={
 							<Image width="15" height="15" src="/icons/plus.svg" alt="plus" />
 						}
 						position={"absolute"}
 						right={"20vh"}
+						mt={"-7vh"}
 						variant="solid"
 						fontSize={14}
 						textColor="white"
@@ -117,15 +137,53 @@ export default function Challenges() {
 					>
 						CREATE CHALLENGE
 					</Button>
+				) : (
+					<></>
+				)}
 
-					<HStack m={"20"}>
-						<Text fontSize={"48"} fontWeight={"700"}>
-							{" "}
-							All Challenges
-						</Text>
+				<HStack m={"20"} justify={"space-between"}>
+					<Text fontSize={"48"} fontWeight={"700"}>
+						{" "}
+						All Challenges
+					</Text>
+					<HStack>
+						<Select
+							placeholder="All Categories"
+							value={selectedTag}
+							onChange={(e) => setSelectedTag(e.target.value)}
+						>
+							{challenges &&
+								Array.from(
+									new Set(challenges.flatMap((challenge) => challenge.tags))
+								).map((tag) => (
+									<option key={tag} value={tag}>
+										{tag}
+									</option>
+								))}
+						</Select>
+						<Button
+							size="md"
+							variant="outline"
+							color={"white"}
+							onClick={handleGridClick}
+							_hover={{ bg: "#FF9728" }}
+						>
+							<BsFillGridFill size={28} />
+						</Button>
+						<Button
+							size="md"
+							variant="outline"
+							color={"white"}
+							onClick={handleTableClick}
+							_hover={{ bg: "#FF9728" }}
+						>
+							<MdOutlineStorage size={28} />
+						</Button>
 					</HStack>
+				</HStack>
 
-					<VStack align="center">
+				<VStack>
+					{tableView && (
 						<Card
 							bg="#111"
 							rounded={"lg"}
@@ -153,76 +211,221 @@ export default function Challenges() {
 								</Text>
 							</HStack>
 						</Card>
-						{challenges?.map((challenge: Challenge, index: number) => (
-							<ChallengeTableView
-								key={index}
-								title={challenge.title}
-								content={challenge.content}
-								reputation={challenge.reputation}
-								tags={challenge.tags}
-								id={challenge.id}
-								authorPubKey={challenge.authorPubKey}
-								authorAvatarUrl={challenge.avatarUrl}
-								lastActivity={challenge.dateUpdated}
-								challengeExpiration={challenge.challengeExpiration}
-							/>
-						))}
-					</VStack>
-				</Box>
-			) : (
-				<Box position={"relative"}>
-					<HStack m={"20"}>
-						<Text fontSize={"48"} fontWeight={"700"}>
-							{" "}
-							All Challenges
-						</Text>
-					</HStack>
+					)}
 
-					<VStack align="center">
-						<Card
-							bg="#111"
-							rounded={"lg"}
-							width={"140vh"}
-							textColor={"white"}
-							border={"1px"}
-							padding={"5"}
-							align="baseline"
-						>
-							<HStack spacing={4}>
-								<Text fontSize={"20"} fontWeight={"700"} width={"25vw"}>
-									Challenge
-								</Text>
-								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
-									Category
-								</Wrap>
-								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
-									Points
-								</Wrap>
-								<Text width={"14vw"} fontSize={"20"} fontWeight={"700"}>
-									Last Activity
-								</Text>
-								<Text width={"15vw"} fontSize={"20"} fontWeight={"700"}>
-									Expiration
-								</Text>
-							</HStack>
-						</Card>
-						{challenges?.map((challenge: Challenge, index: number) => (
-							<ChallengeTableView
-								key={index}
-								title={challenge.title}
-								content={challenge.content}
-								reputation={challenge.reputation}
-								tags={challenge.tags}
-								id={challenge.id}
-								authorPubKey={challenge.authorPubKey}
-								authorAvatarUrl={challenge.avatarUrl}
-								lastActivity={challenge.dateUpdated}
-								challengeExpiration={challenge.challengeExpiration}
-							/>
-						))}
-					</VStack>
-				</Box>
-			)}
+					{selectedTag
+						? // Only render filtered challenges if a tag is selected
+						  filteredChallenges?.map(
+								(challenge: Challenge, index: number) =>
+									tableView && (
+										<ChallengeTableView
+											key={index}
+											title={challenge.title}
+											content={challenge.content}
+											reputation={challenge.reputation}
+											tags={challenge.tags}
+											id={challenge.id}
+											authorPubKey={challenge.authorPubKey}
+											authorAvatarUrl={challenge.avatarUrl}
+											lastActivity={challenge.dateUpdated}
+											challengeExpiration={challenge.challengeExpiration}
+										/>
+									)
+						  )
+						: // Render all challenges if no tag is selected
+						  challenges?.map(
+								(challenge: Challenge, index: number) =>
+									tableView && (
+										<ChallengeTableView
+											key={index}
+											title={challenge.title}
+											content={challenge.content}
+											reputation={challenge.reputation}
+											tags={challenge.tags}
+											id={challenge.id}
+											authorPubKey={challenge.authorPubKey}
+											authorAvatarUrl={challenge.avatarUrl}
+											lastActivity={challenge.dateUpdated}
+											challengeExpiration={challenge.challengeExpiration}
+										/>
+									)
+						  )}
+				</VStack>
+				<Flex>
+					{gridView && (
+						<SimpleGrid columns={3} spacing={4} m={5}>
+							{selectedTag
+								? // Only render filtered challenges if a tag is selected
+								  filteredChallenges?.map(
+										(challenge: Challenge, index: number) =>
+											gridView && (
+												<ChallengeGridView
+													key={index}
+													title={challenge.title}
+													content={challenge.content}
+													reputation={challenge.reputation}
+													tags={challenge.tags}
+													id={challenge.id}
+													authorPubKey={challenge.authorPubKey}
+													authorAvatarUrl={challenge.avatarUrl}
+													lastActivity={challenge.dateUpdated}
+													challengeExpiration={challenge.challengeExpiration}
+												/>
+											)
+								  )
+								: // Render all challenges if no tag is selected
+								  challenges?.map(
+										(challenge: Challenge, index: number) =>
+											gridView && (
+												<ChallengeGridView
+													key={index}
+													title={challenge.title}
+													content={challenge.content}
+													reputation={challenge.reputation}
+													tags={challenge.tags}
+													id={challenge.id}
+													authorPubKey={challenge.authorPubKey}
+													authorAvatarUrl={challenge.avatarUrl}
+													lastActivity={challenge.dateUpdated}
+													challengeExpiration={challenge.challengeExpiration}
+												/>
+											)
+								  )}
+						</SimpleGrid>
+					)}
+				</Flex>
+			</Box>
 		</>
 	);
 }
+
+// <>
+// 			{isModerator ? (
+// 				<Box position={"relative"}>
+// 					<Button
+// 						leftIcon={
+// 							<Image width="15" height="15" src="/icons/plus.svg" alt="plus" />
+// 						}
+// 						position={"absolute"}
+// 						right={"20vh"}
+// 						variant="solid"
+// 						fontSize={14}
+// 						textColor="white"
+// 						fontWeight={400}
+// 						border="1px solid #FFB84D"
+// 						borderRadius={"8"}
+// 						background="#261B0B"
+// 						_hover={{
+// 							bg: "transparent",
+// 						}}
+// 						onClick={() => Router.push("/createChallenge")}
+// 					>
+// 						CREATE CHALLENGE
+// 					</Button>
+
+// 					<HStack m={"20"}>
+// 						<Text fontSize={"48"} fontWeight={"700"}>
+// 							{" "}
+// 							All Challenges
+// 						</Text>
+// 					</HStack>
+
+// 					<VStack align="center">
+// 					<Card
+// 							bg="#111"
+// 							rounded={"lg"}
+// 							width={"140vh"}
+// 							textColor={"white"}
+// 							border={"1px"}
+// 							padding={"5"}
+// 							align="baseline"
+// 						>
+// 							<HStack spacing={4}>
+// 								<Text fontSize={"20"} fontWeight={"700"} width={"25vw"}>
+// 									Challenge
+// 								</Text>
+// 								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Category
+// 								</Wrap>
+// 								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Points
+// 								</Wrap>
+// 								<Text width={"14vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Last Activity
+// 								</Text>
+// 								<Text width={"15vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Expiration
+// 								</Text>
+// 							</HStack>
+// 						</Card>
+// 						{challenges?.map((challenge: Challenge, index: number) => (
+// 							<ChallengeTableView
+// 								key={index}
+// 								title={challenge.title}
+// 								content={challenge.content}
+// 								reputation={challenge.reputation}
+// 								tags={challenge.tags}
+// 								id={challenge.id}
+// 								authorPubKey={challenge.authorPubKey}
+// 								authorAvatarUrl={challenge.avatarUrl}
+// 								lastActivity={challenge.dateUpdated}
+// 								challengeExpiration={challenge.challengeExpiration}
+// 							/>
+// 						))}
+// 					</VStack>
+// 				</Box>
+// 			) : (
+// 				<Box position={"relative"}>
+// 					<HStack m={"20"}>
+// 						<Text fontSize={"48"} fontWeight={"700"}>
+// 							{" "}
+// 							All Challenges
+// 						</Text>
+// 					</HStack>
+
+// 					<VStack align="center">
+// 						<Card
+// 							bg="#111"
+// 							rounded={"lg"}
+// 							width={"140vh"}
+// 							textColor={"white"}
+// 							border={"1px"}
+// 							padding={"5"}
+// 							align="baseline"
+// 						>
+// 							<HStack spacing={4}>
+// 								<Text fontSize={"20"} fontWeight={"700"} width={"25vw"}>
+// 									Challenge
+// 								</Text>
+// 								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Category
+// 								</Wrap>
+// 								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Points
+// 								</Wrap>
+// 								<Text width={"14vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Last Activity
+// 								</Text>
+// 								<Text width={"15vw"} fontSize={"20"} fontWeight={"700"}>
+// 									Expiration
+// 								</Text>
+// 							</HStack>
+// 						</Card>
+// 						{challenges?.map((challenge: Challenge, index: number) => (
+// 							<ChallengeTableView
+// 								key={index}
+// 								title={challenge.title}
+// 								content={challenge.content}
+// 								reputation={challenge.reputation}
+// 								tags={challenge.tags}
+// 								id={challenge.id}
+// 								authorPubKey={challenge.authorPubKey}
+// 								authorAvatarUrl={challenge.avatarUrl}
+// 								lastActivity={challenge.dateUpdated}
+// 								challengeExpiration={challenge.challengeExpiration}
+// 							/>
+// 						))}
+// 					</VStack>
+// 				</Box>
+// 			)}
+// 		</>

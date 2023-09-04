@@ -1,10 +1,7 @@
 import {
 	Card,
 	Badge,
-	CardBody,
-	CardHeader,
 	HStack,
-	Heading,
 	Link,
 	Text,
 	VStack,
@@ -27,7 +24,14 @@ type ChallengeGridViewProps = {
 	lastActivity?: Date;
 };
 
+const gradientColors = [
+	"linear-gradient(180deg, #8041D2 0%, rgba(17, 17, 17, 0.50) 57.09%)",
+	"linear-gradient(180deg, #249C66 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"linear-gradient(180deg, #E46B49 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+];
+
 const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
+	const router = useRouter();
 	// Countdown function
 	function unixTimestampToCountdown(targetUnixTimestamp: number): string {
 		const currentTime = new Date().getTime();
@@ -51,101 +55,60 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 		return countdownString;
 	}
 
-	// Example usage
-	const targetTimestamp = props.challengeExpiration; // Replace this with your target UNIX timestamp
+	const targetTimestamp = props.challengeExpiration;
 	const countdown = unixTimestampToCountdown(targetTimestamp);
 	console.log(countdown);
 
+	const randomGradientIndex = Math.floor(Math.random() * gradientColors.length);
+
+	const selectedGradient = gradientColors[randomGradientIndex];
+
 	return (
-		// <div onClick={() => router.push(`/challenges/${props.id}`)}>
-		<Link href={`/challenges/${props.id}`}>
+		<div onClick={() => router.push(`/challenges/${props.id}`)}>
+			{/* <Link href={`/challenges/${props.id}`}> */}
 			<Card
+				height={"70vh"}
+				width={"30vw"}
 				bg="#111"
 				rounded={"lg"}
-				width={"140vh"}
 				textColor={"white"}
-				borderBottom={"1px"}
-				padding={"5"}
-				align="baseline"
+				background={selectedGradient}
+				p={6}
 			>
-				<HStack spacing={4}>
-					<Text fontSize={"20"} fontWeight={"500"} width={"25vw"}>
+				<Wrap width={"8vw"}>
+					{props?.tags?.map((tag: string, index: number) => (
+						<Badge
+							fontSize={"s"}
+							colorScheme="green"
+							key={index}
+							borderRadius={"20"}
+						>
+							{tag}
+						</Badge>
+					))}
+				</Wrap>
+
+				<HStack mt={"30vh"}>
+					<Text fontSize={"20"} fontWeight={"500"} width={"auto"}>
 						{props.title}
 					</Text>
-					<Wrap width={"7vw"}>
-						{props?.tags?.map((tag: string, index: number) => (
-							<Badge
-								fontSize={"s"}
-								colorScheme="green"
-								key={index}
-								borderRadius={"20"}
-							>
-								{tag}
-							</Badge>
-						))}
-					</Wrap>
-					<Wrap width={"8vw"}>
+					<Wrap>
 						<Image src="/icons/xp.svg" alt="xp" />
 						{props.reputation}
 					</Wrap>
-					<Text width={"14vw"}>
+				</HStack>
+				<HStack mt={"10vh"} spacing={"8"} textColor={"gray.400"}>
+					<Text width={"auto"}>
 						{props.lastActivity
 							? `updated ${moment(props.lastActivity).fromNow()}`
 							: ""}
 					</Text>
-					<Text width={"15vw"}>{countdown}</Text>
+					<Text width={"auto"}>{countdown}</Text>
 				</HStack>
 			</Card>
-			{/* </div> */}
-		</Link>
+			{/* </Link> */}
+		</div>
 	);
 };
 
 export default ChallengeGridView;
-
-{
-	/* <CardHeader>
-				<HStack justify={"space-between"} align="start">
-					<VStack align="start">
-						<HStack>
-							<UserAvatarLink
-								profileId={props.authorPubKey}
-								placeholder={props.authorPubKey}
-								avatarUrl={
-									props.authorAvatarUrl?.length ? props.authorAvatarUrl : ""
-								}
-								size={["xs", "md"]}
-							/>
-							<Link href={`/challenges/${props.id}`}>
-								<Heading as="h3" size={["md", "lg"]} noOfLines={1}>
-									{props.title}
-								</Heading>
-							</Link>
-						</HStack>
-						<Wrap>
-							{props?.tags?.map((tag: string, index: number) => (
-								<Badge fontSize={"xs"} colorScheme="green" key={index}>
-									{tag}
-								</Badge>
-							))}
-						</Wrap>
-
-						<Text fontSize={"sm"} color={"gray.200"}>
-							{props.lastActivity
-								? `updated ${moment(props.lastActivity).fromNow()}`
-								: ""}
-						</Text>
-					</VStack>
-					<VStack spacing={-0.5}>
-						<ReputationBadge reputation={props.reputation} />
-					</VStack>
-				</HStack>
-			</CardHeader>
-			<CardBody pt="-1">
-				<HStack>
-					<Text fontSize={"md"} noOfLines={4}>
-						{props.content}
-					</Text>
-				</HStack>
-			</CardBody> */
-}
