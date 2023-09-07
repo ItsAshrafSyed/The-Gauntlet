@@ -14,6 +14,7 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	VStack,
+	Container,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -179,15 +180,6 @@ export const Hero = () => {
 				</ModalContent>
 			</Modal>
 			<Box position="relative">
-				{/* <Image
-					position="absolute"
-					objectFit={"cover"}
-					width="1000"
-					height="800"
-					zIndex={-1}
-					src="/images/left_unsplash.png"
-					alt="bgimg"
-				/> */}
 				<Image
 					position="absolute"
 					objectFit={"cover"}
@@ -197,7 +189,12 @@ export const Hero = () => {
 					src="/images/centre_unsplash.png"
 					alt="bgimg"
 				/>
-				<Flex justifyContent="center" alignItems="center" height="100vh">
+				<Flex
+					justifyContent="center"
+					alignItems="center"
+					height="100vh"
+					width="100vw"
+				>
 					<Box>
 						<Text
 							fontSize="64"
@@ -218,13 +215,6 @@ export const Hero = () => {
 							Complete Challenges. Develop New Skills. Earn Rewards. Share Your
 							Achievements.
 						</Text>
-
-						{/* <Text fontSize="28" textAlign={"center"} fontWeight={400}>
-							Complete Challenges. Develop New Skills.
-						</Text>
-						<Text fontSize="28" textAlign={"center"} fontWeight={400}>
-							Earn Rewards. Share Your Achievements.
-						</Text> */}
 						<Center p={7}>
 							<Button
 								leftIcon={
@@ -251,17 +241,6 @@ export const Hero = () => {
 						</Center>
 					</Box>
 				</Flex>
-				{/* <Image
-					position="absolute"
-					objectFit={"cover"}
-					width="1340"
-					height="800"
-					top={0}
-					right={0}
-					zIndex={-2}
-					src="/images/right_unsplash.png"
-					alt="bgimg"
-				/> */}
 			</Box>
 		</>
 	);

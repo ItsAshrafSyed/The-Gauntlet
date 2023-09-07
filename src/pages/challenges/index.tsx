@@ -7,15 +7,10 @@ import {
 	Button,
 	Card,
 	Wrap,
-	Badge,
-	Heading,
-	Stack,
-	Spacer,
 	SimpleGrid,
 	Flex,
 	Select,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
@@ -48,8 +43,8 @@ export default function Challenges() {
 	const Router = useRouter();
 	//const [isModerator, setIsModerator] = useState(false);
 	const { provider, program, challengerClient, wallet } = useWorkspace();
-	const [gridView, setGridView] = useState(false);
-	const [tableView, setTableView] = useState(true);
+	const [gridView, setGridView] = useState(true);
+	const [tableView, setTableView] = useState(false);
 	const [selectedTag, setSelectedTag] = useState("");
 	//const [hasProfile, setHasProfile] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
@@ -115,7 +110,7 @@ export default function Challenges() {
 	return (
 		<>
 			<Box position={"relative"}>
-				{isModerator ? (
+				{isModerator && (
 					<Button
 						leftIcon={
 							<Image width="15" height="15" src="/icons/plus.svg" alt="plus" />
@@ -137,8 +132,6 @@ export default function Challenges() {
 					>
 						CREATE CHALLENGE
 					</Button>
-				) : (
-					<></>
 				)}
 
 				<HStack m={"20"} justify={"space-between"}>

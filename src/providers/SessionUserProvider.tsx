@@ -67,9 +67,7 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 					url: `/api/users/${publicKey}`,
 				});
 				const user = response.data.user;
-				if (user) {
-					setHasProfile(true);
-				}
+
 				setMetadata(
 					user
 						? {
@@ -78,6 +76,9 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 						  }
 						: null
 				);
+				if (user) {
+					setHasProfile(true);
+				}
 				const profileAccount = await program?.account.userProfile.fetchNullable(
 					user.profilePdaPubKey
 				);

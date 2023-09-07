@@ -253,7 +253,7 @@ export const Navbar = () => {
 							variant="link"
 							fontWeight={500}
 							fontSize={20}
-							// onClick={() => router.push("/about")}
+							onClick={() => router.push("/leaderboard")}
 						>
 							Leaderboard
 						</Button>

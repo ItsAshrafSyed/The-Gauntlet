@@ -18,11 +18,11 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import UserAvatarLink from "./UserAvatarLink";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { getSubmissionStateFromString } from "@/util/lib";
-import { on } from "events";
 
 const SubmissionCard = ({
 	submission,
@@ -34,12 +34,47 @@ const SubmissionCard = ({
 }: any) => {
 	const { isModerator, hasProfile } = useSessionUser();
 	const { program, wallet, challengerClient } = useWorkspace();
+	const [completed, setCompleted] = useState(false);
+	const [rejected, setRejected] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const {
 		isOpen: isModalOpen,
 		onOpen: onModalOpen,
 		onClose: onModalClose,
 	} = useDisclosure();
+
+	useEffect(() => {
+		const checkSubmissionState = async () => {
+			if (
+				!program ||
+				!wallet ||
+				!isModerator ||
+				!hasProfile ||
+				!challengerClient
+			)
+				return;
+			const submissionState = await program?.account.submission.fetchNullable(
+				submissionPubKey
+			);
+
+			if (submissionState?.submissionState.completed) {
+				setCompleted(true);
+				return;
+			}
+			if (submissionState?.submissionState.rejected) {
+				setRejected(true);
+				return;
+			}
+		};
+		checkSubmissionState();
+	}, [
+		program,
+		wallet,
+		isModerator,
+		hasProfile,
+		challengerClient,
+		submissionPubKey,
+	]);
 
 	const handleAcceptSubmission = async () => {
 		if (!program || !wallet || !isModerator || !hasProfile || !challengerClient)
@@ -157,8 +192,23 @@ const SubmissionCard = ({
 				</HStack>
 
 				<HStack justify={"end"}>
-					{hasProfile ? (
-						isModerator ? (
+					{hasProfile &&
+						isModerator &&
+						(completed || rejected ? (
+							<>
+								<Button
+									background="#FFB84D"
+									borderRadius={"8"}
+									variant={"solid"}
+									textColor={"white"}
+									_hover={{
+										bg: "#FFB84D",
+									}}
+								>
+									{completed ? "Accepted" : "Rejected"}
+								</Button>
+							</>
+						) : (
 							<>
 								<Button
 									size={"sm"}
@@ -189,12 +239,7 @@ const SubmissionCard = ({
 									Reject
 								</Button>
 							</>
-						) : (
-							<></>
-						)
-					) : (
-						<></>
-					)}
+						))}
 				</HStack>
 			</Card>
 		</>
