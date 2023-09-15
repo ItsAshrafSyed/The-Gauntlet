@@ -1,5 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
-import { CHALLENGER_PROG_ID } from '../index';
+import { CHALLENGER_PROG_ID } from './index';
 
 export const findCruxAuthorityPDA = async (crux: PublicKey) => {
     return PublicKey.findProgramAddressSync(
