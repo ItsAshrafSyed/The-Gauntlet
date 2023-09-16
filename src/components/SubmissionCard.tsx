@@ -53,18 +53,21 @@ const SubmissionCard = ({
 				!challengerClient
 			)
 				return;
-			const submissionState = await program?.account.submission.fetchNullable(
-				submissionPubKey
-			);
-
-			if (submissionState?.submissionState.completed) {
-				setCompleted(true);
-				return;
-			}
-			if (submissionState?.submissionState.rejected) {
-				setRejected(true);
-				return;
-			}
+			// try {
+			// 	const submissionState = await program?.account.submission.fetchNullable(
+			// 		submissionPubKey
+			// 	);
+			// 	if (submissionState?.) {
+			// 		setCompleted(true);
+			// 		return;
+			// 	}
+			// 	if (submissionState?.submissionState.rejected) {
+			// 		setRejected(true);
+			// 		return;
+			// 	}
+			// } catch (e) {
+			// 	console.log("error occured in catch block in submission card");
+			// }
 		};
 		checkSubmissionState();
 	}, [

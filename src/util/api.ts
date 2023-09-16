@@ -2,7 +2,7 @@ import * as anchor from "@coral-xyz/anchor";
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Keypair, Connection } from "@solana/web3.js";
 import { SOLANA_RPC_URL, CHALLENGER_PROGRAM_ID } from "./constants";
-import { Challenger, IDL as ChallengerIDL } from "./idl/challenger";
+import { Challenger, IDL as ChallengerIDL } from "./challengerSdk";
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 // Do not use this from front-end code. This is only for server-side code.

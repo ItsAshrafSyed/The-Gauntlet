@@ -8,7 +8,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { Keypair } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID } from "../util/constants";
-import { Challenger, IDL as ChallengerIDL } from "../util/idl/challenger";
+import { Challenger, IDL as ChallengerIDL } from "../util/challengerSdk";
 import { ChallengerClient } from "../util/challengerSdk";
 
 const WorkspaceContext = createContext({});
