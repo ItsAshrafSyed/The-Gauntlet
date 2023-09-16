@@ -22,7 +22,6 @@ import ChallengeTableView from "../../components/ChallengeTableView";
 import { useSessionUser } from "../../providers/SessionUserProvider";
 import { BsFillGridFill } from "react-icons/bs";
 import { MdOutlineStorage } from "react-icons/md";
-import { table } from "console";
 import Challenge from "./[id]";
 import ChallengeGridView from "@/components/ChallengeGridView";
 

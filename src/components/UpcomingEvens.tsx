@@ -16,7 +16,6 @@ import {
 	CardHeader,
 	HStack,
 } from "@chakra-ui/react";
-import { relative } from "path";
 
 export const UpcomingEvents = () => {
 	return (

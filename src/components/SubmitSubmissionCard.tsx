@@ -21,7 +21,6 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
-import { on } from "events";
 
 export default function SubmitSubmissionCard({
 	challengePubKey,
