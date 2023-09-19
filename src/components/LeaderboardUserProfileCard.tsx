@@ -1,36 +1,89 @@
-import { Box, Card, Flex, HStack, Image, Text, Wrap } from "@chakra-ui/react";
+import {
+	Box,
+	Card,
+	Flex,
+	HStack,
+	Image,
+	Text,
+	Wrap,
+	Grid,
+	GridItem,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { shortenWalletAddress } from "@/util/lib";
 
 const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 	return (
 		<>
-			<Flex>
-				<Card
-					bg="#111"
-					rounded={"lg"}
-					width={"140vw"}
-					textColor={"white"}
-					borderBottom={"1px"}
+			<Flex
+				justifyContent="center" // Center horizontally
+				alignItems="center"
+			>
+				<Grid
+					bg="#0E0E10"
+					width={"60vw"}
 					padding={"3"}
-					align="baseline"
+					minW={"60vw"}
+					templateColumns="repeat(5, 1fr)"
+					gap={4}
 				>
-					<HStack spacing={4}>
-						<Text fontSize={"20"} fontWeight={"400"} width={"50vw"}>
-							{userProfile.pubKey}
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{userProfile.id}
 						</Text>
-						<Text fontSize={"20"} fontWeight={"400"} width={"10vw"}>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{shortenWalletAddress(userProfile.pubKey)}
+						</Text>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"400"}>
 							{userProfile.challengesSubmitted}
 						</Text>
-						<Text fontSize={"20"} fontWeight={"400"} width={"7vw"}>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"400"}>
 							{userProfile.challengesCompleted}
 						</Text>
-						<Wrap width={"8vw"} fontSize={"20"} fontWeight={"400"}>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"400"} color={"#FF9728"}>
+							{userProfile.reputation} points
+						</Text>
+					</GridItem>
+				</Grid>
+			</Flex>
+			{/* <Flex>
+				<Card
+					bg="#111"
+					height={"10vh"}
+					rounded={"lg"}
+					width={"auto"}
+					textColor={"white"}
+					borderBottom={"1px"}
+					padding={"5"}
+				>
+					<HStack>
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{userProfile.id}
+						</Text>
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{shortenWalletAddress(userProfile.pubKey)}
+						</Text>
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{userProfile.challengesSubmitted}
+						</Text>
+						<Text fontSize={"20"} fontWeight={"400"}>
+							{userProfile.challengesCompleted}
+						</Text>
+						<Wrap fontSize={"20"} fontWeight={"400"}>
 							{userProfile.reputation}
 							<Image src="/icons/xp.svg" alt="xp" />
 						</Wrap>
 					</HStack>
 				</Card>
-			</Flex>
+			</Flex> */}
 		</>
 	);
 };

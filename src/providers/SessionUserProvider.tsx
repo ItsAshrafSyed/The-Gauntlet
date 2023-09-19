@@ -6,6 +6,7 @@ import {
 	ReactNode,
 	FC,
 	useContext,
+	use,
 } from "react";
 import { useWorkspace } from "./WorkspaceProvider";
 import { fetchApiResponse } from "../util/lib";
@@ -79,9 +80,9 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				if (user) {
 					setHasProfile(true);
 				}
-				console.log("user", user);
+
 				const profileAccount = await program?.account.userProfile.fetchNullable(
-					"GMsnCKa6cKJgmo3bftzx2gcjrMUGBqxeRrW2CmwuKnRk"
+					user?.profilePdaPubKey
 				);
 				console.log("profileAccount user prof", profileAccount?.isModerator);
 
