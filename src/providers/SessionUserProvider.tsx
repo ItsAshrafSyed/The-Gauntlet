@@ -79,9 +79,12 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				if (user) {
 					setHasProfile(true);
 				}
+				console.log("user", user);
 				const profileAccount = await program?.account.userProfile.fetchNullable(
-					user.profilePdaPubKey
+					"GMsnCKa6cKJgmo3bftzx2gcjrMUGBqxeRrW2CmwuKnRk"
 				);
+				console.log("profileAccount user prof", profileAccount?.isModerator);
+
 				setIsModerator(profileAccount?.isModerator ? true : false);
 			} catch (err) {
 				console.log("error", err);
