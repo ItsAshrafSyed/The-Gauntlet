@@ -182,7 +182,7 @@ export default function Challenges() {
 							bg="#151519"
 							borderRadius={"8px 8px 0px 0px"}
 							width={"80vw"}
-							templateColumns="2fr 1fr 1fr 1fr 1fr"
+							templateColumns="2fr 1.5fr 1fr 1fr 1fr"
 							padding={"2.5"}
 							gap={4}
 							borderBottom={"1px solid #323232"}

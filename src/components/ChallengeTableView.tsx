@@ -83,9 +83,10 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					bg="#0E0E10"
 					borderRadius={"8px 8px 0px 0px"}
 					width={"80vw"}
-					templateColumns="2fr 1fr 1fr 1fr 1fr"
-					padding={"2"}
+					templateColumns="2fr 1.5fr 1fr 1fr 1fr"
+					padding={"1.5"}
 					gap={4}
+					alignItems={"center"}
 					borderBottom={"1px solid #76777A"}
 				>
 					<GridItem textAlign="center">
@@ -94,18 +95,22 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						{props?.tags?.map((tag: string, index: number) => (
-							<Text
-								background={tagColors[tag] || "gray"}
-								key={index}
-								p={"1"}
-								borderRadius={"20"}
-								fontSize={"14"}
-								fontWeight={"600"}
-							>
-								{tag}
-							</Text>
-						))}
+						<Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+							{props?.tags?.map((tag: string, index: number) => (
+								<Box
+									background={tagColors[tag] || "gray"}
+									key={index}
+									maxW="fit-content"
+									py={"1"}
+									px={"3"}
+									borderRadius={"20"}
+									fontSize={"14"}
+									fontWeight={"600"}
+								>
+									{tag}
+								</Box>
+							))}
+						</Flex>
 					</GridItem>
 					<GridItem textAlign="center">
 						<Text fontSize={"20"} fontWeight={"500"} color={"#FF9728"}>
