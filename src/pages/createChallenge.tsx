@@ -45,16 +45,20 @@ type TagMultiSelectOptions = {
 };
 
 const tagOptions = [
-	{ value: "client", label: "Client" },
-	{ value: "nfts", label: "Nfts" },
-	{ value: "concept", label: "Concept" },
-	{ value: "deploy", label: "Deploy" },
-	{ value: "gaming", label: "Gaming" },
-	{ value: "sdk", label: "Sdk" },
+	{ value: "artificialintelligence", label: "Artificial Intelligence" },
+	{ value: "cryptoinfrastructure", label: "Crypto Infrastructure" },
+	{ value: "daosandnetworkstates", label: "DAOs & Network States" },
+	{ value: "dataandanylitics", label: "Data & Analytics" },
+	{ value: "development", label: "Development" },
+	{ value: "financeandpayments", label: "Finance & Payments" },
+	{ value: "gamingandentertainment", label: "Gaming & Entertainment" },
+	{ value: "ideas", label: "Ideas" },
+	{ value: "nfts", label: "NFTs" },
 	{ value: "social", label: "Social" },
-	{ value: "video", label: "Video" },
-	{ value: "staking", label: "Staking" },
-	{ value: "wallets", label: "Wallets" },
+	{
+		value: "physicalinfrastructurenetworks",
+		label: "Physical Infrastructure Networks",
+	},
 ] as TagMultiSelectOptions[];
 
 export default function CreateChallenge() {
