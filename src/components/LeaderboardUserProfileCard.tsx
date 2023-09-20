@@ -23,7 +23,6 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 					bg="#0E0E10"
 					width={"60vw"}
 					padding={"3"}
-					minW={"60vw"}
 					templateColumns="repeat(5, 1fr)"
 					gap={4}
 				>

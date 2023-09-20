@@ -129,10 +129,9 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 					<Text fontSize={"20"} fontWeight={"500"} width={"auto"}>
 						{props.title}
 					</Text>
-					<Wrap width={"auto"}>
-						<Image src="/icons/xp.svg" alt="xp" />
-						{props.reputation}
-					</Wrap>
+					<Text fontSize={"20"} fontWeight={"600"} color={"#FF9728"}>
+						{props.reputation} Points
+					</Text>
 				</VStack>
 				<HStack mt={"10vh"} spacing={"8"} textColor={"gray.400"}>
 					<Text width={"auto"}>

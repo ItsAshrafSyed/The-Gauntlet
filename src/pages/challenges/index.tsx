@@ -10,6 +10,8 @@ import {
 	SimpleGrid,
 	Flex,
 	Select,
+	Grid,
+	GridItem,
 } from "@chakra-ui/react";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
@@ -176,33 +178,41 @@ export default function Challenges() {
 
 				<VStack>
 					{tableView && (
-						<Card
-							bg="#111"
-							rounded={"lg"}
-							width={"140vh"}
-							textColor={"white"}
-							border={"1px"}
-							padding={"5"}
-							align="baseline"
+						<Grid
+							bg="#151519"
+							borderRadius={"8px 8px 0px 0px"}
+							width={"80vw"}
+							templateColumns="2fr 1fr 1fr 1fr 1fr"
+							padding={"2.5"}
+							gap={4}
+							borderBottom={"1px solid #323232"}
 						>
-							<HStack spacing={4}>
-								<Text fontSize={"20"} fontWeight={"700"} width={"25vw"}>
+							<GridItem textAlign="center">
+								<Text fontSize={"20"} fontWeight={"700"}>
 									Challenge
 								</Text>
-								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+							</GridItem>
+							<GridItem textAlign="center">
+								<Text fontSize={"20"} fontWeight={"700"}>
 									Category
-								</Wrap>
-								<Wrap width={"8vw"} fontSize={"20"} fontWeight={"700"}>
+								</Text>
+							</GridItem>
+							<GridItem textAlign="center">
+								<Text fontSize={"20"} fontWeight={"700"}>
 									Points
-								</Wrap>
-								<Text width={"14vw"} fontSize={"20"} fontWeight={"700"}>
+								</Text>
+							</GridItem>
+							<GridItem textAlign="center">
+								<Text fontSize={"20"} fontWeight={"700"}>
 									Last Activity
 								</Text>
-								<Text width={"15vw"} fontSize={"20"} fontWeight={"700"}>
+							</GridItem>
+							<GridItem textAlign="center">
+								<Text fontSize={"20"} fontWeight={"700"}>
 									Expiration
 								</Text>
-							</HStack>
-						</Card>
+							</GridItem>
+						</Grid>
 					)}
 
 					{selectedTag

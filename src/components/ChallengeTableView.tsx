@@ -5,11 +5,14 @@ import {
 	CardHeader,
 	HStack,
 	Heading,
-	Link,
 	Text,
 	VStack,
+	Box,
 	Image,
 	Wrap,
+	Flex,
+	Grid,
+	GridItem,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { FC } from "react";
@@ -27,8 +30,24 @@ type ChallengeTableViewProps = {
 	lastActivity?: Date;
 };
 
+const tagColors: { [key: string]: string } = {
+	"Physical Infrastructure Networks": "#6b5104",
+	"Artificial Intelligence": "#FD7651",
+	"Finance & Payments": " #1b72bf",
+	"Gaming & Entertainment": "#AA6CFC",
+	"Mobile Consumer Apps": "#5e8583",
+	"Crypto Infrastructure": "#E959BB",
+	"DAOs & Network States": "#6e6e5d",
+	"Data & Analytics": "#2929cf",
+	NFTs: "#FF6262",
+	Development: "#a86242",
+	Ideas: "#2CA870",
+	Social: "#427687",
+};
 const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 	const router = useRouter();
+
+	const firstTag = props.tags?.[0] || "";
 
 	// Countdown function
 	function unixTimestampToCountdown(targetUnixTimestamp: number): string {
@@ -56,50 +75,98 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 	// Example usage
 	const targetTimestamp = props.challengeExpiration; // Replace this with your target UNIX timestamp
 	const countdown = unixTimestampToCountdown(targetTimestamp);
-	console.log(countdown);
 
 	return (
-		// <div onClick={() => router.push(`/challenges/${props.id}`)}>
-		<Link href={`/challenges/${props.id}`}>
-			<Card
-				bg="#111"
-				rounded={"lg"}
-				width={"140vh"}
-				textColor={"white"}
-				borderBottom={"1px"}
-				padding={"5"}
-				align="baseline"
-			>
-				<HStack spacing={4}>
-					<Text fontSize={"20"} fontWeight={"500"} width={"25vw"}>
-						{props.title}
-					</Text>
-					<Wrap width={"10vw"}>
+		<Flex justifyContent="center" alignItems="center">
+			<div onClick={() => router.push(`/challenges/${props.id}`)}>
+				<Grid
+					bg="#0E0E10"
+					borderRadius={"8px 8px 0px 0px"}
+					width={"80vw"}
+					templateColumns="2fr 1fr 1fr 1fr 1fr"
+					padding={"2"}
+					gap={4}
+					borderBottom={"1px solid #76777A"}
+				>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"500"}>
+							{props.title}
+						</Text>
+					</GridItem>
+					<GridItem textAlign="center">
 						{props?.tags?.map((tag: string, index: number) => (
-							<Badge
-								fontSize={"s"}
-								colorScheme="green"
+							<Text
+								background={tagColors[tag] || "gray"}
 								key={index}
+								p={"1"}
 								borderRadius={"20"}
+								fontSize={"14"}
+								fontWeight={"600"}
 							>
 								{tag}
-							</Badge>
+							</Text>
 						))}
-					</Wrap>
-					<Wrap width={"8vw"}>
-						<Image src="/icons/xp.svg" alt="xp" />
-						{props.reputation}
-					</Wrap>
-					<Text width={"14vw"}>
-						{props.lastActivity
-							? `updated ${moment(props.lastActivity).fromNow()}`
-							: ""}
-					</Text>
-					<Text width={"15vw"}>{countdown}</Text>
-				</HStack>
-			</Card>
-			{/* </div> */}
-		</Link>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"500"} color={"#FF9728"}>
+							{props.reputation} Points
+						</Text>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"500"}>
+							{props.lastActivity
+								? `updated ${moment(props.lastActivity).fromNow()}`
+								: ""}
+						</Text>
+					</GridItem>
+					<GridItem textAlign="center">
+						<Text fontSize={"20"} fontWeight={"500"}>
+							{countdown}
+						</Text>
+					</GridItem>
+				</Grid>
+			</div>
+		</Flex>
+		// <Link href={`/challenges/${props.id}`}>
+		// 	<Card
+		// 		bg="#111"
+		// 		rounded={"lg"}
+		// 		width={"140vh"}
+		// 		textColor={"white"}
+		// 		borderBottom={"1px"}
+		// 		padding={"5"}
+		// 		align="baseline"
+		// 	>
+		// 		<HStack spacing={4}>
+		// 			<Text fontSize={"20"} fontWeight={"500"} width={"25vw"}>
+		// 				{props.title}
+		// 			</Text>
+		// 			<Wrap width={"10vw"}>
+		// 				{props?.tags?.map((tag: string, index: number) => (
+		// 					<Badge
+		// 						fontSize={"s"}
+		// 						colorScheme="green"
+		// 						key={index}
+		// 						borderRadius={"20"}
+		// 					>
+		// 						{tag}
+		// 					</Badge>
+		// 				))}
+		// 			</Wrap>
+		// 			<Wrap width={"8vw"}>
+		// 				<Image src="/icons/xp.svg" alt="xp" />
+		// 				{props.reputation}
+		// 			</Wrap>
+		// 			<Text width={"14vw"}>
+		// 				{props.lastActivity
+		// 					? `updated ${moment(props.lastActivity).fromNow()}`
+		// 					: ""}
+		// 			</Text>
+		// 			<Text width={"15vw"}>{countdown}</Text>
+		// 		</HStack>
+		// 	</Card>
+		// 	{/* </div> */}
+		// </Link>
 	);
 };
 
