@@ -26,26 +26,30 @@ export const getSubmissionStateFromString = (submissionStateString: string) => {
 
 export const getTagFromString = (tagString: string) => {
 	switch (tagString.toLowerCase()) {
-		case "client":
-			return tagValues.Client;
-		case "concept":
-			return tagValues.Concept;
-		case "deploy":
-			return tagValues.Deploy;
-		case "gaming":
-			return tagValues.Gaming;
+		case "artificialIntelligence":
+			return tagValues.ArtificialIntelligence;
+		case "cryptoInfrastructure":
+			return tagValues.CryptoInfrastructure;
+		case "daosAndNetworkStates":
+			return tagValues.DaosAndNetworkStates;
+		case "dataAndAnylitics":
+			return tagValues.DataAndAnalytics;
+		case "development":
+			return tagValues.Development;
+		case "financeAndPayments":
+			return tagValues.FinanceAndPayments;
+		case "gamingAndEntertainment":
+			return tagValues.GamingAndEntertainment;
+		case "Ideas":
+			return tagValues.Ideas;
+		case "mobileConsumerApps":
+			return tagValues.MobileConsumerApps;
 		case "nfts":
 			return tagValues.Nfts;
-		case "sdk":
-			return tagValues.Sdk;
+		case "physicalInfrastructureNetworks":
+			return tagValues.PhysicalInfrastructureNetworks;
 		case "social":
 			return tagValues.Social;
-		case "staking":
-			return tagValues.Staking;
-		case "video":
-			return tagValues.Video;
-		case "wallets":
-			return tagValues.Wallets;
 		default:
 			return null;
 	}
@@ -53,26 +57,30 @@ export const getTagFromString = (tagString: string) => {
 
 export const getDisplayStringFromTag = (tag: string) => {
 	switch (tag.toLowerCase()) {
-		case "client":
-			return "Client";
-		case "concept":
-			return "Concept";
-		case "deploy":
-			return "Deploy";
-		case "gaming":
-			return "Gaming";
+		case "artificialintelligence":
+			return "Artificial Intelligence";
+		case "cryptoinfrastructure":
+			return "Crypto Infrastructure";
+		case "daosandnetworkstates":
+			return "DAOs & Network States";
+		case "dataandanylitics":
+			return "Data & Analytics";
+		case "development":
+			return "Development";
+		case "financeandpayments":
+			return "Finance & Payments";
+		case "gamingandentertainment":
+			return "Gaming & Entertainment";
+		case "ideas":
+			return "Ideas";
+		case "mobileconsumerapps":
+			return "Mobile Consumer Apps";
 		case "nfts":
-			return "Nfts";
-		case "sdk":
-			return "Sdk";
+			return "NFTs";
+		case "physicalinfrastructurenetworks":
+			return "Physical Infrastructure Networks";
 		case "social":
 			return "Social";
-		case "staking":
-			return "Staking";
-		case "video":
-			return "Video";
-		case "wallets":
-			return "Wallets";
 		default:
 			return null;
 	}

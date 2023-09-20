@@ -26,29 +26,42 @@ type ChallengeGridViewProps = {
 };
 
 const categoryColors: { [key: string]: string } = {
-	Client: "linear-gradient(180deg,#8D18D6 0%, rgba(17, 17, 17, 0.50) 57.09%)",
-	Nfts: "linear-gradient(180deg, #249C66 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Concept: "linear-gradient(180deg, #0057BD 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Deploy: "linear-gradient(180deg, #D39E00 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Gaming: "linear-gradient(180deg, #CF2129 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Sdk: "linear-gradient(180deg, #D0630F 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Social: "linear-gradient(180deg, #D12769 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Staking: "linear-gradient(180deg, #01837D 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Video: "linear-gradient(180deg,#73747D 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Wallets: "linear-gradient(180deg, #812D06 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Physical Infrastructure Networks":
+		"linear-gradient(180deg, #D39E00 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Artificial Intelligence":
+		"linear-gradient(180deg, #D0630F 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Finance & Payments":
+		"linear-gradient(180deg, #0057BD 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Gaming & Entertainment":
+		"linear-gradient(180deg,#8D18D6 0%, rgba(17, 17, 17, 0.50) 57.09%)",
+	"Mobile Consumer Apps":
+		"linear-gradient(180deg, #01837D 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Crypto Infrastructure":
+		"linear-gradient(180deg, #D12769 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"DAOs & Network States":
+		"linear-gradient(180deg, #FFFFF0 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	"Data & Analytics":
+		"linear-gradient(180deg, #d5d5f2 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	NFTs: "linear-gradient(180deg, #CF2129 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	Development:
+		"linear-gradient(180deg, #812D06 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	Ideas: "linear-gradient(180deg, #249C66 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	Social: "linear-gradient(180deg,#83c8de 0%, rgba(17, 17, 17, 0.60) 57.09%)",
 };
 
 const tagColors: { [key: string]: string } = {
-	Client: "#AA6CFC",
-	Nfts: "#2CA870",
-	Sdk: "#FD7651",
-	Concept: " #675AFF",
-	Deploy: "#FDE151",
-	Gaming: "#FF6262",
-	Social: "#E959BB",
-	Staking: "#27ED93",
-	Video: "#85ECFE",
-	Wallets: "#086A3E",
+	"Physical Infrastructure Networks": "#FDE151",
+	"Artificial Intelligence": "#FD7651",
+	"Finance & Payments": " #675AFF",
+	"Gaming & Entertainment": "#AA6CFC",
+	"Mobile Consumer Apps": "#85ECFE",
+	"Crypto Infrastructure": "#E959BB",
+	"DAOs & Network States": "#f0f075",
+	"Data & Analytics": "#2929cf",
+	NFTs: "#FF6262",
+	Development: "#086A3E",
+	Ideas: "#2CA870",
+	Social: "#1b72bf",
 };
 
 const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
@@ -97,7 +110,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 				background={selectedGradient}
 				p={6}
 			>
-				<Wrap width={"8vw"}>
+				<Wrap width={"auto"}>
 					{props?.tags?.map((tag: string, index: number) => (
 						<Box
 							background={tagColors[tag] || "gray"}
