@@ -74,7 +74,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					<Text fontSize={"20"} fontWeight={"500"} width={"25vw"}>
 						{props.title}
 					</Text>
-					<Wrap width={"8vw"}>
+					<Wrap width={"10vw"}>
 						{props?.tags?.map((tag: string, index: number) => (
 							<Badge
 								fontSize={"s"}

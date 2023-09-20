@@ -50,18 +50,18 @@ const categoryColors: { [key: string]: string } = {
 };
 
 const tagColors: { [key: string]: string } = {
-	"Physical Infrastructure Networks": "#FDE151",
+	"Physical Infrastructure Networks": "#6b5104",
 	"Artificial Intelligence": "#FD7651",
-	"Finance & Payments": " #675AFF",
+	"Finance & Payments": " #1b72bf",
 	"Gaming & Entertainment": "#AA6CFC",
-	"Mobile Consumer Apps": "#85ECFE",
+	"Mobile Consumer Apps": "#5e8583",
 	"Crypto Infrastructure": "#E959BB",
-	"DAOs & Network States": "#f0f075",
+	"DAOs & Network States": "#6e6e5d",
 	"Data & Analytics": "#2929cf",
 	NFTs: "#FF6262",
-	Development: "#086A3E",
+	Development: "#a86242",
 	Ideas: "#2CA870",
-	Social: "#1b72bf",
+	Social: "#427687",
 };
 
 const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {

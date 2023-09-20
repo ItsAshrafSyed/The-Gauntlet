@@ -48,7 +48,7 @@ const tagOptions = [
 	{ value: "artificialintelligence", label: "Artificial Intelligence" },
 	{ value: "cryptoinfrastructure", label: "Crypto Infrastructure" },
 	{ value: "daosandnetworkstates", label: "DAOs & Network States" },
-	{ value: "dataandanylitics", label: "Data & Analytics" },
+	{ value: "dataandanalytics", label: "Data & Analytics" },
 	{ value: "development", label: "Development" },
 	{ value: "financeandpayments", label: "Finance & Payments" },
 	{ value: "gamingandentertainment", label: "Gaming & Entertainment" },
@@ -58,6 +58,10 @@ const tagOptions = [
 	{
 		value: "physicalinfrastructurenetworks",
 		label: "Physical Infrastructure Networks",
+	},
+	{
+		value: "mobileconsumerapps",
+		label: "Mobile Consumer Apps",
 	},
 ] as TagMultiSelectOptions[];
 

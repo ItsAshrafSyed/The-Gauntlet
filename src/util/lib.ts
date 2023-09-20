@@ -32,7 +32,7 @@ export const getTagFromString = (tagString: string) => {
 			return tagValues.CryptoInfrastructure;
 		case "daosandnetworkstates":
 			return tagValues.DaosAndNetworkStates;
-		case "dataandanylitics":
+		case "dataandanalytics":
 			return tagValues.DataAndAnalytics;
 		case "development":
 			return tagValues.Development;
@@ -63,7 +63,7 @@ export const getDisplayStringFromTag = (tag: string) => {
 			return "Crypto Infrastructure";
 		case "daosandnetworkstates":
 			return "DAOs & Network States";
-		case "dataandanylitics":
+		case "dataandanalytics":
 			return "Data & Analytics";
 		case "development":
 			return "Development";
