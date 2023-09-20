@@ -105,7 +105,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 									px={"3"}
 									borderRadius={"20"}
 									fontSize={"14"}
-									fontWeight={"600"}
+									fontWeight={"500"}
 								>
 									{tag}
 								</Box>
