@@ -26,27 +26,27 @@ export const getSubmissionStateFromString = (submissionStateString: string) => {
 
 export const getTagFromString = (tagString: string) => {
 	switch (tagString.toLowerCase()) {
-		case "artificialIntelligence":
+		case "artificialintelligence":
 			return tagValues.ArtificialIntelligence;
-		case "cryptoInfrastructure":
+		case "cryptoinfrastructure":
 			return tagValues.CryptoInfrastructure;
-		case "daosAndNetworkStates":
+		case "daosandnetworkstates":
 			return tagValues.DaosAndNetworkStates;
-		case "dataAndAnylitics":
+		case "dataandanylitics":
 			return tagValues.DataAndAnalytics;
 		case "development":
 			return tagValues.Development;
-		case "financeAndPayments":
+		case "financeandpayments":
 			return tagValues.FinanceAndPayments;
-		case "gamingAndEntertainment":
+		case "gamingandentertainment":
 			return tagValues.GamingAndEntertainment;
-		case "Ideas":
+		case "ideas":
 			return tagValues.Ideas;
-		case "mobileConsumerApps":
+		case "mobileconsumerapps":
 			return tagValues.MobileConsumerApps;
 		case "nfts":
 			return tagValues.Nfts;
-		case "physicalInfrastructureNetworks":
+		case "physicalinfrastructurenetworks":
 			return tagValues.PhysicalInfrastructureNetworks;
 		case "social":
 			return tagValues.Social;

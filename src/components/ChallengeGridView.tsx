@@ -96,7 +96,6 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 
 	const targetTimestamp = props.challengeExpiration;
 	const countdown = unixTimestampToCountdown(targetTimestamp);
-	console.log(countdown);
 
 	return (
 		<div onClick={() => router.push(`/challenges/${props.id}`)}>
