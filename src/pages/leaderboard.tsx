@@ -43,7 +43,7 @@ export default function Leaderboard() {
 
 	useEffect(() => {
 		const loadUserProfiles = async () => {
-			if (!program || !wallet || !challengerClient) return;
+			if (!program || !challengerClient) return;
 			const { data } = await fetchApiResponse<any>({
 				url: "/api/users",
 			});

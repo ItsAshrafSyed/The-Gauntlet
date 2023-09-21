@@ -38,7 +38,7 @@ const tagColors: { [key: string]: string } = {
 	"Mobile Consumer Apps": "#5e8583",
 	"Crypto Infrastructure": "#E959BB",
 	"DAOs & Network States": "#6e6e5d",
-	"Data & Analytics": "#2929cf",
+	"Data & Analytics": "#57577a",
 	NFTs: "#FF6262",
 	Development: "#a86242",
 	Ideas: "#2CA870",
