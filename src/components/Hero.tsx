@@ -106,7 +106,7 @@ export const Hero = () => {
 	};
 	return (
 		<>
-			<Modal isOpen={isModalOpen} onClose={onModalClose}>
+			{/* <Modal isOpen={isModalOpen} onClose={onModalClose}>
 				<ModalOverlay />
 				<ModalContent
 					textColor={"green"}
@@ -178,7 +178,7 @@ export const Hero = () => {
 						</Button>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</Modal> */}
 			<Box position="relative">
 				<Image
 					position="absolute"
@@ -234,7 +234,8 @@ export const Hero = () => {
 								border="1px solid #FFB84D"
 								borderRadius={"8"}
 								background="#261B0B"
-								onClick={handleChallengesClick}
+								// onClick={handleChallengesClick}
+								onClick={() => router.push("/challenges")}
 							>
 								VIEW CHALLENGES
 							</Button>

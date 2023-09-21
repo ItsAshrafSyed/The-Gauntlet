@@ -15,6 +15,10 @@ import {
 	ButtonGroup,
 	HStack,
 	Button,
+	MenuButton,
+	Menu,
+	MenuItem,
+	MenuList,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -25,6 +29,10 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
 import { useSessionUser } from "../providers/SessionUserProvider";
+import { useWallet } from "@solana/wallet-adapter-react";
+import "@fontsource-variable/readex-pro";
+import { shortenWalletAddress } from "../util/lib";
+import { AiOutlineDown } from "react-icons/ai";
 
 const WalletMultiButtonDynamic = dynamic(
 	async () =>
@@ -35,6 +43,7 @@ const WalletMultiButtonDynamic = dynamic(
 export const Navbar = () => {
 	const router = useRouter();
 	//const [hasProfile, setHasProfile] = useState(false);
+	const { connected, publicKey, disconnect, signMessage } = useWallet();
 	const [profile, setProfile] = useState<any>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +53,7 @@ export const Navbar = () => {
 		onClose: onModalClose,
 	} = useDisclosure();
 	const { provider, program, challengerClient, wallet } = useWorkspace();
-	const walletAdapterModalContext = useWalletModal();
+	const { setVisible } = useWalletModal();
 	const { hasProfile } = useSessionUser();
 
 	// useEffect(() => {
@@ -87,7 +96,7 @@ export const Navbar = () => {
 				onOpen();
 			}
 		} else {
-			walletAdapterModalContext.setVisible(true);
+			setVisible(true);
 		}
 	};
 
@@ -238,10 +247,10 @@ export const Navbar = () => {
 				</Box>
 				<Spacer />
 				<Box>
-					<ButtonGroup spacing={7} fontFamily={"Inter"}>
+					<ButtonGroup spacing={"0.5"} fontFamily={"Inter"}>
 						<Button
 							colorScheme="white"
-							variant="link"
+							variant="ghost"
 							fontWeight={500}
 							fontSize={20}
 							onClick={() => router.push("/")}
@@ -250,7 +259,7 @@ export const Navbar = () => {
 						</Button>
 						<Button
 							colorScheme="white"
-							variant="link"
+							variant="ghost"
 							fontWeight={500}
 							fontSize={20}
 							onClick={() => router.push("/leaderboard")}
@@ -259,30 +268,77 @@ export const Navbar = () => {
 						</Button>
 						<Button
 							colorScheme="white"
-							variant="link"
+							variant="ghost"
 							fontWeight={500}
 							fontSize={20}
-							onClick={handleChallengesClick}
+							// onClick={handleChallengesClick}
+							onClick={() => router.push("/challenges")}
 						>
 							View Challenges
 						</Button>
-						{/* <Button
-						borderRadius="9999"
-						variant="solid"
-						_hover={{
-							bg: "transparent",
-						}}
-						fontSize={14}
-						textColor="white"
-						fontWeight={400}
-						border="1px solid #E5E7EB"
-						background={
-							"linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(44.76deg, #7147F8 3%, #B34CF0 48.43%, #D74FEC 93.01%);"
-						}
-					>
-						
-					</Button> */}
-						<WalletMultiButtonDynamic />
+
+						{connected && publicKey ? (
+							<>
+								<Menu>
+									<MenuButton
+										as={Button}
+										bg={"#151519"}
+										color={" #FF9728"}
+										borderRadius={"16"}
+										borderColor={"#1E1E23"}
+										_hover={{
+											bg: "transparent",
+										}}
+										_active={{
+											bg: "transparent",
+										}}
+										fontSize={18}
+										fontWeight={700}
+										fontFamily={"Readex Pro Variable"}
+										rightIcon={<AiOutlineDown />}
+									>
+										{shortenWalletAddress(publicKey?.toBase58())}
+									</MenuButton>
+									<MenuList
+										__css={{
+											background: "#151519",
+											border: "1px solid #1E1E23",
+											fontSize: "18",
+											fontFamily: "Readex Pro Variable",
+											fontWeight: "800",
+											borderRadius: "5",
+											width: "fit-content",
+											boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+											p: "2",
+											mr: "2",
+										}}
+									>
+										<MenuItem bg={"#151519"} onClick={() => disconnect()}>
+											Disconnect
+										</MenuItem>
+									</MenuList>
+								</Menu>
+							</>
+						) : (
+							<Button
+								borderRadius="8"
+								variant="solid"
+								_hover={{
+									bg: "transparent",
+									color: "white",
+									border: "1px solid #E5E7EB",
+								}}
+								fontSize={16}
+								textColor="Black"
+								fontWeight={700}
+								fontFamily={"Readex Pro Variable"}
+								onClick={() => setVisible(true)}
+								background={"#FF9728"}
+							>
+								CONNECT WALLET
+							</Button>
+						)}
+						{/* <WalletMultiButtonDynamic /> */}
 					</ButtonGroup>
 				</Box>
 			</Flex>
