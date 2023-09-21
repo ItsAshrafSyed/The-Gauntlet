@@ -26,7 +26,7 @@ import DateTimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-import styles from "../styles/pages/DateTimePicker.module.css";
+import styles from "../styles/pages";
 import { fetchApiResponse, getTagFromString } from "../util/lib";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { PublicKey } from "@solana/web3.js";
