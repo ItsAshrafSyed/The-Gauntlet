@@ -1,5 +1,6 @@
 import ClipLoader from "react-spinners/ClipLoader";
 import { Flex, Text } from "@chakra-ui/react";
+import { FC } from "react";
 
 type LoadingSpinnerProps = {
 	isLoading: boolean;
