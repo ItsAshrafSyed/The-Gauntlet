@@ -27,6 +27,7 @@ import { MdOutlineStorage } from "react-icons/md";
 import Challenge from "./[id]";
 import ChallengeGridView from "@/components/ChallengeGridView";
 import styles from "../../styles/pages";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 type Challenge = {
 	id: string;
@@ -84,6 +85,7 @@ export default function Challenges() {
 	const [profile, setProfile] = useState<any>(null);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
 	const { hasProfile, isModerator } = useSessionUser();
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -98,6 +100,7 @@ export default function Challenges() {
 			);
 
 			setChallenges(challenges);
+			setIsLoading(false);
 		}
 		getChallenges();
 	}, [program]);
@@ -143,38 +146,46 @@ export default function Challenges() {
 
 	return (
 		<>
-			<Box position={"relative"}>
-				{isModerator && (
-					<Button
-						leftIcon={
-							<Image width="15" height="15" src="/icons/plus.svg" alt="plus" />
-						}
-						position={"absolute"}
-						right={"20vh"}
-						mt={"-7vh"}
-						variant="solid"
-						fontSize={14}
-						textColor="white"
-						fontWeight={400}
-						border="1px solid #FFB84D"
-						borderRadius={"8"}
-						background="#261B0B"
-						_hover={{
-							bg: "transparent",
-						}}
-						onClick={() => Router.push("/createChallenge")}
-					>
-						CREATE CHALLENGE
-					</Button>
-				)}
+			{isLoading ? (
+				<LoadingSpinner isLoading={isLoading} />
+			) : (
+				<Box position={"relative"}>
+					{isModerator && (
+						<Button
+							leftIcon={
+								<Image
+									width="15"
+									height="15"
+									src="/icons/plus.svg"
+									alt="plus"
+								/>
+							}
+							position={"absolute"}
+							right={"20vh"}
+							mt={"-7vh"}
+							variant="solid"
+							fontSize={14}
+							textColor="white"
+							fontWeight={400}
+							border="1px solid #FFB84D"
+							borderRadius={"8"}
+							background="#261B0B"
+							_hover={{
+								bg: "transparent",
+							}}
+							onClick={() => Router.push("/createChallenge")}
+						>
+							CREATE CHALLENGE
+						</Button>
+					)}
 
-				<HStack m={"20"} justify={"space-between"}>
-					<Text fontSize={"48"} fontWeight={"700"}>
-						{" "}
-						All Challenges
-					</Text>
-					<HStack>
-						{/* <Select
+					<HStack m={"20"} justify={"space-between"}>
+						<Text fontSize={"48"} fontWeight={"700"}>
+							{" "}
+							All Challenges
+						</Text>
+						<HStack>
+							{/* <Select
 							placeholder="All Categories"
 							value={selectedTag}
 							onChange={(e) => setSelectedTag(e.target.value)}
@@ -190,175 +201,178 @@ export default function Challenges() {
 								))}
 						</Select> */}
 
-						<Select
-							placeholder="All Categories"
-							value={
-								selectedTag ? { value: selectedTag, label: selectedTag } : null
-							}
-							onChange={(selectedOption) =>
-								setSelectedTag(selectedOption ? selectedOption.value : "")
-							}
-							styles={customStyles}
-							options={
-								challenges
-									? [
-											// Add an option for "All Categories"
-											{ value: "", label: "All Categories" },
-											...Array.from(
-												new Set(
-													challenges.flatMap((challenge) => challenge.tags)
-												)
-											).map((tag) => ({
-												value: tag,
-												label: tag,
-											})),
-									  ]
-									: []
-							}
-						/>
+							<Select
+								placeholder="All Categories"
+								value={
+									selectedTag
+										? { value: selectedTag, label: selectedTag }
+										: null
+								}
+								onChange={(selectedOption) =>
+									setSelectedTag(selectedOption ? selectedOption.value : "")
+								}
+								styles={customStyles}
+								options={
+									challenges
+										? [
+												// Add an option for "All Categories"
+												{ value: "", label: "All Categories" },
+												...Array.from(
+													new Set(
+														challenges.flatMap((challenge) => challenge.tags)
+													)
+												).map((tag) => ({
+													value: tag,
+													label: tag,
+												})),
+										  ]
+										: []
+								}
+							/>
 
-						<Button
-							size="md"
-							variant="outline"
-							color={"white"}
-							onClick={handleGridClick}
-							_hover={{ bg: "#FF9728" }}
-						>
-							<BsFillGridFill size={28} />
-						</Button>
-						<Button
-							size="md"
-							variant="outline"
-							color={"white"}
-							onClick={handleTableClick}
-							_hover={{ bg: "#FF9728" }}
-						>
-							<MdOutlineStorage size={28} />
-						</Button>
+							<Button
+								size="md"
+								variant="outline"
+								color={"white"}
+								onClick={handleGridClick}
+								_hover={{ bg: "#FF9728" }}
+							>
+								<BsFillGridFill size={28} />
+							</Button>
+							<Button
+								size="md"
+								variant="outline"
+								color={"white"}
+								onClick={handleTableClick}
+								_hover={{ bg: "#FF9728" }}
+							>
+								<MdOutlineStorage size={28} />
+							</Button>
+						</HStack>
 					</HStack>
-				</HStack>
 
-				<VStack>
-					{tableView && (
-						<Grid
-							bg="#151519"
-							borderRadius={"8px 8px 0px 0px"}
-							width={"80vw"}
-							templateColumns="2fr 1.5fr 1fr 1fr 1fr"
-							padding={"2.5"}
-							gap={4}
-							borderBottom={"1px solid #323232"}
-						>
-							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
-									Challenge
-								</Text>
-							</GridItem>
-							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
-									Category
-								</Text>
-							</GridItem>
-							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
-									Points
-								</Text>
-							</GridItem>
-							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
-									Last Activity
-								</Text>
-							</GridItem>
-							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
-									Expiration
-								</Text>
-							</GridItem>
-						</Grid>
-					)}
+					<VStack>
+						{tableView && (
+							<Grid
+								bg="#151519"
+								borderRadius={"8px 8px 0px 0px"}
+								width={"80vw"}
+								templateColumns="2fr 1.5fr 1fr 1fr 1fr"
+								padding={"2.5"}
+								gap={4}
+								borderBottom={"1px solid #323232"}
+							>
+								<GridItem textAlign="center">
+									<Text fontSize={"20"} fontWeight={"700"}>
+										Challenge
+									</Text>
+								</GridItem>
+								<GridItem textAlign="center">
+									<Text fontSize={"20"} fontWeight={"700"}>
+										Category
+									</Text>
+								</GridItem>
+								<GridItem textAlign="center">
+									<Text fontSize={"20"} fontWeight={"700"}>
+										Points
+									</Text>
+								</GridItem>
+								<GridItem textAlign="center">
+									<Text fontSize={"20"} fontWeight={"700"}>
+										Last Activity
+									</Text>
+								</GridItem>
+								<GridItem textAlign="center">
+									<Text fontSize={"20"} fontWeight={"700"}>
+										Expiration
+									</Text>
+								</GridItem>
+							</Grid>
+						)}
 
-					{selectedTag
-						? // Only render filtered challenges if a tag is selected
-						  filteredChallenges?.map(
-								(challenge: Challenge, index: number) =>
-									tableView && (
-										<ChallengeTableView
-											key={index}
-											title={challenge.title}
-											content={challenge.content}
-											reputation={challenge.reputation}
-											tags={challenge.tags}
-											id={challenge.id}
-											authorPubKey={challenge.authorPubKey}
-											authorAvatarUrl={challenge.avatarUrl}
-											lastActivity={challenge.dateUpdated}
-											challengeExpiration={challenge.challengeExpiration}
-										/>
-									)
-						  )
-						: // Render all challenges if no tag is selected
-						  challenges?.map(
-								(challenge: Challenge, index: number) =>
-									tableView && (
-										<ChallengeTableView
-											key={index}
-											title={challenge.title}
-											content={challenge.content}
-											reputation={challenge.reputation}
-											tags={challenge.tags}
-											id={challenge.id}
-											authorPubKey={challenge.authorPubKey}
-											authorAvatarUrl={challenge.avatarUrl}
-											lastActivity={challenge.dateUpdated}
-											challengeExpiration={challenge.challengeExpiration}
-										/>
-									)
-						  )}
-				</VStack>
-				<Flex>
-					{gridView && (
-						<SimpleGrid columns={3} spacing={4} m={5}>
-							{selectedTag
-								? // Only render filtered challenges if a tag is selected
-								  filteredChallenges?.map(
-										(challenge: Challenge, index: number) =>
-											gridView && (
-												<ChallengeGridView
-													key={index}
-													title={challenge.title}
-													content={challenge.content}
-													reputation={challenge.reputation}
-													tags={challenge.tags}
-													id={challenge.id}
-													authorPubKey={challenge.authorPubKey}
-													authorAvatarUrl={challenge.avatarUrl}
-													lastActivity={challenge.dateUpdated}
-													challengeExpiration={challenge.challengeExpiration}
-												/>
-											)
-								  )
-								: // Render all challenges if no tag is selected
-								  challenges?.map(
-										(challenge: Challenge, index: number) =>
-											gridView && (
-												<ChallengeGridView
-													key={index}
-													title={challenge.title}
-													content={challenge.content}
-													reputation={challenge.reputation}
-													tags={challenge.tags}
-													id={challenge.id}
-													authorPubKey={challenge.authorPubKey}
-													authorAvatarUrl={challenge.avatarUrl}
-													lastActivity={challenge.dateUpdated}
-													challengeExpiration={challenge.challengeExpiration}
-												/>
-											)
-								  )}
-						</SimpleGrid>
-					)}
-				</Flex>
-			</Box>
+						{selectedTag
+							? // Only render filtered challenges if a tag is selected
+							  filteredChallenges?.map(
+									(challenge: Challenge, index: number) =>
+										tableView && (
+											<ChallengeTableView
+												key={index}
+												title={challenge.title}
+												content={challenge.content}
+												reputation={challenge.reputation}
+												tags={challenge.tags}
+												id={challenge.id}
+												authorPubKey={challenge.authorPubKey}
+												authorAvatarUrl={challenge.avatarUrl}
+												lastActivity={challenge.dateUpdated}
+												challengeExpiration={challenge.challengeExpiration}
+											/>
+										)
+							  )
+							: // Render all challenges if no tag is selected
+							  challenges?.map(
+									(challenge: Challenge, index: number) =>
+										tableView && (
+											<ChallengeTableView
+												key={index}
+												title={challenge.title}
+												content={challenge.content}
+												reputation={challenge.reputation}
+												tags={challenge.tags}
+												id={challenge.id}
+												authorPubKey={challenge.authorPubKey}
+												authorAvatarUrl={challenge.avatarUrl}
+												lastActivity={challenge.dateUpdated}
+												challengeExpiration={challenge.challengeExpiration}
+											/>
+										)
+							  )}
+					</VStack>
+					<Flex>
+						{gridView && (
+							<SimpleGrid columns={3} spacing={4} m={5}>
+								{selectedTag
+									? // Only render filtered challenges if a tag is selected
+									  filteredChallenges?.map(
+											(challenge: Challenge, index: number) =>
+												gridView && (
+													<ChallengeGridView
+														key={index}
+														title={challenge.title}
+														content={challenge.content}
+														reputation={challenge.reputation}
+														tags={challenge.tags}
+														id={challenge.id}
+														authorPubKey={challenge.authorPubKey}
+														authorAvatarUrl={challenge.avatarUrl}
+														lastActivity={challenge.dateUpdated}
+														challengeExpiration={challenge.challengeExpiration}
+													/>
+												)
+									  )
+									: // Render all challenges if no tag is selected
+									  challenges?.map(
+											(challenge: Challenge, index: number) =>
+												gridView && (
+													<ChallengeGridView
+														key={index}
+														title={challenge.title}
+														content={challenge.content}
+														reputation={challenge.reputation}
+														tags={challenge.tags}
+														id={challenge.id}
+														authorPubKey={challenge.authorPubKey}
+														authorAvatarUrl={challenge.avatarUrl}
+														lastActivity={challenge.dateUpdated}
+														challengeExpiration={challenge.challengeExpiration}
+													/>
+												)
+									  )}
+							</SimpleGrid>
+						)}
+					</Flex>
+				</Box>
+			)}
 		</>
 	);
 }
