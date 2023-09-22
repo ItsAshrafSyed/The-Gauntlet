@@ -9,10 +9,10 @@ import {
 	Wrap,
 	SimpleGrid,
 	Flex,
-	Select,
 	Grid,
 	GridItem,
 } from "@chakra-ui/react";
+import Select from "react-select";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
@@ -26,6 +26,7 @@ import { BsFillGridFill } from "react-icons/bs";
 import { MdOutlineStorage } from "react-icons/md";
 import Challenge from "./[id]";
 import ChallengeGridView from "@/components/ChallengeGridView";
+import styles from "../../styles/pages";
 
 type Challenge = {
 	id: string;
@@ -38,6 +39,38 @@ type Challenge = {
 	avatarUrl: string;
 	dateUpdated: Date;
 	challengeExpiration: number;
+};
+
+const customStyles = {
+	//make the text on the select white
+	singleValue: (provided) => ({
+		...provided,
+		color: "white",
+	}),
+	control: (provided, state) => ({
+		...provided,
+		backgroundColor: "#060606",
+		color: "white",
+		boxShadow: state.isFocused ? null : null,
+		width: "20vw",
+	}),
+	menu: (provided) => ({
+		...provided,
+		backgroundColor: "#0E0E10",
+	}),
+	option: (provided, state) => ({
+		...provided,
+		color: "white",
+		border: state.isFocused ? "1px solid #FF9728" : "none",
+		boxShadow: state.isFocused ? null : null,
+		backgroundColor: state.isFocused ? "#FF9728" : null,
+		":hover": {
+			border: "1px solid #FF9728", // Option border color on hover
+			// This line disable the blue border
+			boxShadow: "none",
+			backgroundColor: "#FF9728",
+		},
+	}),
 };
 
 export default function Challenges() {
@@ -141,10 +174,11 @@ export default function Challenges() {
 						All Challenges
 					</Text>
 					<HStack>
-						<Select
+						{/* <Select
 							placeholder="All Categories"
 							value={selectedTag}
 							onChange={(e) => setSelectedTag(e.target.value)}
+							style={{ backgroundColor: "black", color: "white" }}
 						>
 							{challenges &&
 								Array.from(
@@ -154,7 +188,35 @@ export default function Challenges() {
 										{tag}
 									</option>
 								))}
-						</Select>
+						</Select> */}
+
+						<Select
+							placeholder="All Categories"
+							value={
+								selectedTag ? { value: selectedTag, label: selectedTag } : null
+							}
+							onChange={(selectedOption) =>
+								setSelectedTag(selectedOption ? selectedOption.value : "")
+							}
+							styles={customStyles}
+							options={
+								challenges
+									? [
+											// Add an option for "All Categories"
+											{ value: "", label: "All Categories" },
+											...Array.from(
+												new Set(
+													challenges.flatMap((challenge) => challenge.tags)
+												)
+											).map((tag) => ({
+												value: tag,
+												label: tag,
+											})),
+									  ]
+									: []
+							}
+						/>
+
 						<Button
 							size="md"
 							variant="outline"

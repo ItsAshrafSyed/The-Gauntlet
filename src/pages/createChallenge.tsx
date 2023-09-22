@@ -18,7 +18,9 @@ import {
 	NumberIncrementStepper,
 	NumberDecrementStepper,
 } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
+//import { Select } from "chakra-react-select";
+import Select from "react-select";
+//import { customStyles } from "../styles/selectStyles";
 import { createRoot } from "react-dom/client";
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -64,6 +66,42 @@ const tagOptions = [
 		label: "Mobile Consumer Apps",
 	},
 ] as TagMultiSelectOptions[];
+
+const customStyles = {
+	//make text of selected option white
+	multiValueLabel: (provided) => ({
+		...provided,
+		color: "white",
+	}),
+
+	control: (provided, state) => ({
+		...provided,
+		backgroundColor: "#060606",
+		color: "white",
+		boxShadow: state.isFocused ? null : null,
+	}),
+	menu: (provided) => ({
+		...provided,
+		backgroundColor: "#0E0E10",
+	}),
+	option: (provided, state) => ({
+		...provided,
+		border: state.isFocused ? "1px solid #FF9728" : "none",
+		boxShadow: state.isFocused ? null : null,
+		backgroundColor: state.isFocused ? "#FF9728" : null,
+		":hover": {
+			border: "1px solid #FF9728", // Option border color on hover
+			// This line disable the blue border
+			boxShadow: "none",
+			backgroundColor: "#FF9728",
+		},
+	}),
+	multiValue: (provided) => ({
+		...provided,
+		backgroundColor: "#0E0E10",
+		border: "1px solid #FF9728",
+	}),
+};
 
 export default function CreateChallenge() {
 	const { provider, program, challengerClient, wallet } = useWorkspace();
@@ -326,7 +364,7 @@ export default function CreateChallenge() {
 							</NumberInput>
 						</FormControl>
 
-						<FormControl textColor={"black"}>
+						<FormControl>
 							<FormLabel mt={3} textColor={"white"}>
 								Tags
 							</FormLabel>
@@ -335,6 +373,7 @@ export default function CreateChallenge() {
 								placeholder="Select tags"
 								options={tagOptions}
 								value={selectedTags}
+								styles={customStyles}
 								onChange={(selected) => {
 									setSelectedTags(selected as TagMultiSelectOptions[]);
 								}}

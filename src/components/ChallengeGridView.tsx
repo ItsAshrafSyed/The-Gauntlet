@@ -44,8 +44,8 @@ const categoryColors: { [key: string]: string } = {
 		"linear-gradient(180deg, #d5d5f2 0%, rgba(17, 17, 17, 0.60) 57.09%)",
 	NFTs: "linear-gradient(180deg, #CF2129 0%, rgba(17, 17, 17, 0.60) 57.09%)",
 	Development:
-		"linear-gradient(180deg, #812D06 0%, rgba(17, 17, 17, 0.60) 57.09%)",
-	Ideas: "linear-gradient(180deg, #249C66 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+		"linear-gradient(180deg, #85FF00 0%, rgba(17, 17, 17, 0.60) 57.09%)",
+	Ideas: "linear-gradient(180deg, #008854  0%, rgba(17, 17, 17, 0.60) 57.09%)",
 	Social: "linear-gradient(180deg,#83c8de 0%, rgba(17, 17, 17, 0.60) 57.09%)",
 };
 
@@ -57,10 +57,10 @@ const tagColors: { [key: string]: string } = {
 	"Mobile Consumer Apps": "#5e8583",
 	"Crypto Infrastructure": "#E959BB",
 	"DAOs & Network States": "#6e6e5d",
-	"Data & Analytics": "#57577a",
+	"Data & Analytics": "#8e70b3",
 	NFTs: "#FF6262",
-	Development: "#a86242",
-	Ideas: "#2CA870",
+	Development: "#8eb06a",
+	Ideas: "   #2e614d",
 	Social: "#427687",
 };
 

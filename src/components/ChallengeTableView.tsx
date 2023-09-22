@@ -38,10 +38,10 @@ const tagColors: { [key: string]: string } = {
 	"Mobile Consumer Apps": "#5e8583",
 	"Crypto Infrastructure": "#E959BB",
 	"DAOs & Network States": "#6e6e5d",
-	"Data & Analytics": "#57577a",
+	"Data & Analytics": "#8e70b3",
 	NFTs: "#FF6262",
-	Development: "#a86242",
-	Ideas: "#2CA870",
+	Development: "#8eb06a",
+	Ideas: "   #2e614d",
 	Social: "#427687",
 };
 const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
@@ -106,6 +106,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 									borderRadius={"20"}
 									fontSize={"14"}
 									fontWeight={"500"}
+									my={"1"}
 								>
 									{tag}
 								</Box>

@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import { color } from "framer-motion";
+import "@fontsource/inter";
 
 const globalStyles = extendTheme({
 	styles: {
