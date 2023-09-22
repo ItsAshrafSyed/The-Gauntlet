@@ -74,7 +74,7 @@ const customStyles = {
 		color: "white",
 	}),
 
-	control: (provided: any, state) => ({
+	control: (provided: any, state: any) => ({
 		...provided,
 		backgroundColor: "#060606",
 		color: "white",
@@ -84,7 +84,7 @@ const customStyles = {
 		...provided,
 		backgroundColor: "#0E0E10",
 	}),
-	option: (provided: any, state) => ({
+	option: (provided: any, state: any) => ({
 		...provided,
 		border: state.isFocused ? "1px solid #FF9728" : "none",
 		boxShadow: state.isFocused ? null : null,
