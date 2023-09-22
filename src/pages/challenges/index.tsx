@@ -27,7 +27,7 @@ import { MdOutlineStorage } from "react-icons/md";
 import Challenge from "./[id]";
 import ChallengeGridView from "@/components/ChallengeGridView";
 import styles from "../../styles/pages";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 type Challenge = {
 	id: string;
@@ -117,32 +117,6 @@ export default function Challenges() {
 	const filteredChallenges = challenges?.filter((challenge: Challenge) =>
 		challenge.tags.includes(selectedTag)
 	);
-
-	// useEffect(() => {
-	// 	if (!provider) return;
-	// 	if (!provider.wallet) return;
-	// 	if (!program) return;
-	// 	if (profile) {
-	// 		setHasProfile(true);
-	// 		return;
-	// 	}
-	// 	const [profilePda] = PublicKey.findProgramAddressSync(
-	// 		[
-	// 			Buffer.from("user_profile"),
-	// 			CRUX_KEY.toBytes(),
-	// 			provider.wallet.publicKey.toBytes(),
-	// 		],
-	// 		CHALLENGER_PROGRAM_ID
-	// 	);
-	// 	async function checkProfile() {
-	// 		const profileAccount = await program?.account.userProfile.fetchNullable(
-	// 			profilePda
-	// 		);
-	// 		setIsModerator(profileAccount?.isModerator ? true : false);
-	// 		setHasProfile(profileAccount ? true : false);
-	// 	}
-	// 	checkProfile();
-	// }, [provider, program, profile, provider?.wallet, wallet]);
 
 	return (
 		<>

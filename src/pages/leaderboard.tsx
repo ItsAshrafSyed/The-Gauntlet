@@ -24,7 +24,7 @@ import { useSessionUser } from "@/providers/SessionUserProvider";
 import { fetchApiResponse } from "@/util/lib";
 import { shortenWalletAddress } from "@/util/lib";
 import LeaderboardUserProfileCard from "../components/LeaderboardUserProfileCard";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 type UserProfile = {
 	avatarUrl: string;
