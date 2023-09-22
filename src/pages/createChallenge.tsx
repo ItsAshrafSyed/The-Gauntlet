@@ -69,22 +69,22 @@ const tagOptions = [
 
 const customStyles = {
 	//make text of selected option white
-	multiValueLabel: (provided) => ({
+	multiValueLabel: (provided: any) => ({
 		...provided,
 		color: "white",
 	}),
 
-	control: (provided, state) => ({
+	control: (provided: any, state) => ({
 		...provided,
 		backgroundColor: "#060606",
 		color: "white",
 		boxShadow: state.isFocused ? null : null,
 	}),
-	menu: (provided) => ({
+	menu: (provided: any) => ({
 		...provided,
 		backgroundColor: "#0E0E10",
 	}),
-	option: (provided, state) => ({
+	option: (provided: any, state) => ({
 		...provided,
 		border: state.isFocused ? "1px solid #FF9728" : "none",
 		boxShadow: state.isFocused ? null : null,
@@ -96,7 +96,7 @@ const customStyles = {
 			backgroundColor: "#FF9728",
 		},
 	}),
-	multiValue: (provided) => ({
+	multiValue: (provided: any) => ({
 		...provided,
 		backgroundColor: "#0E0E10",
 		border: "1px solid #FF9728",

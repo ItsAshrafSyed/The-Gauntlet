@@ -43,22 +43,22 @@ type Challenge = {
 
 const customStyles = {
 	//make the text on the select white
-	singleValue: (provided) => ({
+	singleValue: (provided: any) => ({
 		...provided,
 		color: "white",
 	}),
-	control: (provided, state) => ({
+	control: (provided: any, state) => ({
 		...provided,
 		backgroundColor: "#060606",
 		color: "white",
 		boxShadow: state.isFocused ? null : null,
 		width: "20vw",
 	}),
-	menu: (provided) => ({
+	menu: (provided: any) => ({
 		...provided,
 		backgroundColor: "#0E0E10",
 	}),
-	option: (provided, state) => ({
+	option: (provided: any, state) => ({
 		...provided,
 		color: "white",
 		border: state.isFocused ? "1px solid #FF9728" : "none",
