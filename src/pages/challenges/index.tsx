@@ -12,7 +12,7 @@ import {
 	Grid,
 	GridItem,
 } from "@chakra-ui/react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
@@ -44,16 +44,16 @@ type Challenge = {
 
 const customStyles = {
 	//make the text on the select white
-	singleValue: (provided: any) => ({
+	multiValueLabel: (provided: any) => ({
 		...provided,
 		color: "white",
 	}),
 	control: (provided: any, state: any) => ({
 		...provided,
+		width: "20vw",
 		backgroundColor: "#060606",
 		color: "white",
 		boxShadow: state.isFocused ? null : null,
-		width: "20vw",
 	}),
 	menu: (provided: any) => ({
 		...provided,
@@ -61,7 +61,6 @@ const customStyles = {
 	}),
 	option: (provided: any, state: any) => ({
 		...provided,
-		color: "white",
 		border: state.isFocused ? "1px solid #FF9728" : "none",
 		boxShadow: state.isFocused ? null : null,
 		backgroundColor: state.isFocused ? "#FF9728" : null,
@@ -72,6 +71,63 @@ const customStyles = {
 			backgroundColor: "#FF9728",
 		},
 	}),
+	multiValue: (provided: any) => ({
+		...provided,
+		backgroundColor: "#0E0E10",
+		border: "1px solid #FF9728",
+	}),
+};
+
+const InputOption = ({
+	getStyles,
+	Icon,
+	isDisabled,
+	isFocused,
+	isSelected,
+	children,
+	innerProps,
+	...rest
+}) => {
+	const [isActive, setIsActive] = useState(false);
+	const onMouseDown = () => setIsActive(true);
+	const onMouseUp = () => setIsActive(false);
+	const onMouseLeave = () => setIsActive(false);
+
+	// styles
+	let bg = "transparent";
+	if (isFocused) bg = "#FF9728";
+	if (isActive) bg = "#B2D4FF";
+
+	const style = {
+		alignItems: "center",
+		backgroundColor: bg,
+		color: "inherit",
+		display: "flex ",
+	};
+
+	// prop assignment
+	const props = {
+		...innerProps,
+		onMouseDown,
+		onMouseUp,
+		onMouseLeave,
+		style,
+	};
+
+	return (
+		<components.Option
+			width={"20vw"}
+			{...rest}
+			isDisabled={isDisabled}
+			isFocused={isFocused}
+			isSelected={isSelected}
+			getStyles={getStyles}
+			innerProps={props}
+		>
+			<input type="checkbox" checked={isSelected} />
+			{children}
+		</components.Option>
+	);
 };
 
 export default function Challenges() {
@@ -80,7 +136,7 @@ export default function Challenges() {
 	const { provider, program, challengerClient, wallet } = useWorkspace();
 	const [gridView, setGridView] = useState(true);
 	const [tableView, setTableView] = useState(false);
-	const [selectedTag, setSelectedTag] = useState("");
+	const [selectedTag, setSelectedTag] = useState<string[]>([]);
 	//const [hasProfile, setHasProfile] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
@@ -114,9 +170,15 @@ export default function Challenges() {
 		setTableView(true);
 	};
 
-	const filteredChallenges = challenges?.filter((challenge: Challenge) =>
-		challenge.tags.includes(selectedTag)
-	);
+	const filteredChallenges =
+		selectedTag.length === 0
+			? challenges // Show all challenges when no tags are selected
+			: challenges?.filter((challenge: Challenge) => {
+					// Check if the challenge's tags array contains at least one of the selected tags
+					return selectedTag.some((selected) =>
+						challenge.tags.includes(selected)
+					);
+			  });
 
 	return (
 		<>
@@ -159,37 +221,26 @@ export default function Challenges() {
 							All Challenges
 						</Text>
 						<HStack>
-							{/* <Select
-							placeholder="All Categories"
-							value={selectedTag}
-							onChange={(e) => setSelectedTag(e.target.value)}
-							style={{ backgroundColor: "black", color: "white" }}
-						>
-							{challenges &&
-								Array.from(
-									new Set(challenges.flatMap((challenge) => challenge.tags))
-								).map((tag) => (
-									<option key={tag} value={tag}>
-										{tag}
-									</option>
-								))}
-						</Select> */}
-
 							<Select
 								placeholder="All Categories"
 								value={
-									selectedTag
-										? { value: selectedTag, label: selectedTag }
-										: null
+									selectedTag.length === 0
+										? { value: "", label: "All Categories" }
+										: selectedTag.map((tag) => ({ value: tag, label: tag }))
 								}
-								onChange={(selectedOption) =>
-									setSelectedTag(selectedOption ? selectedOption.value : "")
-								}
+								onChange={(selectedOptions) => {
+									const selectedTagsArray = selectedOptions.map(
+										(option) => option.value
+									);
+									setSelectedTag(selectedTagsArray);
+								}}
+								isMulti
+								closeMenuOnSelect={false}
+								hideSelectedOptions={false}
 								styles={customStyles}
 								options={
 									challenges
 										? [
-												// Add an option for "All Categories"
 												{ value: "", label: "All Categories" },
 												...Array.from(
 													new Set(
@@ -202,6 +253,9 @@ export default function Challenges() {
 										  ]
 										: []
 								}
+								components={{
+									Option: InputOption,
+								}}
 							/>
 
 							<Button
