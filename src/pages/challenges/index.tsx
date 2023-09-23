@@ -230,7 +230,7 @@ export default function Challenges() {
 								}
 								onChange={(selectedOptions) => {
 									const selectedTagsArray = selectedOptions.map(
-										(option) => option.value
+										(option: any) => option.value
 									);
 									setSelectedTag(selectedTagsArray);
 								}}
