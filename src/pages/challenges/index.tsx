@@ -81,7 +81,7 @@ const customStyles = {
 
 const InputOption: React.FC<OptionProps<any>> = ({
 	getStyles,
-	Icon,
+
 	isDisabled,
 	isFocused,
 	isSelected,
