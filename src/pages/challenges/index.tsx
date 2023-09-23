@@ -12,7 +12,7 @@ import {
 	Grid,
 	GridItem,
 } from "@chakra-ui/react";
-import Select, { components } from "react-select";
+import Select, { components, OptionProps } from "react-select";
 import { useState, useEffect, use } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
