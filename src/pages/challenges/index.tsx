@@ -18,6 +18,7 @@ import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
 import { useRouter } from "next/router";
 import moment from "moment";
+import { FC } from "react";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeTableView from "../../components/ChallengeTableView";
@@ -78,7 +79,7 @@ const customStyles = {
 	}),
 };
 
-const InputOption = ({
+const InputOption: React.FC<OptionProps<any>> = ({
 	getStyles,
 	Icon,
 	isDisabled,
