@@ -117,7 +117,6 @@ const InputOption: React.FC<OptionProps<any>> = ({
 
 	return (
 		<components.Option
-			width={"20vw"}
 			{...rest}
 			isDisabled={isDisabled}
 			isFocused={isFocused}
