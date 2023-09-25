@@ -111,24 +111,20 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
-	// prettier-ignore
-	function formatDate(dateString: number) {
-		const dateObject = new Date(dateString);
+	function formatDateTime(dateTimeString) {
+		const date = new Date(dateTimeString);
 
-		const options = {
-			year: 'numeric',
-    		month: '2-digit',
-   			day: '2-digit',
-			hour: '2-digit',
-    		minute: '2-digit',
-		};
-		return dateObject.toLocaleDateString("en-US", options);
+		const day = String(date.getDate()).padStart(2, "0");
+		const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+		const year = date.getFullYear();
+		const hours = String(date.getHours()).padStart(2, "0");
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+
+		return `${day}/${month}/${year}, ${hours}:${minutes}`;
 	}
-	const formattedCreatedTime = formatDate(challengeCreatedTime);
-	const formattedEndTime = formatDate(challengeEndTime);
-	console.log("formattedEndTime:", formattedEndTime);
-	console.log("Current Date:", new Date());
-	console.log("Comparison Result:", new Date(formattedEndTime) > new Date());
+
+	const formattedCreatedTime = formatDateTime(challengeCreatedTime);
+	const formattedEndTime = formatDateTime(challengeEndTime);
 
 	// Function to map tags to colors
 	function mapTagToColor(tag: string) {
@@ -218,9 +214,8 @@ export default function Challenge() {
 									padding={"1"}
 									bg="#092418"
 								>
-									{new Date(formattedEndTime) > new Date()
-										? "Ongoing"
-										: "Expired"}
+									{/* compared formatted date with current date to show if ongoing or expired */}
+									{moment().isBefore(challengeEndTime) ? "Ongoing" : "Expired"}
 								</Text>
 								<Text
 									fontSize={"16"}
