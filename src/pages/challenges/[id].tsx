@@ -111,14 +111,16 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
+	// prettier-ignore
 	function formatDate(dateString: number) {
 		const dateObject = new Date(dateString);
+
 		const options = {
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-			hour: "numeric",
-			minute: "numeric",
+			year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
 		};
 		return dateObject.toLocaleDateString("en-US", options);
 	}
