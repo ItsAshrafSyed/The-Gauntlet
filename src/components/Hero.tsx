@@ -24,6 +24,7 @@ import { useSessionUser } from "../providers/SessionUserProvider";
 import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
+import "@fontsource-variable/readex-pro";
 
 export const Hero = () => {
 	const router = useRouter();
@@ -202,7 +203,7 @@ export const Hero = () => {
 							textAlign={"center"}
 							textTransform={"uppercase"}
 							color={"#F4F4F4"}
-							fontFamily={"Readex Pro"}
+							fontFamily={"Readex Pro Variable"}
 						>
 							The Gauntlet
 						</Text>
