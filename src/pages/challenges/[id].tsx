@@ -111,7 +111,7 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
-	function formatDateTime(dateTimeString) {
+	function formatDateTime(dateTimeString: string) {
 		const date = new Date(dateTimeString);
 
 		const day = String(date.getDate()).padStart(2, "0");
