@@ -111,7 +111,7 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
-	function formatDate(dateString: any) {
+	function formatDate(dateString: string) {
 		const dateObject = new Date(dateString);
 		const options = {
 			year: "numeric",
@@ -124,6 +124,9 @@ export default function Challenge() {
 	}
 	const formattedCreatedTime = formatDate(challengeCreatedTime);
 	const formattedEndTime = formatDate(challengeEndTime);
+	console.log("formattedEndTime:", formattedEndTime);
+	console.log("Current Date:", new Date());
+	console.log("Comparison Result:", new Date(formattedEndTime) > new Date());
 
 	// Function to map tags to colors
 	function mapTagToColor(tag: string) {
