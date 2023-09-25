@@ -111,7 +111,7 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
-	function formatDate(dateString: string) {
+	function formatDate(dateString: number) {
 		const dateObject = new Date(dateString);
 		const options = {
 			year: "numeric",
