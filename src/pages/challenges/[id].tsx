@@ -129,9 +129,6 @@ export default function Challenge() {
 	// Function to map tags to colors
 	function mapTagToColor(tag: string) {
 		const tagColors = {
-			"Data & Analytics":
-				"radial-gradient(70.71% 70.71% at 50% 50%, rgba(213, 213, 242, 0.3) 0%, rgba(0, 0, 0, 0.00) 100%)",
-
 			"Artificial Intelligence":
 				"radial-gradient(70.71% 70.71% at 50% 50%, rgba(208, 99, 15, 0.3) 0%, rgba(0, 0, 0, 0.00) 100%)",
 			"Physical Infrastructure Networks":
