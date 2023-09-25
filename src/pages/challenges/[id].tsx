@@ -111,7 +111,7 @@ export default function Challenge() {
 	}, [id, sessionUserPubKey, sessionUserMetadata?.avatarUrl, router]);
 
 	// date formatting function
-	function formatDate(dateString) {
+	function formatDate(dateString: any) {
 		const dateObject = new Date(dateString);
 		const options = {
 			year: "numeric",
@@ -126,7 +126,7 @@ export default function Challenge() {
 	const formattedEndTime = formatDate(challengeEndTime);
 
 	// Function to map tags to colors
-	function mapTagToColor(tag) {
+	function mapTagToColor(tag: string) {
 		const tagColors = {
 			"Data & Analytics":
 				"radial-gradient(70.71% 70.71% at 50% 50%, rgba(213, 213, 242, 0.3) 0%, rgba(0, 0, 0, 0.00) 100%)",
