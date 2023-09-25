@@ -33,7 +33,7 @@ export default function Challenge() {
 	const [reputation, setReputation] = useState<number>(0);
 	const [challengeCreatedTime, setChallengeCreatedTime] = useState<number>(0);
 	const [challengeEndTime, setChallengeEndTime] = useState<number>(0);
-	const [tags, setTags] = useState<string[]>([] as string[]);
+	const [tags, setTags] = useState<string[]>([]);
 	const [authorAvatarUrl, setAuthorAvatarUrl] = useState<string>("");
 	const [authorPubKey, setAuthorPubKey] = useState<string>("");
 	const [challengeId, setChallengeId] = useState<number>(0);
@@ -98,7 +98,7 @@ export default function Challenge() {
 				setReputation(challenge.reputation);
 				setChallengeCreatedTime(challenge.dateCreated);
 				setChallengeEndTime(challenge.challengePeriod);
-				setTags(...challenge.tags);
+				setTags(challenge.tags.flat());
 				setSubmissions(sortedSubmissions);
 				setChallengeId(challenge.id);
 				setChallengePubKey(challenge.pubKey);
