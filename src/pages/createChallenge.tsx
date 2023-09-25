@@ -241,7 +241,6 @@ export default function CreateChallenge() {
 			})
 				.then(async (res: any) => {
 					const contentDataUrl = `https://thegauntlet.vercel.app/challenges/${res.data.id}`;
-					console.log("res.data.id", res.data.id);
 
 					const result = await challengerClient?.createChallenge(
 						CRUX_KEY,
@@ -254,7 +253,7 @@ export default function CreateChallenge() {
 						new BN(challengePeriodUnix),
 						new BN(parseFloat(reputationString))
 					);
-					console.log("passed on chain", result);
+
 					await fetchApiResponse({
 						url: "/api/challenges",
 						method: "PUT",

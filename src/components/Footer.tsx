@@ -9,6 +9,7 @@ import {
 	Heading,
 	Button,
 } from "@chakra-ui/react";
+import "@fontsource-variable/readex-pro";
 
 export const Footer = () => {
 	return (
@@ -28,7 +29,7 @@ export const Footer = () => {
 								<Text
 									fontSize={"48"}
 									fontWeight={"500"}
-									fontFamily={"Readex Pro"}
+									fontFamily={"Readex Pro Variable"}
 								>
 									The Gauntlet
 								</Text>

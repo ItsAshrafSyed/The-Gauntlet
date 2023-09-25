@@ -71,10 +71,8 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 		const countdownString = `${days}d:${hours}h:${minutes}m`;
 		return countdownString;
 	}
-
-	// Example usage
-	const targetTimestamp = props.challengeExpiration; // Replace this with your target UNIX timestamp
-	const countdown = unixTimestampToCountdown(targetTimestamp);
+	// Replace this with your target UNIX timestamp
+	const countdown = unixTimestampToCountdown(props.challengeExpiration);
 
 	return (
 		<Flex justifyContent="center" alignItems="center">
