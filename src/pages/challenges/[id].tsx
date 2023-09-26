@@ -45,7 +45,7 @@ export default function Challenge() {
 		isConnected,
 		isModerator,
 		hasProfile,
-		publicKey: sessionUserPubKey,
+		userPublicKey: sessionUserPubKey,
 	} = useSessionUser();
 	const router = useRouter();
 	const { id } = router.query;
