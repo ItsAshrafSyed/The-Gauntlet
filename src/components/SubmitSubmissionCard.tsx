@@ -179,8 +179,8 @@ export default function SubmitSubmissionCard({
 							size={["xs", "md"]}
 						/>
 						<Textarea
-							height={"25vh"}
-							placeholder="Enter your submission here"
+							height={"15vh"}
+							placeholder="Make your own submission, start typing here"
 							value={submission}
 							onChange={(e) => setSubmission(e.target.value)}
 							border={"1px solid  #1E1E23"}
@@ -191,8 +191,9 @@ export default function SubmitSubmissionCard({
 						/>
 					</HStack>
 				</CardBody>
-				<CardFooter mt={-4} justifyContent={"end"}>
+				<CardFooter justifyContent={"end"} h={"8vh"}>
 					<Button
+						mt={"-3vh"}
 						isLoading={isSubmitting}
 						isDisabled={!canSubmit}
 						border="1px solid #FFB84D"

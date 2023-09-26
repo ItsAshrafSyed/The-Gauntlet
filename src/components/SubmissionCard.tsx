@@ -191,11 +191,12 @@ const SubmissionCard = ({
 						</Text>
 					</HStack>
 					<Text
-						fontSize="18"
-						fontWeight="500"
 						alignSelf="flex-start"
 						style={{ whiteSpace: "pre-wrap" }}
 						px={8}
+						fontSize={"18"}
+						fontWeight={"350"}
+						textColor={"#AAABAE)"}
 					>
 						{submission}
 					</Text>
