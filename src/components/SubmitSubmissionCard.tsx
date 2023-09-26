@@ -21,6 +21,9 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
+import { useSessionUser } from "../providers/SessionUserProvider";
+import CreateProfileModal from "./Modals/CreateProfileModal";
+import { useRouter } from "next/router";
 
 export default function SubmitSubmissionCard({
 	challengePubKey,
@@ -29,17 +32,32 @@ export default function SubmitSubmissionCard({
 	userAvatarUrl,
 }: any) {
 	const [submission, setSubmission] = useState<string>("");
+	const [createProfileModalOpen, setCreateProfileModalOpen] = useState(false);
 	const [canSubmit, setCanSubmit] = useState<boolean>(false);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const { program, wallet, challengerClient, provider } = useWorkspace();
 	const walletAdapterModalContext = useWalletModal();
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { hasProfile } = useSessionUser();
+	const router = useRouter();
 
 	useEffect(() => {
 		if (!submission) return;
 
 		setCanSubmit(submission.length > 0);
 	}, [submission]);
+
+	const handleSubmitClick = () => {
+		if (wallet) {
+			if (hasProfile) {
+				handleSubmission();
+			} else {
+				setCreateProfileModalOpen(true);
+			}
+		} else {
+			console.log("wallet not connected");
+			// show the wallet adapter setVisible(true);
+		}
+	};
 
 	const handleSubmission = async () => {
 		if (!program || !challengerClient) return;
@@ -93,7 +111,7 @@ export default function SubmitSubmissionCard({
 				.catch((e) => {
 					console.log("error occured in the catch block", e);
 				});
-			onOpen();
+			//	onOpen();
 		} catch (e) {
 			console.log("error occured in the try block", e);
 			setIsSubmitting(false);
@@ -103,9 +121,21 @@ export default function SubmitSubmissionCard({
 		setSubmission("");
 	};
 
+	const openModal = () => {
+		setCreateProfileModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setCreateProfileModalOpen(false);
+	};
+
 	return (
 		<>
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<CreateProfileModal
+				isOpen={createProfileModalOpen}
+				onClose={closeModal}
+			/>
+			{/* <Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent
 					textColor={"green"}
@@ -131,17 +161,17 @@ export default function SubmitSubmissionCard({
 						</Button>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</Modal> */}
 			<Card
 				bg="#111"
 				rounded={"lg"}
-				width={"70vw"}
+				width={"65vw"}
 				textColor={"white"}
-				border={"1px"}
+				borderBottom={"1px solid #1E1E23"}
 				m={"4vh"}
 			>
 				<CardBody>
-					<HStack justify={"space-between"} align="start" mb={2}>
+					<HStack justify={"space-between"} align="start">
 						<UserAvatarLink
 							profileId={userProfilePubKey}
 							placeholder={userProfilePubKey}
@@ -149,9 +179,15 @@ export default function SubmitSubmissionCard({
 							size={["xs", "md"]}
 						/>
 						<Textarea
+							height={"25vh"}
 							placeholder="Enter your submission here"
 							value={submission}
 							onChange={(e) => setSubmission(e.target.value)}
+							border={"1px solid  #1E1E23"}
+							_hover={{
+								border: "1px solid #FFB84D",
+							}}
+							focusBorderColor={"#FFB84D"}
 						/>
 					</HStack>
 				</CardBody>
@@ -167,7 +203,7 @@ export default function SubmitSubmissionCard({
 						_hover={{
 							bg: "transparent",
 						}}
-						onClick={handleSubmission}
+						onClick={handleSubmitClick}
 					>
 						Submit
 					</Button>

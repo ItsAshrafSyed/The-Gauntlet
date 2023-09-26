@@ -6,6 +6,7 @@ import {
 	HStack,
 	VStack,
 	Text,
+	Flex,
 	CardFooter,
 	Button,
 	Modal,
@@ -23,6 +24,7 @@ import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { getSubmissionStateFromString } from "@/util/lib";
+import { shortenWalletAddress } from "@/util/lib";
 
 const SubmissionCard = ({
 	submission,
@@ -168,31 +170,36 @@ const SubmissionCard = ({
 				</ModalContent>
 			</Modal>
 			<Card
-				maxWidth={"70%"}
-				minWidth={"70%"}
 				bg="#111"
 				textColor={"white"}
-				border={"1px"}
+				width={"65vw"}
+				border={"1px solid #1E1E23"}
 				rounded={"lg"}
 				padding={"3"}
 			>
-				<HStack justify={"space-between"} align="start" mb={2} mt={2}>
-					<UserAvatarLink
-						profileId={userProfilePubKey}
-						username="Fozzy"
-						placeholder={userProfilePubKey}
-						avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
-						size={["xs", "md"]}
-					/>
-					<Text fontSize={"18"} fontWeight={"500"}>
+				<VStack justifyContent="space-between" mb={2} mt={2}>
+					<HStack alignSelf="flex-start">
+						<UserAvatarLink
+							profileId={userProfilePubKey}
+							username="Fozzy"
+							placeholder={userProfilePubKey}
+							avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
+							size={["xs", "md"]}
+						/>
+						<Text fontSize="15" color="gray.400" whiteSpace="nowrap">
+							{moment(submissionTimestamp).fromNow()}
+						</Text>
+					</HStack>
+					<Text
+						fontSize="18"
+						fontWeight="500"
+						alignSelf="flex-start"
+						style={{ whiteSpace: "pre-wrap" }}
+						px={8}
+					>
 						{submission}
 					</Text>
-					<VStack align="start" spacing={0}>
-						<Text fontSize={"15"} color={"gray.400"}>
-							submitted {moment(submissionTimestamp).fromNow()}
-						</Text>
-					</VStack>
-				</HStack>
+				</VStack>
 
 				<HStack justify={"end"}>
 					{hasProfile &&
