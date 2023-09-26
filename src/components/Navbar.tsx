@@ -56,38 +56,6 @@ export const Navbar = () => {
 	const { setVisible } = useWalletModal();
 	const { hasProfile } = useSessionUser();
 
-	// useEffect(() => {
-	// 	if (!provider) return;
-	// 	if (!provider.wallet) return;
-	// 	if (!program) return;
-	// 	if (profile) {
-	// 		// setHasProfile(true);
-	// 		return;
-	// 	}
-	// 	const [profilePda] = PublicKey.findProgramAddressSync(
-	// 		[
-	// 			Buffer.from("user_profile"),
-	// 			CRUX_KEY.toBytes(),
-	// 			provider.wallet.publicKey.toBytes(),
-	// 		],
-	// 		CHALLENGER_PROGRAM_ID
-	// 	);
-	// 	async function checkProfile() {
-	// 		const profileAccount = await program?.account.userProfile.fetchNullable(
-	// 			profilePda
-	// 		);
-	// 		// setHasProfile(profileAccount ? true : false);
-	// 	}
-	// 	checkProfile();
-	// }, [
-	// 	provider,
-	// 	program,
-	// 	profile,
-	// 	provider?.wallet,
-	// 	walletAdapterModalContext,
-	// 	wallet,
-	// ]);
-
 	const handleChallengesClick = () => {
 		if (wallet) {
 			if (hasProfile) {

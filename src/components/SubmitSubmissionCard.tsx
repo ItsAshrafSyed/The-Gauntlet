@@ -24,6 +24,8 @@ import { fetchApiResponse } from "../util/lib";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import CreateProfileModal from "./Modals/CreateProfileModal";
 import { useRouter } from "next/router";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
+import SuccessMessage from "./Modals/SuccessMessage";
 
 export default function SubmitSubmissionCard({
 	challengePubKey,
@@ -34,6 +36,8 @@ export default function SubmitSubmissionCard({
 	const [submission, setSubmission] = useState<string>("");
 	const [createProfileModalOpen, setCreateProfileModalOpen] = useState(false);
 	const [canSubmit, setCanSubmit] = useState<boolean>(false);
+	const [submitted, setSubmitted] = useState<boolean>(false);
+	const [responseMessage, setResponseMessage] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const { program, wallet, challengerClient, provider } = useWorkspace();
 	const walletAdapterModalContext = useWalletModal();
@@ -46,19 +50,6 @@ export default function SubmitSubmissionCard({
 		setCanSubmit(submission.length > 0);
 	}, [submission]);
 
-	const handleSubmitClick = () => {
-		if (wallet) {
-			if (hasProfile) {
-				handleSubmission();
-			} else {
-				setCreateProfileModalOpen(true);
-			}
-		} else {
-			console.log("wallet not connected");
-			// show the wallet adapter setVisible(true);
-		}
-	};
-
 	const handleSubmission = async () => {
 		if (!program || !challengerClient) return;
 		if (!challengePubKey || !challengeId) return;
@@ -66,7 +57,10 @@ export default function SubmitSubmissionCard({
 			walletAdapterModalContext.setVisible(true);
 			return;
 		}
-		console.log("handleSubmission");
+		if (!hasProfile) {
+			setCreateProfileModalOpen(true);
+			return;
+		}
 		setIsSubmitting(true);
 		try {
 			const hashedSubmissionJson = await (
@@ -107,11 +101,22 @@ export default function SubmitSubmissionCard({
 							pubKey: result?.submission.toBase58(),
 						},
 					});
+					if (result.txSigMessage) {
+						setSubmitted(true);
+						setResponseMessage("Successfully submitted your submission");
+					} else {
+						alert("Something went wrong");
+					}
+				})
+				.then(() => {
+					//dealy to allow for 30 sec the tx to be processed
+					setTimeout(() => {
+						router.reload();
+					}, 4500);
 				})
 				.catch((e) => {
-					console.log("error occured in the catch block", e);
+					console.log("error occured in the then block", e);
 				});
-			//	onOpen();
 		} catch (e) {
 			console.log("error occured in the try block", e);
 			setIsSubmitting(false);
@@ -121,47 +126,14 @@ export default function SubmitSubmissionCard({
 		setSubmission("");
 	};
 
-	const openModal = () => {
-		setCreateProfileModalOpen(true);
-	};
-
-	const closeModal = () => {
-		setCreateProfileModalOpen(false);
-	};
-
 	return (
 		<>
 			<CreateProfileModal
 				isOpen={createProfileModalOpen}
-				onClose={closeModal}
+				onClose={() => {
+					setCreateProfileModalOpen(false);
+				}}
 			/>
-			{/* <Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent
-					textColor={"green"}
-					background="rgba(0, 0, 0, 0.5)"
-					border={"1px solid #E5E7EB"}
-				>
-					<ModalHeader>Success</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>Successfully submitted submission</ModalBody>
-
-					<ModalFooter>
-						<Button
-							mr={3}
-							onClick={onClose}
-							borderRadius={"9999"}
-							border="1px solid #E5E7EB"
-							_hover={{
-								bg: "transparent",
-								color: "white",
-							}}
-						>
-							Close
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal> */}
 			<Card
 				bg="#111"
 				rounded={"lg"}
@@ -204,12 +176,17 @@ export default function SubmitSubmissionCard({
 						_hover={{
 							bg: "transparent",
 						}}
-						onClick={handleSubmitClick}
+						onClick={handleSubmission}
 					>
 						Submit
 					</Button>
 				</CardFooter>
 			</Card>
+			<SuccessMessage
+				isOpen={submitted}
+				successMessage={responseMessage}
+				onClose={() => setSubmitted(false)}
+			/>
 		</>
 	);
 }

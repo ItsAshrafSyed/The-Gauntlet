@@ -25,6 +25,7 @@ import { fetchApiResponse } from "@/util/lib";
 import { shortenWalletAddress } from "@/util/lib";
 import LeaderboardUserProfileCard from "../components/LeaderboardUserProfileCard";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 type UserProfile = {
 	avatarUrl: string;
@@ -41,6 +42,9 @@ type UserProfile = {
 export default function Leaderboard() {
 	const { program, wallet, challengerClient } = useWorkspace();
 	const [userProfiles, setUserProfiles] = useState<UserProfile[] | null>(null);
+	const [rankedUserProfiles, setRankedUserProfiles] = useState<
+		UserProfile[] | null
+	>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -58,6 +62,15 @@ export default function Leaderboard() {
 		};
 		loadUserProfiles();
 	}, [program, wallet, challengerClient]);
+
+	//append rank to userProfiles
+	useEffect(() => {
+		if (!userProfiles) return;
+		const rankedUserProfiles = userProfiles.map((userProfile, index) => {
+			return { ...userProfile, rank: index + 1 };
+		});
+		setRankedUserProfiles(rankedUserProfiles);
+	}, [userProfiles]);
 
 	return (
 		<>
@@ -108,10 +121,10 @@ export default function Leaderboard() {
 							</GridItem>
 						</Grid>
 						<Box mt={"-2"}>
-							{userProfiles?.map((userProfile, index: number) => (
+							{rankedUserProfiles?.map((rankedUserProfile, index: number) => (
 								<LeaderboardUserProfileCard
 									key={index}
-									userProfile={userProfile}
+									userProfile={rankedUserProfile}
 								/>
 							))}
 						</Box>

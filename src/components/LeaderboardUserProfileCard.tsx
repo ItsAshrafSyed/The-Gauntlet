@@ -8,6 +8,7 @@ import {
 	Wrap,
 	Grid,
 	GridItem,
+	Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { shortenWalletAddress } from "@/util/lib";
@@ -28,7 +29,7 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 				>
 					<GridItem textAlign="center">
 						<Text fontSize={"20"} fontWeight={"400"}>
-							{userProfile.id}
+							{userProfile.rank}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
@@ -47,9 +48,26 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"400"} color={"#FF9728"}>
-							{userProfile.reputation} points
-						</Text>
+						<Button
+							variant={"ghost"}
+							fontSize={"20"}
+							fontWeight={"400"}
+							_hover={{
+								bg: "transparent",
+								color: "#FF9728",
+							}}
+							color={"#FF9728"}
+							rightIcon={
+								<Image
+									src="/images/rp.png"
+									alt="RP"
+									width={"25px"}
+									height={"25px"}
+								/>
+							}
+						>
+							{userProfile.reputation}
+						</Button>
 					</GridItem>
 				</Grid>
 			</Flex>

@@ -11,6 +11,7 @@ import {
 import { useWorkspace } from "./WorkspaceProvider";
 import { fetchApiResponse } from "../util/lib";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export type SessionUserMetadata = {
 	username: string;
@@ -21,7 +22,7 @@ export type SessionUserContext = {
 	isConnected: boolean;
 	hasProfile: boolean;
 	isModerator: boolean;
-	publicKey: string | null;
+	userPublicKey: string | null;
 	metadata: SessionUserMetadata | null;
 };
 
@@ -29,7 +30,7 @@ const SessionUserContext = createContext({
 	isConnected: false,
 	hasProfile: false,
 	isModerator: false,
-	publicKey: null,
+	userPublicKey: null,
 	metadata: null,
 } as SessionUserContext);
 
@@ -37,12 +38,13 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 	children,
 }) => {
 	const { wallet, program, provider } = useWorkspace();
+	const { connected, publicKey, disconnect, signMessage } = useWallet();
 	const [metadata, setMetadata] = useState<SessionUserMetadata | null>(null);
 	const [isModerator, setIsModerator] = useState(false);
 	const [hasProfile, setHasProfile] = useState(false);
 	const walletAdapterModalContext = useWalletModal();
 
-	const publicKey = useMemo(() => {
+	const userPublicKey = useMemo(() => {
 		return wallet ? wallet.publicKey.toBase58() : null;
 	}, [wallet]);
 
@@ -95,18 +97,21 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 		loadData();
 	}, [
 		publicKey,
+		userPublicKey,
 		program,
 		wallet,
 		walletAdapterModalContext,
 		provider,
 		provider?.wallet,
+		provider?.wallet?.publicKey,
+		connected,
 	]);
 
 	return (
 		<SessionUserContext.Provider
 			value={{
 				isConnected,
-				publicKey,
+				userPublicKey,
 				hasProfile,
 				isModerator,
 				metadata,
