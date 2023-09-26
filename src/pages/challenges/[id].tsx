@@ -65,7 +65,7 @@ export default function Challenge() {
 					return;
 				}
 				const challenge = challengeResult.data.challenge;
-				console.log(challenge);
+
 				const submissions = submissionResult.data.submissions ?? [];
 
 				let sortedSubmissions = [];
@@ -246,15 +246,44 @@ export default function Challenge() {
 										{content}
 									</Text>
 								</Box>
-
-								<Text fontSize={20} fontWeight={"500"} mt={"6"}>
-									Author : {shortenWalletAddress(authorPubKey)}
-								</Text>
+								{/* <Text fontSize={20} fontWeight={"500"} mt={"6"}>
+									Evaluator : {shortenWalletAddress(authorPubKey)}
+								</Text> */}
 							</Box>
 						</Box>
 					</Flex>
 					<Flex justifyContent="space-between" mt={"2vh"}>
-						<Box minW={"60vw"}></Box>
+						<Box minW={"60vw"}>
+							<HStack justifyContent={"space-between"}>
+								<Text fontSize={"24"} fontWeight={"500"} my={4}>
+									{!submissions.length || submissions.length === 0
+										? "No submissions yet"
+										: `${submissions.length} Submission${
+												submissions.length > 1 ? "s" : ""
+										  }`}
+								</Text>
+							</HStack>
+							<VStack spacing={6} minWidth={"80%"} align={"center"}>
+								<SubmitSubmissionCard
+									userProfilePubKey={sessionUserPubKey}
+									userAvatarUrl={sessionUserMetadata?.avatarUrl}
+									challengePubKey={challengePubKey}
+									challengeId={challengeId}
+								/>
+
+								{submissions.map((submission: any, index: number) => (
+									<SubmissionCard
+										key={index}
+										submission={submission.content}
+										submissionTimestamp={submission.dateUpdated}
+										userAvatarUrl={submission.authorAvatarUrl}
+										userProfilePubKey={submission.authorPubKey}
+										awarded={submission.awarded}
+										submissionPubKey={submission.pubKey}
+									/>
+								))}
+							</VStack>
+						</Box>
 						<Box>
 							<VStack>
 								<Box
