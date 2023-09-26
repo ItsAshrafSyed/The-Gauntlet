@@ -24,7 +24,7 @@ import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { getSubmissionStateFromString } from "@/util/lib";
-import { shortenWalletAddress } from "@/util/lib";
+import { useRouter } from "next/router";
 
 const SubmissionCard = ({
 	submission,
@@ -36,14 +36,11 @@ const SubmissionCard = ({
 }: any) => {
 	const { isModerator, hasProfile } = useSessionUser();
 	const { program, wallet, challengerClient } = useWorkspace();
+	const [isAcceptHandled, setIsAcceptHandled] = useState(false);
+	const [isRejectHandled, setIsRejectHandled] = useState(false);
 	const [completed, setCompleted] = useState(false);
 	const [rejected, setRejected] = useState(false);
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const {
-		isOpen: isModalOpen,
-		onOpen: onModalOpen,
-		onClose: onModalClose,
-	} = useDisclosure();
+	const router = useRouter();
 
 	useEffect(() => {
 		const checkSubmissionState = async () => {
@@ -55,21 +52,21 @@ const SubmissionCard = ({
 				!challengerClient
 			)
 				return;
-			// try {
-			// 	const submissionState = await program?.account.submission.fetchNullable(
-			// 		submissionPubKey
-			// 	);
-			// 	if (submissionState?.) {
-			// 		setCompleted(true);
-			// 		return;
-			// 	}
-			// 	if (submissionState?.submissionState.rejected) {
-			// 		setRejected(true);
-			// 		return;
-			// 	}
-			// } catch (e) {
-			// 	console.log("error occured in catch block in submission card");
-			// }
+			try {
+				const submissionState = await program?.account.submission.fetchNullable(
+					submissionPubKey
+				);
+				if (submissionState?.submissionState.completed) {
+					setCompleted(true);
+					return;
+				}
+				if (submissionState?.submissionState.rejected) {
+					setRejected(true);
+					return;
+				}
+			} catch (e) {
+				console.log("error occured in catch block in submission card");
+			}
 		};
 		checkSubmissionState();
 	}, [
@@ -82,93 +79,70 @@ const SubmissionCard = ({
 	]);
 
 	const handleAcceptSubmission = async () => {
-		if (!program || !wallet || !isModerator || !hasProfile || !challengerClient)
-			return;
-		const submissionState = getSubmissionStateFromString("Completed");
+		setIsAcceptHandled(true);
+		try {
+			if (
+				!program ||
+				!wallet ||
+				!isModerator ||
+				!hasProfile ||
+				!challengerClient
+			)
+				return;
+			const submissionState = getSubmissionStateFromString("Completed");
 
-		const transaction = await challengerClient.evaluateSubmission(
-			submissionPubKey,
-			wallet.publicKey,
-			// @ts-ignore hack to support Anchor enums
-			submissionState
-		);
-		if (transaction) {
-			onOpen();
+			const transaction = await challengerClient.evaluateSubmission(
+				submissionPubKey,
+				wallet.publicKey,
+				// @ts-ignore hack to support Anchor enums
+				submissionState
+			);
+			if (transaction) {
+				alert("Successfully Accepted Submission");
+				router.reload();
+			}
+		} catch (e) {
+			console.log(
+				"error occured handleacceptsubmission in try block in submission card"
+			);
 		}
+		setIsAcceptHandled(false);
 	};
 	const handleRejectSubmission = async () => {
-		if (!program || !wallet || !isModerator || !hasProfile || !challengerClient)
-			return;
-		const submissionState = getSubmissionStateFromString("Rejected");
+		setIsRejectHandled(true);
+		try {
+			if (
+				!program ||
+				!wallet ||
+				!isModerator ||
+				!hasProfile ||
+				!challengerClient
+			)
+				return;
+			const submissionState = getSubmissionStateFromString("Rejected");
 
-		const transaction = await challengerClient.evaluateSubmission(
-			submissionPubKey,
-			wallet.publicKey,
-			// @ts-ignore hack to support Anchor enums
-			submissionState
-		);
+			const transaction = await challengerClient.evaluateSubmission(
+				submissionPubKey,
+				wallet.publicKey,
+				// @ts-ignore hack to support Anchor enums
+				submissionState
+			);
 
-		if (transaction) {
-			onModalOpen();
+			if (transaction) {
+				alert("Successfully Rejected Submission");
+				router.reload();
+			}
+		} catch (e) {
+			console.log(
+				"error occured handlerejectsubmission in try block in submission card"
+			);
 		}
+
+		setIsRejectHandled(false);
 	};
 
 	return (
 		<>
-			<Modal isOpen={isModalOpen} onClose={onModalClose}>
-				<ModalOverlay />
-				<ModalContent
-					textColor={"green"}
-					background="rgba(0, 0, 0, 0.5)"
-					border={"1px solid #E5E7EB"}
-				>
-					<ModalHeader>Success</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>Successfully Rejected Submission</ModalBody>
-
-					<ModalFooter>
-						<Button
-							mr={3}
-							onClick={onModalClose}
-							borderRadius={"9999"}
-							border="1px solid #E5E7EB"
-							_hover={{
-								bg: "transparent",
-								color: "white",
-							}}
-						>
-							Close
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent
-					textColor={"green"}
-					background="rgba(0, 0, 0, 0.5)"
-					border={"1px solid #E5E7EB"}
-				>
-					<ModalHeader>Success</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>Successfully Approved Submission</ModalBody>
-
-					<ModalFooter>
-						<Button
-							mr={3}
-							onClick={onClose}
-							borderRadius={"9999"}
-							border="1px solid #E5E7EB"
-							_hover={{
-								bg: "transparent",
-								color: "white",
-							}}
-						>
-							Close
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
 			<Card
 				bg="#111"
 				textColor={"white"}
@@ -206,19 +180,17 @@ const SubmissionCard = ({
 					{hasProfile &&
 						isModerator &&
 						(completed || rejected ? (
-							<>
-								<Button
-									background="#FFB84D"
-									borderRadius={"8"}
-									variant={"solid"}
-									textColor={"white"}
-									_hover={{
-										bg: "#FFB84D",
-									}}
-								>
-									{completed ? "Accepted" : "Rejected"}
-								</Button>
-							</>
+							<Button
+								background="#FFB84D"
+								borderRadius={"8"}
+								variant={"solid"}
+								textColor={"white"}
+								_hover={{
+									bg: "#FFB84D",
+								}}
+							>
+								{completed ? "Accepted" : "Rejected"}
+							</Button>
 						) : (
 							<>
 								<Button
@@ -232,6 +204,7 @@ const SubmissionCard = ({
 										bg: "transparent",
 									}}
 									onClick={handleAcceptSubmission}
+									isLoading={isAcceptHandled}
 								>
 									Accept
 								</Button>
@@ -246,6 +219,7 @@ const SubmissionCard = ({
 										bg: "transparent",
 									}}
 									onClick={handleRejectSubmission}
+									isLoading={isRejectHandled}
 								>
 									Reject
 								</Button>
