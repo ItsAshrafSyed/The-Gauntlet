@@ -116,7 +116,7 @@ export default function Leaderboard() {
 							</GridItem>
 							<GridItem textAlign="center">
 								<Text fontSize={"20"} fontWeight={"700"}>
-									Reputation
+									Reputation Earned
 								</Text>
 							</GridItem>
 						</Grid>

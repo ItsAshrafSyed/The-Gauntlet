@@ -302,7 +302,7 @@ export default function Challenges() {
 								</GridItem>
 								<GridItem textAlign="center">
 									<Text fontSize={"20"} fontWeight={"700"}>
-										Points
+										Reputation Earned
 									</Text>
 								</GridItem>
 								<GridItem textAlign="center">

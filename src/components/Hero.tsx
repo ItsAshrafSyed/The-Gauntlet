@@ -46,7 +46,7 @@ export const Hero = () => {
 				<Image
 					position="absolute"
 					objectFit={"cover"}
-					filter="blur(0.3px)"
+					//filter="blur(0.35px)"
 					width="100%"
 					height="100%"
 					zIndex={-3}
@@ -67,6 +67,7 @@ export const Hero = () => {
 							textTransform={"uppercase"}
 							color={"#F4F4F4"}
 							fontFamily={"Readex Pro Variable"}
+							textShadow="-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000"
 						>
 							The Gauntlet
 						</Text>
@@ -75,6 +76,7 @@ export const Hero = () => {
 							textAlign={"center"}
 							fontWeight={400}
 							color={"#cfcfcf"}
+							textShadow="-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000"
 						>
 							Complete Challenges. Develop New Skills. Earn Rewards. Share Your
 							Achievements.
