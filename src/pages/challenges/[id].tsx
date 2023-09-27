@@ -299,9 +299,17 @@ export default function Challenge() {
 									>
 										REWARD
 									</Text>
-									<Text fontSize={"30"} fontWeight={"500"} color={"#FF9728"}>
-										{reputation} Points
-									</Text>
+									<HStack spacing={"-1"}>
+										<Text fontSize={"30"} fontWeight={"500"} color={"#FF9728"}>
+											{reputation}
+										</Text>
+										<Image
+											src="/images/rp.png"
+											alt="RP"
+											width={"35px"}
+											height={"35px"}
+										/>
+									</HStack>
 								</Box>
 								<Box
 									width={"25vw"}

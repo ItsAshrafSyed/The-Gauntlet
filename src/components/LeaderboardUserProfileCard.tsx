@@ -61,8 +61,8 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 								<Image
 									src="/images/rp.png"
 									alt="RP"
-									width={"25px"}
-									height={"25px"}
+									width={"35px"}
+									height={"35px"}
 								/>
 							}
 						>

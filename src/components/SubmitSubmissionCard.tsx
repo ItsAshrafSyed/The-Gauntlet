@@ -163,9 +163,8 @@ export default function SubmitSubmissionCard({
 						/>
 					</HStack>
 				</CardBody>
-				<CardFooter justifyContent={"end"} h={"8vh"}>
+				<CardFooter justifyContent={"end"}>
 					<Button
-						mt={"-3vh"}
 						isLoading={isSubmitting}
 						isDisabled={!canSubmit}
 						border="1px solid #FFB84D"

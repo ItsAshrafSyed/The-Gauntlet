@@ -16,6 +16,7 @@ import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../../util/lib";
 import { CRUX_KEY, CHALLENGER_PROGRAM_ID } from "@/util/constants";
 import "@fontsource-variable/readex-pro";
+import { useRouter } from "next/router";
 import SuccessMessage from "./SuccessMessage";
 import FailureMessage from "./FailureMessage";
 
@@ -29,6 +30,7 @@ const CreateProfileModal: FC<CreateProfileModalProps> = ({
 	isOpen,
 	onClose,
 }) => {
+	const router = useRouter();
 	const [isCreatingProfile, setIsCreatingProfile] = useState<boolean>(false);
 	const { provider, program, challengerClient, wallet } = useWorkspace();
 	const [profile, setProfile] = useState<any>(null);
@@ -80,10 +82,12 @@ const CreateProfileModal: FC<CreateProfileModalProps> = ({
 						setResponseMessage(res.txSigMessage);
 						setNotCreatedProfile(true);
 					}
-
-					console.log("response", res);
 				})
-
+				.then(() => {
+					setTimeout(() => {
+						router.reload();
+					}, 500);
+				})
 				.catch((e) => {
 					console.log("error occured in then block", e);
 					setIsCreatingProfile(false);

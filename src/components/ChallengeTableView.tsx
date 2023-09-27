@@ -13,6 +13,7 @@ import {
 	Flex,
 	Grid,
 	GridItem,
+	Button,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { FC } from "react";
@@ -112,9 +113,26 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 						</Flex>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"500"} color={"#FF9728"}>
-							{props.reputation} Points
-						</Text>
+						<Button
+							variant={"ghost"}
+							fontSize={"20"}
+							fontWeight={"400"}
+							_hover={{
+								bg: "transparent",
+								color: "#FF9728",
+							}}
+							color={"#FF9728"}
+							rightIcon={
+								<Image
+									src="/images/rp.png"
+									alt="RP"
+									width={"35px"}
+									height={"35px"}
+								/>
+							}
+						>
+							{props.reputation}
+						</Button>
 					</GridItem>
 					<GridItem textAlign="center">
 						<Text fontSize={"20"} fontWeight={"500"}>
