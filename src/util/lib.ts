@@ -1,4 +1,3 @@
-import { Switch } from "@chakra-ui/react";
 import { tagValues } from "./challengerSdk";
 import { submissionState } from "./challengerSdk";
 

@@ -70,8 +70,14 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 				error: "User not found",
 			});
 		}
+		const userProfile = {
+			...user,
+			reputation: onChainProfile.reputationScore.toNumber(),
+			challengesSubmitted: onChainProfile.challengesSubmitted.toNumber(),
+			challengesCompleted: onChainProfile.challengesCompleted.toNumber(),
+		};
 
-		return res.status(200).json({ data: { user } });
+		return res.status(200).json({ data: { userProfile } });
 	} catch (error) {
 		console.error("Request error", error);
 		res.status(500).json({

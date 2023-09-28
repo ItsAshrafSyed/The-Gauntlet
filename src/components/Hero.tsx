@@ -42,7 +42,7 @@ export const Hero = () => {
 
 	return (
 		<>
-			<Box position="relative">
+			<Flex position="relative" minW={"100vw"}>
 				<Image
 					position="absolute"
 					objectFit={"cover"}
@@ -108,7 +108,7 @@ export const Hero = () => {
 						</Center>
 					</Box>
 				</Flex>
-			</Box>
+			</Flex>
 		</>
 	);
 };
