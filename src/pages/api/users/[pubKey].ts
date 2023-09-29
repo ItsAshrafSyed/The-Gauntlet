@@ -18,6 +18,9 @@ export default async function handler(
 		case "GET": {
 			return await getUser(req, res);
 		}
+		case "PUT": {
+			return await updateUser(req, res);
+		}
 		default: {
 			return res.status(405).json({ message: "Method not allowed" });
 		}
@@ -58,6 +61,9 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 					bio: true,
 					avatarUrl: true,
 					status: true,
+					twitterUrl: true,
+					discordUrl: true,
+					githubUrl: true,
 				},
 			}),
 
@@ -70,12 +76,50 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
 				error: "User not found",
 			});
 		}
+		const userProfile = {
+			...user,
+			reputation: onChainProfile.reputationScore.toNumber(),
+			challengesSubmitted: onChainProfile.challengesSubmitted.toNumber(),
+			challengesCompleted: onChainProfile.challengesCompleted.toNumber(),
+		};
 
-		return res.status(200).json({ data: { user } });
+		return res.status(200).json({ data: { userProfile } });
 	} catch (error) {
 		console.error("Request error", error);
 		res.status(500).json({
 			error: "Error fetching user",
+		});
+	}
+}
+
+async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+	const { pubKey } = req.query;
+	const data = req.body;
+
+	if (!pubKey || typeof pubKey !== "string") {
+		return res.status(400).json({
+			error: "Invalid user id",
+		});
+	}
+
+	try {
+		const user = await prisma.userProfile.update({
+			where: {
+				pubKey: pubKey,
+			},
+			data: {
+				twitterUrl: data.twitterUrl,
+				discordUrl: data.discordUrl,
+				githubUrl: data.githubUrl,
+			},
+		});
+
+		console.log("User updated", user);
+		return res.status(200).json({ data: { user } });
+	} catch (error) {
+		console.error("Request error", error);
+		res.status(500).json({
+			error: "Error updating user",
 		});
 	}
 }

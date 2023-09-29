@@ -48,6 +48,9 @@ model UserProfile {
   username         String?
   bio              String?  @db.Text
   avatarUrl        String?
+  discordUrl       String?
+  twitterUrl       String?
+  githubUrl        String?
   profilePdaPubKey String
   challengerPubKey String
   isConfirmed      Boolean  @default(false)
