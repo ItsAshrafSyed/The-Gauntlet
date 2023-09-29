@@ -9,6 +9,7 @@ import {
 	VStack,
 	Container,
 	Card,
+	Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -16,7 +17,6 @@ import { useRouter } from "next/router";
 import { fetchApiResponse, shortenWalletAddress } from "../../util/lib";
 import UserAvatarLink from "@/components/UserAvatarLink";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 export default function UserProfilePage() {
 	const [userProfile, setUserProfile] = useState<any>(null);
@@ -47,6 +47,15 @@ export default function UserProfilePage() {
 		loadData();
 	}, [id, router, router.query]);
 
+	function copyToClipboard(text: string) {
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+		document.body.appendChild(textArea);
+		textArea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textArea);
+	}
+
 	return (
 		<>
 			{isLoading ? (
@@ -75,20 +84,36 @@ export default function UserProfilePage() {
 						flexDirection={"column"}
 					>
 						<UserAvatarLink placeholder={userProfile?.pubKey} size={"2xl"} />
-						<Text
-							color={"#FF9728"}
-							fontSize={"2xl"}
-							fontWeight={"bold"}
-							fontFamily={"Readex Pro Variable"}
-							mt={"2%"}
-						>
-							{shortenWalletAddress(userProfile?.pubKey)}
-						</Text>
-						<VStack align={"flex-start"}>
-							<Text color={"white"} fontWeight={"bold"} mt={"2%"}>
-								Profile Account:{" "}
-								{shortenWalletAddress(userProfile?.profilePdaPubKey)}
+						<Tooltip title="Copy to clipboard " aria-label="Copy Address">
+							<Text
+								color={"#FF9728"}
+								fontSize={"2xl"}
+								fontWeight={"bold"}
+								fontFamily={"Readex Pro Variable"}
+								mt={"2%"}
+								_hover={{ cursor: "pointer", color: "blue.500" }}
+								onClick={() => {
+									copyToClipboard(userProfile?.pubKey);
+								}}
+							>
+								{shortenWalletAddress(userProfile?.pubKey)}
 							</Text>
+						</Tooltip>
+						<VStack align={"flex-start"}>
+							<Tooltip title="Copy to clipboard" aria-label="Copy Address">
+								<Text
+									color={"white"}
+									fontWeight={"bold"}
+									mt={"2%"}
+									_hover={{ cursor: "pointer", color: "blue.500" }}
+									onClick={() => {
+										copyToClipboard(userProfile?.profilePdaPubKey);
+									}}
+								>
+									Profile Account:{" "}
+									{shortenWalletAddress(userProfile?.profilePdaPubKey)}
+								</Text>
+							</Tooltip>
 							<Text
 								color={"white"}
 								fontSize={"xl"}

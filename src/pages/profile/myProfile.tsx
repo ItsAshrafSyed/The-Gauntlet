@@ -9,6 +9,7 @@ import {
 	Container,
 	Card,
 	Link,
+	Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -17,7 +18,7 @@ import UserAvatarLink from "@/components/UserAvatarLink";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useWallet } from "@solana/wallet-adapter-react";
 import ConnectSocials from "@/components/Modals/ConnectSocials";
-import { FaTwitter, FaDiscord, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaDiscord, FaGithub, FaCopy } from "react-icons/fa";
 
 export default function MyProfile() {
 	const [userProfile, setUserProfile] = useState<any>(null);
@@ -55,6 +56,15 @@ export default function MyProfile() {
 		setIsEditing(true);
 	};
 
+	function copyToClipboard(text: string) {
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+		document.body.appendChild(textArea);
+		textArea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textArea);
+	}
+
 	return (
 		<>
 			{isLoading ? (
@@ -78,12 +88,18 @@ export default function MyProfile() {
 								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
 									<UserAvatarLink placeholder={pubKey} size="xl" />
 									<VStack ml={5} alignItems="flex-start">
-										<Text fontSize="xl" fontWeight="bold">
-											{shortenWalletAddress(userProfile?.pubKey)}
-										</Text>
-										<Text fontSize="md" color="gray.500">
-											{userProfile?.userId}
-										</Text>
+										<Tooltip label="Copy Address" aria-label="Copy Address">
+											<Text
+												fontSize="xl"
+												fontWeight="bold"
+												_hover={{ cursor: "pointer", color: "blue.500" }}
+												onClick={() => {
+													copyToClipboard(userProfile?.pubKey);
+												}}
+											>
+												{shortenWalletAddress(userProfile?.pubKey)}
+											</Text>
+										</Tooltip>
 									</VStack>
 								</Flex>
 								<HStack>
@@ -105,54 +121,51 @@ export default function MyProfile() {
 							>
 								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
 									<VStack>
-										<HStack>
+										<HStack alignSelf={"flex-start"}>
+											<Text fontSize="l" color="gray.500">
+												User Profile
+											</Text>
+											<Tooltip label="Copy Address" aria-label="Copy Address">
+												<Text
+													fontSize="xl"
+													fontWeight="bold"
+													_hover={{ cursor: "pointer", color: "blue.500" }}
+													onClick={() => {
+														copyToClipboard(userProfile?.profilePdaPubKey);
+													}}
+												>
+													{shortenWalletAddress(userProfile?.profilePdaPubKey)}
+												</Text>
+											</Tooltip>
+										</HStack>
+										<HStack spacing={"4"}>
 											<HStack>
-												<Text fontSize="xl" fontWeight="bold">
-													{userProfile?.challengesSubmitted}
-												</Text>
 												<Text fontSize="l" color="gray.500">
-													Submitted Challenges
+													Challenges Completed
 												</Text>
-											</HStack>
-											<HStack ml={10}>
 												<Text fontSize="xl" fontWeight="bold">
 													{userProfile?.challengesCompleted}
 												</Text>
+											</HStack>
+											<HStack>
 												<Text fontSize="l" color="gray.500">
-													Completed Challenges
+													Challenges Submitted
+												</Text>
+												<Text fontSize="xl" fontWeight="bold">
+													{userProfile?.challengesSubmitted}
 												</Text>
 											</HStack>
-										</HStack>
-										<HStack>
 											<HStack>
-												<Text fontSize="xl" fontWeight="bold">
-													{userProfile?.reputation}
-												</Text>
 												<Text fontSize="l" color="gray.500">
 													Reputation Earned
 												</Text>
-											</HStack>
-											<HStack ml={10}>
 												<Text fontSize="xl" fontWeight="bold">
-													{shortenWalletAddress(userProfile?.profilePdaPubKey)}
-												</Text>
-												<Text fontSize="l" color="gray.500">
-													Profile Account
+													{userProfile?.reputation}
 												</Text>
 											</HStack>
 										</HStack>
 									</VStack>
 								</Flex>
-								{/* <Flex alignItems="center" mb={{ base: 5, md: 0 }}>
-								<Box>
-									<Text fontSize="xl" fontWeight="bold">
-										{shortenWalletAddress(userProfile?.pubKey)}
-									</Text>
-									<Text fontSize="md" color="gray.500">
-										Wallet Address
-									</Text>
-								</Box>
-							</Flex> */}
 							</Flex>
 							<Flex
 								direction={{ base: "column", md: "row" }}
@@ -161,7 +174,7 @@ export default function MyProfile() {
 								mt={"2vh"}
 							>
 								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
-									<VStack>
+									<VStack alignItems={"flex-start"}>
 										<HStack>
 											<FaTwitter size={"3vh"} color="gray" />
 											<Link
