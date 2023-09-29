@@ -37,7 +37,6 @@ import { BN } from "@coral-xyz/anchor";
 import { useRouter } from "next/router";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import SuccessMessage from "@/components/Modals/SuccessMessage";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 type ValuePiece = Date | null;
 

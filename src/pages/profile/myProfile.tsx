@@ -16,19 +16,20 @@ import { fetchApiResponse, shortenWalletAddress } from "../../util/lib";
 import UserAvatarLink from "@/components/UserAvatarLink";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useWallet } from "@solana/wallet-adapter-react";
+import ConnectSocials from "@/components/Modals/ConnectSocials";
+import { FaTwitter, FaDiscord, FaGithub } from "react-icons/fa";
 
 export default function MyProfile() {
 	const [userProfile, setUserProfile] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const { publicKey } = useWallet();
 	const pubKey = publicKey?.toBase58();
 	const router = useRouter();
 
 	useEffect(() => {
 		setIsLoading(true);
-		console.log("err in useEff", pubKey);
 		if (!publicKey) return;
-		console.log("get user");
 		const loadData = async () => {
 			// todo define and use type for users
 			const result = await fetchApiResponse<any>({
@@ -48,75 +49,167 @@ export default function MyProfile() {
 		};
 		loadData();
 	}, [publicKey, router, router.query, pubKey]);
+	console.log(userProfile);
+
+	const handleEdit = () => {
+		setIsEditing(true);
+	};
 
 	return (
 		<>
 			{isLoading ? (
 				<LoadingSpinner isLoading={isLoading} />
 			) : (
-				<Card
-					bg={"#151519"}
-					borderRadius={"16"}
-					borderColor={"#1E1E23"}
-					boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.25)"}
-					w={"max-content"}
-					h={"max-content"}
-					mt={"5%"}
-					mb={"5%"}
-					ml={"auto"}
-					mr={"auto"}
-					p={"5%"}
-					fontSize={18}
-					fontWeight={700}
-				>
-					<Flex
-						justifyContent={"center"}
-						alignItems={"center"}
-						flexDirection={"column"}
-					>
-						<UserAvatarLink placeholder={userProfile?.pubKey} size={"2xl"} />
-						<Text
-							color={"#FF9728"}
-							fontSize={"2xl"}
-							fontWeight={"bold"}
-							fontFamily={"Readex Pro Variable"}
-							mt={"2%"}
+				<>
+					<Container maxW="container.xl" mt={10}>
+						<Card
+							p={10}
+							bg={"#151519"}
+							borderRadius={"16"}
+							borderColor={"#1E1E23"}
+							boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.25)"}
+							color={"white"}
 						>
-							{shortenWalletAddress(userProfile?.pubKey)}
-						</Text>
-						<VStack align={"flex-start"}>
-							<Text color={"white"} fontWeight={"bold"} mt={"2%"}>
-								Profile Account:{" "}
-								{shortenWalletAddress(userProfile?.profilePdaPubKey)}
-							</Text>
-							<Text
-								color={"white"}
-								fontSize={"xl"}
-								fontWeight={"bold"}
-								mt={"2%"}
+							<Flex
+								direction={{ base: "column", md: "row" }}
+								alignItems={{ base: "center", md: "flex-start" }}
+								justifyContent="space-between"
 							>
-								Reputation Earned: {userProfile?.reputation}
-							</Text>
-							<Text
-								color={"white"}
-								fontSize={"xl"}
-								fontWeight={"bold"}
-								mt={"2%"}
+								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
+									<UserAvatarLink placeholder={pubKey} size="xl" />
+									<VStack ml={5} alignItems="flex-start">
+										<Text fontSize="xl" fontWeight="bold">
+											{shortenWalletAddress(userProfile?.pubKey)}
+										</Text>
+										<Text fontSize="md" color="gray.500">
+											{userProfile?.userId}
+										</Text>
+									</VStack>
+								</Flex>
+								<HStack>
+									<Button
+										variant="outline"
+										colorScheme="blue"
+										size="lg"
+										onClick={handleEdit}
+									>
+										Edit Profile
+									</Button>
+								</HStack>
+							</Flex>
+							<Flex
+								direction={{ base: "column", md: "row" }}
+								alignItems={{ base: "center", md: "flex-start" }}
+								justifyContent="space-between"
+								mt={"2vh"}
 							>
-								Challenges Completed: {userProfile?.challengesCompleted}
-							</Text>
-							<Text
-								color={"white"}
-								fontSize={"xl"}
-								fontWeight={"bold"}
-								mt={"2%"}
+								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
+									<VStack>
+										<HStack>
+											<HStack>
+												<Text fontSize="xl" fontWeight="bold">
+													{userProfile?.challengesSubmitted}
+												</Text>
+												<Text fontSize="l" color="gray.500">
+													Submitted Challenges
+												</Text>
+											</HStack>
+											<HStack ml={10}>
+												<Text fontSize="xl" fontWeight="bold">
+													{userProfile?.challengesCompleted}
+												</Text>
+												<Text fontSize="l" color="gray.500">
+													Completed Challenges
+												</Text>
+											</HStack>
+										</HStack>
+										<HStack>
+											<HStack>
+												<Text fontSize="xl" fontWeight="bold">
+													{userProfile?.reputation}
+												</Text>
+												<Text fontSize="l" color="gray.500">
+													Reputation Earned
+												</Text>
+											</HStack>
+											<HStack ml={10}>
+												<Text fontSize="xl" fontWeight="bold">
+													{shortenWalletAddress(userProfile?.profilePdaPubKey)}
+												</Text>
+												<Text fontSize="l" color="gray.500">
+													Profile Account
+												</Text>
+											</HStack>
+										</HStack>
+									</VStack>
+								</Flex>
+								{/* <Flex alignItems="center" mb={{ base: 5, md: 0 }}>
+								<Box>
+									<Text fontSize="xl" fontWeight="bold">
+										{shortenWalletAddress(userProfile?.pubKey)}
+									</Text>
+									<Text fontSize="md" color="gray.500">
+										Wallet Address
+									</Text>
+								</Box>
+							</Flex> */}
+							</Flex>
+							<Flex
+								direction={{ base: "column", md: "row" }}
+								alignItems={{ base: "center", md: "flex-start" }}
+								justifyContent="space-between"
+								mt={"2vh"}
 							>
-								Challenges Submitted: {userProfile?.challengesSubmitted}
-							</Text>
-							<HStack></HStack>
-						</VStack>
-					</Flex>
-				</Card>
+								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
+									<VStack>
+										<HStack>
+											<FaTwitter size={"3vh"} color="gray" />
+											<Link
+												fontSize="l"
+												href={userProfile?.twitterUrl}
+												isExternal
+											>
+												{userProfile?.twitterUrl
+													? userProfile?.twitterUrl
+													: "N/A"}
+											</Link>
+										</HStack>
+										<HStack>
+											<FaDiscord size={"3vh"} color="gray" />
+											<Link
+												fontSize="l"
+												href={userProfile?.discordUrl}
+												isExternal
+											>
+												{userProfile?.discordUrl
+													? userProfile?.discordUrl
+													: "N/A"}
+											</Link>
+										</HStack>
+										<HStack>
+											<FaGithub size={"3vh"} color="gray" />
+											<Link
+												fontSize="l"
+												href={userProfile?.githubUrl}
+												isExternal
+											>
+												{userProfile?.githubUrl
+													? userProfile?.githubUrl
+													: "N/A"}
+											</Link>
+										</HStack>
+									</VStack>
+								</Flex>
+							</Flex>
+						</Card>
+					</Container>
+					<ConnectSocials
+						isOpen={isEditing}
+						onClose={() => {
+							setIsEditing(false);
+						}}
+					/>
+				</>
 			)}
 		</>
 	);
