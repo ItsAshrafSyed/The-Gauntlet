@@ -69,7 +69,8 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				const response = await fetchApiResponse<any>({
 					url: `/api/users/${publicKey}`,
 				});
-				const user = response.data.user;
+
+				const user = response.data.userProfile;
 
 				setMetadata(
 					user

@@ -86,7 +86,11 @@ export default function MyProfile() {
 								justifyContent="space-between"
 							>
 								<Flex alignItems="center" mb={{ base: 5, md: 0 }}>
-									<UserAvatarLink placeholder={pubKey} size="xl" />
+									<UserAvatarLink
+										profileId={pubKey}
+										placeholder={pubKey}
+										size="xl"
+									/>
 									<VStack ml={5} alignItems="flex-start">
 										<Tooltip label="Copy Address" aria-label="Copy Address">
 											<Text
@@ -141,18 +145,18 @@ export default function MyProfile() {
 										<HStack spacing={"4"}>
 											<HStack>
 												<Text fontSize="l" color="gray.500">
-													Challenges Completed
-												</Text>
-												<Text fontSize="xl" fontWeight="bold">
-													{userProfile?.challengesCompleted}
-												</Text>
-											</HStack>
-											<HStack>
-												<Text fontSize="l" color="gray.500">
 													Challenges Submitted
 												</Text>
 												<Text fontSize="xl" fontWeight="bold">
 													{userProfile?.challengesSubmitted}
+												</Text>
+											</HStack>
+											<HStack>
+												<Text fontSize="l" color="gray.500">
+													Challenges Completed
+												</Text>
+												<Text fontSize="xl" fontWeight="bold">
+													{userProfile?.challengesCompleted}
 												</Text>
 											</HStack>
 											<HStack>

@@ -83,7 +83,11 @@ export default function UserProfilePage() {
 						alignItems={"center"}
 						flexDirection={"column"}
 					>
-						<UserAvatarLink placeholder={userProfile?.pubKey} size={"2xl"} />
+						<UserAvatarLink
+							profileId={userProfile?.pubKey}
+							placeholder={userProfile?.pubKey}
+							size={"2xl"}
+						/>
 						<Tooltip title="Copy to clipboard " aria-label="Copy Address">
 							<Text
 								color={"#FF9728"}
