@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import "@fontsource-variable/readex-pro";
-import { WalletConnect } from "./wallet/WalletConnect";
+import { WalletConnect } from "./Modals/wallet/WalletConnect";
 
 export const Navbar = () => {
 	const router = useRouter();

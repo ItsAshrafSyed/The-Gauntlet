@@ -12,6 +12,8 @@ import { useWorkspace } from "./WorkspaceProvider";
 import { fetchApiResponse } from "../util/lib";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 
 export type SessionUserMetadata = {
 	username: string;
@@ -63,15 +65,26 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 			return;
 		}
 
+		const [profilePda] = PublicKey.findProgramAddressSync(
+			[Buffer.from("user_profile"), CRUX_KEY.toBytes(), publicKey.toBytes()],
+			CHALLENGER_PROGRAM_ID
+		);
+
 		async function loadData() {
 			try {
+				const profileAccount = await program?.account.userProfile.fetchNullable(
+					profilePda
+				);
+				console.log("profileAccount", profileAccount);
+
+				setIsModerator(profileAccount?.isModerator ? true : false);
+				console.log("isModerator", isModerator);
+
 				// todo use actual type for User response
 				const response = await fetchApiResponse<any>({
 					url: `/api/users/${publicKey}`,
 				});
-
 				const user = response.data.userProfile;
-
 				setMetadata(
 					user
 						? {
@@ -83,12 +96,6 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				if (user) {
 					setHasProfile(true);
 				}
-
-				const profileAccount = await program?.account.userProfile.fetchNullable(
-					user?.profilePdaPubKey
-				);
-
-				setIsModerator(profileAccount?.isModerator ? true : false);
 			} catch (err) {
 				console.log("error", err);
 				return;
@@ -106,6 +113,7 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 		provider?.wallet,
 		provider?.wallet?.publicKey,
 		connected,
+		isModerator,
 	]);
 
 	return (

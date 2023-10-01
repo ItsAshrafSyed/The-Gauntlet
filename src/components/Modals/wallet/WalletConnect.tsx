@@ -9,9 +9,12 @@ import {
 	MenuList,
 	HStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { useSessionUser } from "../../../providers/SessionUserProvider";
+import CreateProfileModal from "../CreateProfileModal";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { shortenWalletAddress } from "../../util/lib";
+import { shortenWalletAddress } from "../../../util/lib";
 import { useRouter } from "next/router";
 import { AiOutlineDown } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
@@ -19,6 +22,8 @@ import { FaUserCog, FaUserCircle } from "react-icons/fa";
 
 export const WalletConnect = () => {
 	const { connected, publicKey, disconnect, signMessage } = useWallet();
+	const [createProfileModalOpen, setCreateProfileModalOpen] = useState(false);
+	const { hasProfile } = useSessionUser();
 	const { setVisible } = useWalletModal();
 	const router = useRouter();
 
@@ -28,6 +33,9 @@ export const WalletConnect = () => {
 		disconnect().then(() => {
 			router.reload();
 		});
+	};
+	const handleCreateProfile = () => {
+		setCreateProfileModalOpen(true);
 	};
 
 	return (
@@ -85,6 +93,13 @@ export const WalletConnect = () => {
 									<Text>Disconnect</Text>
 								</HStack>
 							</MenuItem>
+							{!hasProfile && (
+								<MenuItem bg={"#151519"} onClick={handleCreateProfile}>
+									<HStack>
+										<Text>Create profile</Text>
+									</HStack>
+								</MenuItem>
+							)}
 						</MenuList>
 					</Menu>
 				</>
@@ -107,6 +122,12 @@ export const WalletConnect = () => {
 					CONNECT WALLET
 				</Button>
 			)}
+			<CreateProfileModal
+				isOpen={createProfileModalOpen}
+				onClose={() => {
+					setCreateProfileModalOpen(false);
+				}}
+			/>
 		</>
 	);
 };
