@@ -137,7 +137,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					<GridItem textAlign="center">
 						<Text fontSize={"20"} fontWeight={"500"}>
 							{props.lastActivity
-								? `updated ${moment(props.lastActivity).fromNow()}`
+								? `${moment(props.lastActivity).fromNow()}`
 								: ""}
 						</Text>
 					</GridItem>

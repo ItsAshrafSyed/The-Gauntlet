@@ -11,6 +11,8 @@ import {
 	ModalFooter,
 	HStack,
 	Button,
+	Text,
+	VStack,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { useState, useEffect } from "react";
@@ -61,18 +63,17 @@ const FailureMessage: FC<FailureMessageProps> = ({ isOpen, onClose }) => {
 			<ModalOverlay />
 			<ModalContent bg="#111" border={"1px solid #E5E7EB"}>
 				<ModalHeader color={"White"}>
-					Paste links to social accounts
+					paste links to social accounts
 				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
-					{/* create 3 feils for github discord and twitter  */}
 					<Box className="flex flex-col">
 						<HStack>
 							<FaTwitter size={"5vh"} />
 							<Input
 								type="text"
 								name="twitter"
-								placeholder="Twitter"
+								placeholder="https://twitter.com/my_twitter_handle"
 								value={twitterUrl}
 								onChange={(e) => {
 									setTwitterUrl(e.target.value);
@@ -85,7 +86,7 @@ const FailureMessage: FC<FailureMessageProps> = ({ isOpen, onClose }) => {
 							<Input
 								type="text"
 								name="discord"
-								placeholder="Discord"
+								placeholder="discordapp.com/users/my_discord_handle"
 								value={discordUrl}
 								onChange={(e) => {
 									setDiscordUrl(e.target.value);
@@ -98,7 +99,7 @@ const FailureMessage: FC<FailureMessageProps> = ({ isOpen, onClose }) => {
 							<Input
 								type="text"
 								name="github"
-								placeholder="Github"
+								placeholder="https://github.com/my_github_handle"
 								value={githubUrl}
 								onChange={(e) => {
 									setGithubUrl(e.target.value);
@@ -108,24 +109,32 @@ const FailureMessage: FC<FailureMessageProps> = ({ isOpen, onClose }) => {
 					</Box>
 				</ModalBody>
 				<ModalFooter>
-					<Button onClick={onClose} mr={"4"}>
-						Close
-					</Button>
-					<Button
-						variant={"solid"}
-						textColor={"white"}
-						_hover={{
-							bg: "transparent",
-						}}
-						border="1px solid #FFB84D"
-						borderRadius={"8"}
-						background="#261B0B"
-						isLoading={isSubmitting}
-						isDisabled={!canSubmit}
-						onClick={handleSubmit}
-					>
-						Submit
-					</Button>
+					<VStack>
+						<Text color={"grey"}>
+							NOTE: make sure the links are correct, this info is critical for
+							your evaluation
+						</Text>
+						<HStack alignItems={"flex-end"}>
+							<Button onClick={onClose} mr={"4"}>
+								Close
+							</Button>
+							<Button
+								variant={"solid"}
+								textColor={"white"}
+								_hover={{
+									bg: "transparent",
+								}}
+								border="1px solid #FFB84D"
+								borderRadius={"8"}
+								background="#261B0B"
+								isLoading={isSubmitting}
+								isDisabled={!canSubmit}
+								onClick={handleSubmit}
+							>
+								Submit
+							</Button>
+						</HStack>
+					</VStack>
 				</ModalFooter>
 			</ModalContent>
 		</Modal>

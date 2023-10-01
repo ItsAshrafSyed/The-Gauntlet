@@ -307,7 +307,7 @@ export default function Challenges() {
 								</GridItem>
 								<GridItem textAlign="center">
 									<Text fontSize={"20"} fontWeight={"700"}>
-										Last Activity
+										Challenge Posted
 									</Text>
 								</GridItem>
 								<GridItem textAlign="center">

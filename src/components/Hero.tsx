@@ -34,11 +34,6 @@ export const Hero = () => {
 	const walletAdapterModalContext = useWalletModal();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [profile, setProfile] = useState<any>(null);
-	const {
-		isOpen: isModalOpen,
-		onOpen: onModalOpen,
-		onClose: onModalClose,
-	} = useDisclosure();
 
 	return (
 		<>
