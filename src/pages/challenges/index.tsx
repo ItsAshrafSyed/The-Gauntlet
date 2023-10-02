@@ -360,6 +360,7 @@ export default function Challenges() {
 								templateColumns={[
 									"repeat(1, 1fr)", // 1 column for small screens
 									"repeat(2, 1fr)", // 2 columns for medium screens
+									"repeat(3, 1fr)",
 									"repeat(3, 1fr)", // 3 columns for large screens
 								]}
 								gap={4}

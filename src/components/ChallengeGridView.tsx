@@ -109,8 +109,9 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 			templateRows={[
 				"repeat(1, 1fr)", // 1 row for small screens
 				"repeat(1, 1fr)", // 1 row for medium screens
-				"repeat(1, 1fr)", // 1 row for large screens
+				"repeat(3, 1fr)", // 1 row for large screens
 			]}
+			mr={["0", "0", "4vw", "4vw"]}
 			onClick={() => router.push(`/challenges/${props.id}`)}
 		>
 			{/* <Link href={`/challenges/${props.id}`}> */}
