@@ -75,10 +75,7 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				const profileAccount = await program?.account.userProfile.fetchNullable(
 					profilePda
 				);
-				console.log("profileAccount", profileAccount);
-
 				setIsModerator(profileAccount?.isModerator ? true : false);
-				console.log("isModerator", isModerator);
 
 				// todo use actual type for User response
 				const response = await fetchApiResponse<any>({
