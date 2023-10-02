@@ -28,12 +28,6 @@ import "@fontsource-variable/readex-pro";
 
 export const Hero = () => {
 	const router = useRouter();
-	const { provider, program, challengerClient, wallet } = useWorkspace();
-	const { hasProfile } = useSessionUser();
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const walletAdapterModalContext = useWalletModal();
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [profile, setProfile] = useState<any>(null);
 
 	return (
 		<>
@@ -41,6 +35,7 @@ export const Hero = () => {
 				<Image
 					position="absolute"
 					objectFit={"cover"}
+					ml={"-3"}
 					//filter="blur(0.35px)"
 					width="100%"
 					height="100%"

@@ -8,6 +8,8 @@ import {
 	Box,
 	Image,
 	Wrap,
+	Grid,
+	GridItem,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { FC } from "react";
@@ -98,11 +100,21 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 	const countdown = unixTimestampToCountdown(targetTimestamp);
 
 	return (
-		<div onClick={() => router.push(`/challenges/${props.id}`)}>
+		<Grid
+			// templateColumns={[
+			// 	"repeat(1, 1fr)", // 1 column for small screens
+			// 	"repeat(2, 1fr)", // 2 columns for medium screens
+			// 	"repeat(3, 1fr)", // 3 columns for large screens
+			// ]}
+			templateRows={[
+				"repeat(1, 1fr)", // 1 row for small screens
+				"repeat(1, 1fr)", // 1 row for medium screens
+				"repeat(1, 1fr)", // 1 row for large screens
+			]}
+			onClick={() => router.push(`/challenges/${props.id}`)}
+		>
 			{/* <Link href={`/challenges/${props.id}`}> */}
-			<Card
-				height={"70vh"}
-				width={"30vw"}
+			<GridItem
 				bg="#111"
 				rounded={"lg"}
 				textColor={"white"}
@@ -125,7 +137,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 					))}
 				</Wrap>
 
-				<VStack mt={"30vh"} alignItems={"flex-start"}>
+				<VStack mt={["20vh", "20vh", "30vh", "30vh"]} alignItems={"flex-start"}>
 					<Text fontSize={"20"} fontWeight={"500"} width={"auto"}>
 						{props.title}
 					</Text>
@@ -142,17 +154,21 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 						/>
 					</HStack>
 				</VStack>
-				<HStack mt={"10vh"} spacing={"8"} textColor={"gray.400"}>
+				<HStack
+					mt={["5vh", "5vh", "10vh", "10vh"]}
+					spacing={"8"}
+					textColor={"gray.400"}
+				>
 					<Text width={"auto"}>
 						{props.lastActivity
-							? `updated ${moment(props.lastActivity).fromNow()}`
+							? `posted ${moment(props.lastActivity).fromNow()}`
 							: ""}
 					</Text>
 					<Text width={"auto"}>{countdown}</Text>
 				</HStack>
-			</Card>
+			</GridItem>
 			{/* </Link> */}
-		</div>
+		</Grid>
 	);
 };
 

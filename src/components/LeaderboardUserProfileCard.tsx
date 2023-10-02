@@ -26,31 +26,32 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 					padding={"3"}
 					templateColumns="repeat(5, 1fr)"
 					gap={4}
+					alignItems="center"
 				>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"400"}>
+						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
 							{userProfile.rank}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"400"}>
+						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
 							{shortenWalletAddress(userProfile.pubKey)}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"400"}>
+						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
 							{userProfile.challengesSubmitted}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={"20"} fontWeight={"400"}>
+						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
 							{userProfile.challengesCompleted}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
 						<Button
 							variant={"ghost"}
-							fontSize={"20"}
+							fontSize={["7", "7", "20", "20"]}
 							fontWeight={"400"}
 							_hover={{
 								bg: "transparent",
@@ -61,8 +62,8 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 								<Image
 									src="/images/rp.png"
 									alt="RP"
-									width={"35px"}
-									height={"35px"}
+									width={["15px", "15px", "35px", "35px"]}
+									height={["15px", "15px", "35px", "35px"]}
 								/>
 							}
 						>
