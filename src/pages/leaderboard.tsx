@@ -93,29 +93,29 @@ export default function Leaderboard() {
 							borderBottom={"1px solid #323232"}
 						>
 							<GridItem textAlign="center">
-								<Text fontSize={["7", "7", "20", "20"]} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Rank
 								</Text>
 							</GridItem>
 							<GridItem textAlign="center">
-								<Text fontSize={["7", "7", "20", "20"]} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									User Wallet Address
 								</Text>
 							</GridItem>
 
 							<GridItem textAlign="center">
-								<Text fontSize={["7", "7", "20", "20"]} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Challenges Submitted
 								</Text>
 							</GridItem>
 
 							<GridItem textAlign="center">
-								<Text fontSize={["7", "7", "20", "20"]} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Challenges Completed
 								</Text>
 							</GridItem>
 							<GridItem textAlign="center">
-								<Text fontSize={["7", "7", "20", "20"]} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Reputation Earned
 								</Text>
 							</GridItem>

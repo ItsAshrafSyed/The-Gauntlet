@@ -35,8 +35,8 @@ export const Hero = () => {
 				<Image
 					position="absolute"
 					objectFit={"cover"}
-					ml={"-3"}
-					//filter="blur(0.35px)"
+					ml={"-4"}
+					filter="blur(0.3px)"
 					width="100%"
 					height="100%"
 					zIndex={-3}

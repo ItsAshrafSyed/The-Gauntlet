@@ -15,10 +15,24 @@ import { useRouter } from "next/router";
 import "@fontsource-variable/readex-pro";
 import { WalletConnect } from "./Modals/wallet/WalletConnect";
 import { useState } from "react";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 export const Navbar = () => {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState("none");
+
+	const handleHomeClick = () => {
+		router.push("/");
+		setIsOpen("none");
+	};
+	const handleLeaderboardClick = () => {
+		router.push("/leaderboard");
+		setIsOpen("none");
+	};
+	const handleChallengesClick = () => {
+		router.push("/challenges");
+		setIsOpen("none");
+	};
 	return (
 		<>
 			<Flex
@@ -111,7 +125,7 @@ export const Navbar = () => {
 						variant="ghost"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/")}
+						onClick={handleHomeClick}
 					>
 						Home
 					</Button>
@@ -120,7 +134,7 @@ export const Navbar = () => {
 						variant="ghost"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/leaderboard")}
+						onClick={handleLeaderboardClick}
 					>
 						Leaderboard
 					</Button>
@@ -129,7 +143,7 @@ export const Navbar = () => {
 						variant="ghost"
 						fontWeight={500}
 						fontSize={20}
-						onClick={() => router.push("/challenges")}
+						onClick={handleChallengesClick}
 					>
 						View Challenges
 					</Button>

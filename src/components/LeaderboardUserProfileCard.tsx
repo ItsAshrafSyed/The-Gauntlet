@@ -29,29 +29,29 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 					alignItems="center"
 				>
 					<GridItem textAlign="center">
-						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
+						<Text fontSize={["5", "5", "20", "20"]} fontWeight={"400"}>
 							{userProfile.rank}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
+						<Text fontSize={["5", "5", "20", "20"]} fontWeight={"400"}>
 							{shortenWalletAddress(userProfile.pubKey)}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
+						<Text fontSize={["5", "5", "20", "20"]} fontWeight={"400"}>
 							{userProfile.challengesSubmitted}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
-						<Text fontSize={["7", "7", "20", "20"]} fontWeight={"400"}>
+						<Text fontSize={["5", "5", "20", "20"]} fontWeight={"400"}>
 							{userProfile.challengesCompleted}
 						</Text>
 					</GridItem>
 					<GridItem textAlign="center">
 						<Button
 							variant={"ghost"}
-							fontSize={["7", "7", "20", "20"]}
+							fontSize={["5", "5", "20", "20"]}
 							fontWeight={"400"}
 							_hover={{
 								bg: "transparent",
