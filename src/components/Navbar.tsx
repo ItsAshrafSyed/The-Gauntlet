@@ -14,6 +14,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import "@fontsource-variable/readex-pro";
 import { WalletConnect } from "./Modals/wallet/WalletConnect";
+
 import { useState } from "react";
 import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 

@@ -78,6 +78,7 @@ export const WalletConnect = () => {
 								mr: "2",
 							}}
 						>
+
 							{!hasProfile && (
 								<MenuItem bg={"#151519"} onClick={handleCreateProfile}>
 									<HStack>

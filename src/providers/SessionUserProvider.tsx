@@ -77,6 +77,7 @@ export const SessionUserProvider: FC<{ children: ReactNode }> = ({
 				);
 				setIsModerator(profileAccount?.isModerator ? true : false);
 
+
 				// todo use actual type for User response
 				const response = await fetchApiResponse<any>({
 					url: `/api/users/${publicKey}`,
