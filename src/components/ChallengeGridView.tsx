@@ -101,17 +101,18 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 
 	return (
 		<Grid
-			// templateColumns={[
-			// 	"repeat(1, 1fr)", // 1 column for small screens
-			// 	"repeat(2, 1fr)", // 2 columns for medium screens
-			// 	"repeat(3, 1fr)", // 3 columns for large screens
-			// ]}
-			templateRows={[
-				"repeat(1, 1fr)", // 1 row for small screens
-				"repeat(1, 1fr)", // 1 row for medium screens
-				"repeat(3, 1fr)", // 1 row for large screens
+			templateColumns={[
+				"repeat(1, 1fr)", // 1 column for small screens
+				"repeat(2, 1fr)", // 2 columns for medium screens
+				"repeat(3, 1fr)",
+				"repeat(3, 1fr)", // 3 columns for large screens
 			]}
-			m={["0", "0", "2vw", "2vw"]}
+			// templateRows={[
+			// 	"repeat(1, 1fr)", // 1 row for small screens
+			// 	"repeat(1, 1fr)", // 1 row for medium screens
+			// 	"repeat(3, 1fr)", // 1 row for large screens
+			// ]}
+
 			onClick={() => router.push(`/challenges/${props.id}`)}
 		>
 			<GridItem
@@ -121,6 +122,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 				background={selectedGradient}
 				border={"1px solid #1E1E23"}
 				borderRadius={"16"}
+				width={["90vw", "45vw", "30vw", "30vw"]}
 				p={6}
 			>
 				<Wrap width={"auto"}>
