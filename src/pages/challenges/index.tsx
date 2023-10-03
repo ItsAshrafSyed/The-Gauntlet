@@ -14,11 +14,8 @@ import {
 } from "@chakra-ui/react";
 import Select, { components, OptionProps } from "react-select";
 import { useState, useEffect, use } from "react";
-import { PublicKey } from "@solana/web3.js";
-import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../../util/constants";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { FC } from "react";
 import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { fetchApiResponse } from "@/util/lib";
 import ChallengeTableView from "../../components/ChallengeTableView";
@@ -27,7 +24,6 @@ import { BsFillGridFill } from "react-icons/bs";
 import { MdOutlineStorage } from "react-icons/md";
 import Challenge from "./[id]";
 import ChallengeGridView from "@/components/ChallengeGridView";
-import styles from "../../styles/pages";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 type Challenge = {
@@ -188,6 +184,7 @@ export default function Challenges() {
 				<Box>
 					{isModerator && (
 						<Button
+							display={["none", "none", "block", "block"]}
 							leftIcon={
 								<Image
 									width="15"
@@ -215,12 +212,11 @@ export default function Challenges() {
 						</Button>
 					)}
 
-					<HStack m={"20"} justify={"space-between"}>
-						<Text fontSize={"48"} fontWeight={"700"}>
-							{" "}
+					<HStack m={["10", "10", "20", "20"]} justify={"space-between"}>
+						<Text fontSize={["28", "28", "48", "48"]} fontWeight={"700"}>
 							All Challenges
 						</Text>
-						<HStack>
+						<HStack display={["none", "none", "flex", "flex"]}>
 							<Select
 								placeholder="All Categories"
 								value={
@@ -264,6 +260,7 @@ export default function Challenges() {
 								color={"white"}
 								onClick={handleGridClick}
 								_hover={{ bg: "#FF9728" }}
+								// display={["none", "none", "flex", "flex"]}
 							>
 								<BsFillGridFill size={28} />
 							</Button>
@@ -273,6 +270,7 @@ export default function Challenges() {
 								color={"white"}
 								onClick={handleTableClick}
 								_hover={{ bg: "#FF9728" }}
+								// display={["none", "none", "flex", "flex"]}
 							>
 								<MdOutlineStorage size={28} />
 							</Button>
@@ -362,10 +360,10 @@ export default function Challenges() {
 								templateColumns={[
 									"repeat(1, 1fr)", // 1 column for small screens
 									"repeat(2, 1fr)", // 2 columns for medium screens
+									"repeat(3, 1fr)",
 									"repeat(3, 1fr)", // 3 columns for large screens
 								]}
 								gap={4}
-								m={5}
 							>
 								{selectedTag
 									? // Only render filtered challenges if a tag is selected

@@ -16,7 +16,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { shortenWalletAddress } from "../../../util/lib";
 import { useRouter } from "next/router";
-import { AiOutlineDown } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineUserAdd } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import { FaUserCog, FaUserCircle } from "react-icons/fa";
 
@@ -78,14 +78,25 @@ export const WalletConnect = () => {
 								mr: "2",
 							}}
 						>
+
+							{!hasProfile && (
+								<MenuItem bg={"#151519"} onClick={handleCreateProfile}>
+									<HStack>
+										<AiOutlineUserAdd />
+										<Text>Create profile</Text>
+									</HStack>
+								</MenuItem>
+							)}
 							<MenuItem
 								bg={"#151519"}
 								onClick={() => router.push(`/profile/myProfile`)}
 							>
-								<HStack>
-									<FaUserCog />
-									<Text>Profile Settings</Text>
-								</HStack>
+								{hasProfile && (
+									<HStack>
+										<FaUserCog />
+										<Text>Profile Settings</Text>
+									</HStack>
+								)}
 							</MenuItem>
 							<MenuItem bg={"#151519"} onClick={handleDisconnect}>
 								<HStack>
@@ -93,13 +104,6 @@ export const WalletConnect = () => {
 									<Text>Disconnect</Text>
 								</HStack>
 							</MenuItem>
-							{!hasProfile && (
-								<MenuItem bg={"#151519"} onClick={handleCreateProfile}>
-									<HStack>
-										<Text>Create profile</Text>
-									</HStack>
-								</MenuItem>
-							)}
 						</MenuList>
 					</Menu>
 				</>

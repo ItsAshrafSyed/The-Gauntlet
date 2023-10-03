@@ -86,7 +86,7 @@ const FailureMessage: FC<FailureMessageProps> = ({ isOpen, onClose }) => {
 							<Input
 								type="text"
 								name="discord"
-								placeholder="discordapp.com/users/my_discord_handle"
+								placeholder="my_discord_handle"
 								value={discordUrl}
 								onChange={(e) => {
 									setDiscordUrl(e.target.value);

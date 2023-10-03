@@ -86,36 +86,36 @@ export default function Leaderboard() {
 						<Grid
 							bg="#151519"
 							borderRadius={"0.5rem 0.5rem 0rem 0rem"}
-							width={"60vw"}
+							width={["80vw", "80vw", "60vw", "60vw"]}
 							templateColumns="repeat(5, 1fr)"
-							padding={"2.5"}
-							gap={4}
+							padding={["2", "2", "2.5", "2.5"]}
+							gap={[1, 1, 9, 9]}
 							borderBottom={"1px solid #323232"}
 						>
 							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Rank
 								</Text>
 							</GridItem>
 							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									User Wallet Address
 								</Text>
 							</GridItem>
 
 							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Challenges Submitted
 								</Text>
 							</GridItem>
 
 							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Challenges Completed
 								</Text>
 							</GridItem>
 							<GridItem textAlign="center">
-								<Text fontSize={"20"} fontWeight={"700"}>
+								<Text fontSize={["5", "5", "20", "20"]} fontWeight={"700"}>
 									Reputation Earned
 								</Text>
 							</GridItem>
