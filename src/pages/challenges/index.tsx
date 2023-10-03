@@ -363,8 +363,7 @@ export default function Challenges() {
 									"repeat(3, 1fr)",
 									"repeat(3, 1fr)", // 3 columns for large screens
 								]}
-								gap={4}
-								m={5}
+								ml={"3vw"}
 							>
 								{selectedTag
 									? // Only render filtered challenges if a tag is selected

@@ -9,6 +9,7 @@ import {
 	Grid,
 	GridItem,
 	Button,
+	IconButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { shortenWalletAddress } from "@/util/lib";
@@ -50,7 +51,7 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 						</Text>
 					</GridItem>
 					<GridItem alignItems="center">
-						<HStack mr={"-2"} spacing={"-1"}>
+						<HStack mr={"-2"} spacing={"-1"} justify={"center"}>
 							<Text
 								fontSize={["7", "7", "20", "20"]}
 								fontWeight={"400"}

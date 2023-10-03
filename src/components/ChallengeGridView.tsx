@@ -111,15 +111,16 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 				"repeat(1, 1fr)", // 1 row for medium screens
 				"repeat(3, 1fr)", // 1 row for large screens
 			]}
-			mr={["0", "0", "4vw", "4vw"]}
+			m={["0", "0", "2vw", "2vw"]}
 			onClick={() => router.push(`/challenges/${props.id}`)}
 		>
-			{/* <Link href={`/challenges/${props.id}`}> */}
 			<GridItem
 				bg="#111"
 				rounded={"lg"}
 				textColor={"white"}
 				background={selectedGradient}
+				border={"1px solid #1E1E23"}
+				borderRadius={"16"}
 				p={6}
 			>
 				<Wrap width={"auto"}>
