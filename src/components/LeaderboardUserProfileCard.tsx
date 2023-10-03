@@ -51,7 +51,7 @@ const LeaderboardUserProfileCard = ({ userProfile }: any) => {
 						</Text>
 					</GridItem>
 					<GridItem alignItems="center">
-						<HStack mr={"-2"} spacing={"-1"} justify={"center"}>
+						<HStack spacing={"-1"} justify={"center"}>
 							<Text
 								fontSize={["7", "7", "20", "20"]}
 								fontWeight={"400"}
