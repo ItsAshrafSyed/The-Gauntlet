@@ -275,7 +275,7 @@ export default function CreateChallenge() {
 				.then(() => {
 					setTimeout(() => {
 						router.push("/challenges");
-					}, 3000);
+					}, 5000);
 				})
 				.catch((err) => {
 					console.log("error occured in then block", err);

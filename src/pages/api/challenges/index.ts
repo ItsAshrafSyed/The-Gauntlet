@@ -88,12 +88,19 @@ async function getChallenges(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		// Get pagination parameters from the query string or use default values
 		const page = parseInt(req.query.page as string) || 1; // Current page number
-		const pageSize = parseInt(req.query.pageSize as string) || 10; // Number of items per page
+		const pageSize = parseInt(req.query.pageSize as string) || 12; // Number of items per page
 
 		// Calculate the offset based on the page and pageSize
 		const offset = (page - 1) * pageSize;
 
-		// Retrieve challenges with pagination
+		//delete all entries with pubKey = null
+		await prisma.challenge.deleteMany({
+			where: {
+				pubKey: null,
+			},
+		});
+		const challengesCount = await prisma.challenge.count();
+
 		const challenges = await prisma.challenge.findMany({
 			select: {
 				id: true,
@@ -168,8 +175,12 @@ async function getChallenges(req: NextApiRequest, res: NextApiResponse) {
 				username: profile?.username ?? null,
 			};
 		});
-
-		return res.status(200).json({ data: { challenges: decorated } });
+		return res.status(200).json({
+			data: {
+				challenges: decorated,
+				challengesCount: challengesCount,
+			},
+		});
 	} catch (error) {
 		console.error("Request error", error);
 		res.status(500).json({

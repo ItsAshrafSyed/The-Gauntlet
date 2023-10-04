@@ -128,23 +128,25 @@ const InputOption: React.FC<OptionProps<any>> = ({
 
 export default function Challenges() {
 	const Router = useRouter();
-	//const [isModerator, setIsModerator] = useState(false);
 	const { provider, program, challengerClient, wallet } = useWorkspace();
 	const [gridView, setGridView] = useState(true);
 	const [tableView, setTableView] = useState(false);
 	const [selectedTag, setSelectedTag] = useState<string[]>([]);
-	//const [hasProfile, setHasProfile] = useState(false);
-	const [profile, setProfile] = useState<any>(null);
+	const [challengesCount, setChallengesCount] = useState<number>(0);
 	const [challenges, setChallenges] = useState<Challenge[] | null>(null);
 	const { hasProfile, isModerator } = useSessionUser();
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const router = useRouter();
 
+	const [currentPage, setCurrentPage] = useState(1);
+	const pageSize = 12; // Number of challenges to display per page
+	const totalPages = Math.ceil(challengesCount / pageSize);
+
 	useEffect(() => {
-		async function getChallenges() {
+		async function getChallenges(currentPage: number, pageSize: number) {
 			if (!program) return;
 			const { data } = await fetchApiResponse<any>({
-				url: "/api/challenges",
+				url: `/api/challenges?page=${currentPage}&pageSize=${pageSize}`,
 			});
 			const challenges = data.challenges;
 			challenges.sort((a: Challenge, b: Challenge) =>
@@ -152,10 +154,12 @@ export default function Challenges() {
 			);
 
 			setChallenges(challenges);
+			setChallengesCount(data.challengesCount);
+
 			setIsLoading(false);
 		}
-		getChallenges();
-	}, [program]);
+		getChallenges(currentPage, pageSize);
+	}, [program, currentPage, pageSize]);
 
 	const handleGridClick = () => {
 		setGridView(true);
@@ -175,6 +179,18 @@ export default function Challenges() {
 						challenge.tags.includes(selected)
 					);
 			  });
+
+	const nextPage = () => {
+		if (currentPage < totalPages) {
+			setCurrentPage(currentPage + 1);
+		}
+	};
+
+	const prevPage = () => {
+		if (currentPage > 1) {
+			setCurrentPage(currentPage - 1);
+		}
+	};
 
 	return (
 		<>
@@ -410,6 +426,27 @@ export default function Challenges() {
 									  )}
 							</Grid>
 						)}
+					</Flex>
+					<Flex justify="center" mt={"5vh"}>
+						<HStack spacing={4}>
+							<Button
+								onClick={prevPage}
+								isDisabled={currentPage === 1}
+								size={["sm", "md", "lg", "lg"]}
+							>
+								Previous Page
+							</Button>
+							<Text>
+								Page {currentPage} of {totalPages}
+							</Text>
+							<Button
+								onClick={nextPage}
+								isDisabled={currentPage === totalPages}
+								size={["sm", "md", "lg", "lg"]}
+							>
+								Next Page
+							</Button>
+						</HStack>
 					</Flex>
 				</Box>
 			)}
