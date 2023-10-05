@@ -24,6 +24,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { shortenWalletAddress } from "../../util/lib";
 import { FaDiscord } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
+import Linkify from "linkify-react";
 import "@fontsource-variable/readex-pro";
 
 export default function Challenge() {
@@ -243,7 +244,7 @@ export default function Challenge() {
 										textColor={"#AAABAE)"}
 										style={{ whiteSpace: "pre-wrap" }}
 									>
-										{content}
+										<Linkify>{content}</Linkify>
 									</Text>
 								</Box>
 								{/* <Text fontSize={20} fontWeight={"500"} mt={"6"}>
