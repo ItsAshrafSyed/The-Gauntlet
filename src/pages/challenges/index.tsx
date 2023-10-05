@@ -427,7 +427,7 @@ export default function Challenges() {
 							</Grid>
 						)}
 					</Flex>
-					<Flex justify="center" mt={"10vh"}>
+					{/* <Flex justify="center" mt={"10vh"}>
 						<HStack spacing={4}>
 							<Button
 								onClick={prevPage}
@@ -447,7 +447,7 @@ export default function Challenges() {
 								Next Page
 							</Button>
 						</HStack>
-					</Flex>
+					</Flex> */}
 				</Box>
 			)}
 		</>
