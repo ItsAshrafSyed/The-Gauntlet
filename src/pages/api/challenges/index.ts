@@ -94,11 +94,12 @@ async function getChallenges(req: NextApiRequest, res: NextApiResponse) {
 		const offset = (page - 1) * pageSize;
 
 		//delete all entries with pubKey = null
-		await prisma.challenge.deleteMany({
-			where: {
-				pubKey: null,
-			},
-		});
+		// await prisma.challenge.deleteMany({
+		// 	where: {
+		// 		pubKey: null,
+		// 	},
+		// });
+
 		const challengesCount = await prisma.challenge.count();
 
 		const challenges = await prisma.challenge.findMany({
