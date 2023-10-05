@@ -10,6 +10,9 @@ import {
 	Wrap,
 	Grid,
 	GridItem,
+	CardHeader,
+	CardBody,
+	CardFooter,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { FC } from "react";
@@ -100,32 +103,19 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 	const countdown = unixTimestampToCountdown(targetTimestamp);
 
 	return (
-		<Grid
-			templateColumns={[
-				"repeat(1, 1fr)", // 1 column for small screens
-				"repeat(2, 1fr)", // 2 columns for medium screens
-				"repeat(3, 1fr)",
-				"repeat(3, 1fr)", // 3 columns for large screens
-			]}
-			// templateRows={[
-			// 	"repeat(1, 1fr)", // 1 row for small screens
-			// 	"repeat(1, 1fr)", // 1 row for medium screens
-			// 	"repeat(3, 1fr)", // 1 row for large screens
-			// ]}
-
+		<Card
+			bg="#111"
+			rounded={"lg"}
+			textColor={"white"}
+			background={selectedGradient}
+			border={"1px solid #1E1E23"}
+			borderRadius={"16"}
+			width={["90vw", "90vw", "30vw", "30vw"]}
+			height={["45vh", "45vh", "60vh", "60vh"]}
 			onClick={() => router.push(`/challenges/${props.id}`)}
 		>
-			<GridItem
-				bg="#111"
-				rounded={"lg"}
-				textColor={"white"}
-				background={selectedGradient}
-				border={"1px solid #1E1E23"}
-				borderRadius={"16"}
-				width={["90vw", "45vw", "30vw", "30vw"]}
-				p={6}
-			>
-				<Wrap width={"auto"}>
+			<CardHeader>
+				<Wrap width={"fit-content"}>
 					{props?.tags?.map((tag: string, index: number) => (
 						<Box
 							background={tagColors[tag] || "gray"}
@@ -140,14 +130,20 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 						</Box>
 					))}
 				</Wrap>
+			</CardHeader>
 
-				<VStack mt={["20vh", "20vh", "30vh", "30vh"]} alignItems={"flex-start"}>
-					<Text fontSize={"20"} fontWeight={"500"} width={"auto"}>
+			<CardBody mt={["9vh", "9vh", "16vh", "16vh"]}>
+				<VStack alignItems={"flex-start"}>
+					<Text fontSize={["18", "18", "20", "20"]} fontWeight={"500"}>
 						{props.title}
 					</Text>
 
 					<HStack spacing={"-1"}>
-						<Text fontSize={"20"} fontWeight={"600"} color={"#FF9728"}>
+						<Text
+							fontSize={["18", "18", "20", "20"]}
+							fontWeight={"600"}
+							color={"#FF9728"}
+						>
 							{props.reputation}
 						</Text>
 						<Image
@@ -158,11 +154,9 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 						/>
 					</HStack>
 				</VStack>
-				<HStack
-					mt={["5vh", "5vh", "10vh", "10vh"]}
-					spacing={"8"}
-					textColor={"gray.400"}
-				>
+			</CardBody>
+			<CardFooter>
+				<HStack spacing={"8"} textColor={"gray.400"}>
 					<Text width={"auto"}>
 						{props.lastActivity
 							? `posted ${moment(props.lastActivity).fromNow()}`
@@ -170,9 +164,8 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 					</Text>
 					<Text width={"auto"}>{countdown}</Text>
 				</HStack>
-			</GridItem>
-			{/* </Link> */}
-		</Grid>
+			</CardFooter>
+		</Card>
 	);
 };
 

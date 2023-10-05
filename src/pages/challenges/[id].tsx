@@ -202,9 +202,9 @@ export default function Challenge() {
 				<>
 					<Flex border={"1px solid #1E1E23"} bg={backgroundColor} mt={"2vh"}>
 						<Box px={"4vw"} py={"5vh"}>
-							<HStack spacing={"6"} ml={"48vw"}>
+							<HStack spacing={"6"} ml={["10vw", "10vw", "48vw", "48vw"]}>
 								<Text
-									fontSize={"16"}
+									fontSize={["8", "8", "16", "16"]}
 									fontWeight={"400"}
 									borderRadius={"20"}
 									border={"1px solid #25D083"}
@@ -215,7 +215,7 @@ export default function Challenge() {
 									{moment().isBefore(challengeEndTime) ? "Ongoing" : "Expired"}
 								</Text>
 								<Text
-									fontSize={"16"}
+									fontSize={["8", "8", "16", "16"]}
 									fontWeight={"400"}
 									border={"1px solid #25D083"}
 									borderRadius={"20"}
@@ -229,7 +229,7 @@ export default function Challenge() {
 							</HStack>
 							<Box mt={"1vh"}>
 								<Text
-									fontSize={"36"}
+									fontSize={["25", "25", "36", "36"]}
 									fontWeight={"600"}
 									fontFamily={"Readex Pro Variable"}
 								>
@@ -238,7 +238,7 @@ export default function Challenge() {
 
 								<Box maxW={"75vw"} mt={2}>
 									<Text
-										fontSize={"20"}
+										fontSize={["10", "10", "20", "20"]}
 										fontWeight={"300"}
 										textColor={"#AAABAE)"}
 										style={{ whiteSpace: "pre-wrap" }}
@@ -252,10 +252,18 @@ export default function Challenge() {
 							</Box>
 						</Box>
 					</Flex>
-					<Flex justifyContent="space-between" mt={"2vh"}>
+					<Flex
+						justifyContent="space-between"
+						mt={"2vh"}
+						flexDir={{ base: "column-reverse", md: "row" }}
+					>
 						<Box minW={"60vw"}>
 							<HStack justifyContent={"space-between"}>
-								<Text fontSize={"24"} fontWeight={"500"} my={4}>
+								<Text
+									fontSize={["15", "15", "24", "24"]}
+									fontWeight={"500"}
+									my={4}
+								>
 									{!submissions.length || submissions.length === 0
 										? "No submissions yet"
 										: `${submissions.length} Submission${
@@ -285,15 +293,15 @@ export default function Challenge() {
 							</VStack>
 						</Box>
 						<Box>
-							<VStack>
+							<VStack flexDir={{ base: "row", md: "column" }}>
 								<Box
-									width={"25vw"}
+									width={["30vw", "30vw", "25vw", "25vw"]}
 									background={"#0E0E10"}
-									padding={"10"}
+									padding={{ base: "3", md: "10" }}
 									borderRadius={"8"}
 								>
 									<Text
-										fontSize={"24"}
+										fontSize={["15", "15", "24", "24"]}
 										fontWeight={"500"}
 										fontFamily={"Readex Pro Variable"}
 									>
@@ -312,13 +320,13 @@ export default function Challenge() {
 									</HStack>
 								</Box>
 								<Box
-									width={"25vw"}
+									width={["30vw", "30vw", "25vw", "25vw"]}
 									background={"#0E0E10"}
-									padding={"10"}
+									padding={{ base: "5", md: "10" }}
 									borderRadius={"8"}
 								>
 									<Text
-										fontSize={"24"}
+										fontSize={["15", "15", "24", "24"]}
 										fontWeight={"500"}
 										fontFamily={"Readex Pro Variable"}
 									>
@@ -327,12 +335,12 @@ export default function Challenge() {
 									{tags?.map((tag: string, index: number) => (
 										<Text
 											background={tagColors[tag] || "gray"}
-											px={"4"}
-											py={"1"}
+											px={{ base: "2", md: "4" }}
+											py={{ base: "1", md: "2" }}
 											key={index}
 											mt={"1"}
 											borderRadius={"20"}
-											fontSize={"14"}
+											fontSize={["7", "7", "14", "14"]}
 											fontWeight={"400"}
 											width={"fit-content"}
 										>
@@ -341,23 +349,24 @@ export default function Challenge() {
 									))}
 								</Box>
 								<Box
-									width={"25vw"}
+									width={["33vw", "33vw", "25vw", "25vw"]}
 									background={"#0E0E10"}
-									padding={"10"}
+									padding={{ base: "3", md: "10" }}
 									borderRadius={"8"}
 								>
 									<Text
-										fontSize={"24"}
+										fontSize={["15", "15", "24", "24"]}
 										fontWeight={"500"}
 										fontFamily={"Readex Pro Variable"}
 									>
 										Help Center
 									</Text>
-									<Text fontSize={"16"} fontWeight={"400"}>
+									<Text fontSize={["10", "10", "16", "16"]} fontWeight={"400"}>
 										Struggling with challenge? Join our Discord server to get
 										help
 									</Text>
 									<Button
+										size={{ base: "xs", md: "md" }}
 										mt={"1"}
 										color={"#F4F4F4"}
 										bg={"#5260D2"}
@@ -365,6 +374,9 @@ export default function Challenge() {
 										_hover={{
 											bg: "transparent",
 											outline: "1px solid #5260D2",
+										}}
+										onClick={() => {
+											window.open("https://discord.gg/zQuyhTXhKj", "_blank");
 										}}
 									>
 										Join Discord

@@ -427,7 +427,7 @@ export default function Challenges() {
 							</Grid>
 						)}
 					</Flex>
-					<Flex justify="center" mt={"5vh"}>
+					<Flex justify="center" mt={"10vh"}>
 						<HStack spacing={4}>
 							<Button
 								onClick={prevPage}

@@ -141,6 +141,7 @@ export default function SubmitSubmissionCard({
 				textColor={"white"}
 				borderBottom={"1px solid #1E1E23"}
 				m={"4vh"}
+				display={{ base: "none", md: "block" }}
 			>
 				<CardBody>
 					<HStack justify={"space-between"} align="start">

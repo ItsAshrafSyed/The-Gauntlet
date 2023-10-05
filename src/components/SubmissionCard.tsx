@@ -146,7 +146,7 @@ const SubmissionCard = ({
 			<Card
 				bg="#111"
 				textColor={"white"}
-				width={"65vw"}
+				width={{ base: "90vw", md: "65vw" }}
 				border={"1px solid #1E1E23"}
 				rounded={"lg"}
 				padding={"3"}
@@ -160,7 +160,11 @@ const SubmissionCard = ({
 							avatarUrl={userAvatarUrl?.length ? userAvatarUrl : ""}
 							size={["xs", "md"]}
 						/>
-						<Text fontSize="15" color="gray.400" whiteSpace="nowrap">
+						<Text
+							fontSize={["8", "8", "15", "15"]}
+							color="gray.400"
+							whiteSpace="nowrap"
+						>
 							{moment(submissionTimestamp).fromNow()}
 						</Text>
 					</HStack>
@@ -168,7 +172,7 @@ const SubmissionCard = ({
 						alignSelf="flex-start"
 						style={{ whiteSpace: "pre-wrap" }}
 						px={8}
-						fontSize={"18"}
+						fontSize={["12", "12", "18", "18"]}
 						fontWeight={"350"}
 						textColor={"#AAABAE)"}
 					>
