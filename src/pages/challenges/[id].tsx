@@ -204,7 +204,7 @@ export default function Challenge() {
 						<Box px={"4vw"} py={"5vh"}>
 							<HStack spacing={"6"} ml={["10vw", "10vw", "48vw", "48vw"]}>
 								<Text
-									fontSize={["8", "8", "16", "16"]}
+									fontSize={["6", "6", "16", "16"]}
 									fontWeight={"400"}
 									borderRadius={"20"}
 									border={"1px solid #25D083"}
@@ -215,7 +215,7 @@ export default function Challenge() {
 									{moment().isBefore(challengeEndTime) ? "Ongoing" : "Expired"}
 								</Text>
 								<Text
-									fontSize={["8", "8", "16", "16"]}
+									fontSize={["6", "6", "16", "16"]}
 									fontWeight={"400"}
 									border={"1px solid #25D083"}
 									borderRadius={"20"}
@@ -255,7 +255,7 @@ export default function Challenge() {
 					<Flex
 						justifyContent="space-between"
 						mt={"2vh"}
-						flexDir={{ base: "column-reverse", md: "row" }}
+						flexDir={{ base: "column", md: "row" }}
 					>
 						<Box minW={"60vw"}>
 							<HStack justifyContent={"space-between"}>
@@ -293,7 +293,7 @@ export default function Challenge() {
 							</VStack>
 						</Box>
 						<Box>
-							<VStack flexDir={{ base: "row", md: "column" }}>
+							<VStack display={{ base: "none", md: "flex" }}>
 								<Box
 									width={["30vw", "30vw", "25vw", "25vw"]}
 									background={"#0E0E10"}

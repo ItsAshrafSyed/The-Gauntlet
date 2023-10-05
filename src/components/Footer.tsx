@@ -51,13 +51,9 @@ export const Footer = () => {
 									width={8}
 									height={6}
 									alt="logo"
-								/>
-								<Spacer />
-								<Image
-									src="/icons/linkedin.svg"
-									width={8}
-									height={6}
-									alt="logo"
+									onClick={() => {
+										window.open("https://discord.gg/zQuyhTXhKj", "_blank");
+									}}
 								/>
 							</HStack>
 
