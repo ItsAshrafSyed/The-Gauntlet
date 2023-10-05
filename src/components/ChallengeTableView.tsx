@@ -23,7 +23,7 @@ type ChallengeTableViewProps = {
 	title?: string;
 	content?: string;
 	reputation: number;
-	tags?: string[];
+	tags?: string;
 	id: string;
 	authorPubKey: string;
 	authorAvatarUrl: string;
@@ -95,17 +95,15 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					</GridItem>
 					<GridItem textAlign="center">
 						<Flex flexWrap="wrap" justifyContent="center" alignItems="center">
-							{props?.tags?.map((tag: string, index: number) => (
+							{props?.tags?.split(",").map((tag, index) => (
 								<Box
 									background={tagColors[tag] || "gray"}
-									key={index}
-									maxW="fit-content"
+									px={"4"}
 									py={"1"}
-									px={"3"}
+									key={index}
 									borderRadius={"20"}
 									fontSize={"14"}
-									fontWeight={"500"}
-									my={"1"}
+									fontWeight={"400"}
 								>
 									{tag}
 								</Box>

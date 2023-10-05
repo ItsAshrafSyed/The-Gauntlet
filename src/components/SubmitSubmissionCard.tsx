@@ -76,32 +76,25 @@ export default function SubmitSubmissionCard({
 				hashedSubmissionJson.output.data as Buffer
 			);
 
-			await fetchApiResponse({
-				url: "/api/submissions",
-				method: "POST",
-				body: {
-					content: submission,
-					challengePubKey: challengePubKey,
-					challengeId: challengeId,
-					authorPubKey: wallet?.publicKey?.toBase58(),
-				},
-			})
+			await challengerClient
+				?.createSubmission(
+					challengePubKey,
+					wallet?.publicKey,
+					hashedSubmissionAsPubkey
+				)
 				.then(async (res: any) => {
-					const result = await challengerClient?.createSubmission(
-						challengePubKey,
-						wallet?.publicKey,
-						hashedSubmissionAsPubkey
-					);
-
 					await fetchApiResponse({
 						url: "/api/submissions",
-						method: "PUT",
+						method: "POST",
 						body: {
-							id: res.data.id,
-							pubKey: result?.submission.toBase58(),
+							content: submission,
+							challengePubKey: challengePubKey,
+							challengeId: challengeId,
+							authorPubKey: wallet?.publicKey?.toBase58(),
+							pubKey: res.submission.toBase58(),
 						},
 					});
-					if (result.txSigMessage) {
+					if (res.txSigMessage) {
 						setSubmitted(true);
 						setResponseMessage("Successfully submitted your submission");
 					} else {
@@ -124,6 +117,39 @@ export default function SubmitSubmissionCard({
 		}
 		setIsSubmitting(false);
 		setSubmission("");
+
+		// await fetchApiResponse({
+		// 	url: "/api/submissions",
+		// 	method: "POST",
+		// 	body: {
+		// 		content: submission,
+		// 		challengePubKey: challengePubKey,
+		// 		challengeId: challengeId,
+		// 		authorPubKey: wallet?.publicKey?.toBase58(),
+		// 	},
+		// })
+		// 	(async (res: any) => {
+		// 		const result = await challengerClient?.createSubmission(
+		// 			challengePubKey,
+		// 			wallet?.publicKey,
+		// 			hashedSubmissionAsPubkey
+		// 		);
+
+		// 		await fetchApiResponse({
+		// 			url: "/api/submissions",
+		// 			method: "PUT",
+		// 			body: {
+		// 				id: res.data.id,
+		// 				pubKey: result?.submission.toBase58(),
+		// 			},
+		// 		});
+		// 		if (result.txSigMessage) {
+		// 			setSubmitted(true);
+		// 			setResponseMessage("Successfully submitted your submission");
+		// 		} else {
+		// 			alert("Something went wrong");
+		// 		}
+		// 	})
 	};
 
 	return (

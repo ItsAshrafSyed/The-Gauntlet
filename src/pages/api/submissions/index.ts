@@ -56,6 +56,7 @@ async function createSubmission(req: NextApiRequest, res: NextApiResponse) {
 				challengePubKey: data.challengePubKey,
 				challengeId: data.challengeId,
 				challengerPubKey: CHALLENGER_PUBKEY.toBase58(),
+				pubKey: data.pubKey,
 			},
 		});
 

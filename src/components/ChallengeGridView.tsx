@@ -22,7 +22,7 @@ type ChallengeGridViewProps = {
 	title?: string;
 	content?: string;
 	reputation: number;
-	tags?: string[];
+	tags?: string;
 	id: string;
 	authorPubKey: string;
 	authorAvatarUrl: string;
@@ -73,7 +73,8 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 	const router = useRouter();
 
 	// Determine the background color based on the first tag (assuming each challenge has at least one tag)
-	const firstTag = props.tags?.[0] || "";
+	const tagsArray = props.tags?.split(",") || [];
+	const firstTag = tagsArray[0] || "";
 	const selectedGradient = categoryColors[firstTag] || "";
 
 	// Countdown function
@@ -116,7 +117,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 		>
 			<CardHeader>
 				<Wrap width={"fit-content"}>
-					{props?.tags?.map((tag: string, index: number) => (
+					{props?.tags?.split(",").map((tag, index) => (
 						<Box
 							background={tagColors[tag] || "gray"}
 							px={"4"}

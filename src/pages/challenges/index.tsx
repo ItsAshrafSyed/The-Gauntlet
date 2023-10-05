@@ -33,7 +33,7 @@ type Challenge = {
 	pubKey: string;
 	authorPubKey: string;
 	reputation: number;
-	tags: string[];
+	tags: string;
 	avatarUrl: string;
 	dateUpdated: Date;
 	challengeExpiration: number;
@@ -143,10 +143,10 @@ export default function Challenges() {
 	const totalPages = Math.ceil(challengesCount / pageSize);
 
 	useEffect(() => {
-		async function getChallenges(currentPage: number, pageSize: number) {
+		async function getChallenges() {
 			if (!program) return;
 			const { data } = await fetchApiResponse<any>({
-				url: `/api/challenges?page=${currentPage}&pageSize=${pageSize}`,
+				url: "/api/challenges",
 			});
 			const challenges = data.challenges;
 			challenges.sort((a: Challenge, b: Challenge) =>
@@ -158,8 +158,8 @@ export default function Challenges() {
 
 			setIsLoading(false);
 		}
-		getChallenges(currentPage, pageSize);
-	}, [program, currentPage, pageSize]);
+		getChallenges();
+	}, [program]);
 
 	const handleGridClick = () => {
 		setGridView(true);

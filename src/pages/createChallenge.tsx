@@ -227,6 +227,11 @@ export default function CreateChallenge() {
 				hashedChallengeJson.output.data as Buffer
 			);
 
+			// to generate comma separated tags
+			const separatedTags = selectedTags.map((tag) => tag.label);
+			const commaSeparatedTags = separatedTags.join(",");
+
+			// to generate tags as array of enums
 			const tagsToSend = selectedTags.map((tag) =>
 				// @ts-ignore hack to support Anchor enums
 				getTagFromString(tag.value)
@@ -239,6 +244,8 @@ export default function CreateChallenge() {
 					title: challengeTitle,
 					content: challengeDetails,
 					challengePeriod: challengePeriod,
+					reputation: reputationString,
+					tags: commaSeparatedTags,
 					authorPubKey: provider.wallet?.publicKey?.toBase58(),
 				},
 			})
