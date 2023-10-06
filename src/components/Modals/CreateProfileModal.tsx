@@ -86,7 +86,7 @@ const CreateProfileModal: FC<CreateProfileModalProps> = ({
 				.then(() => {
 					setTimeout(() => {
 						router.reload();
-					}, 800);
+					}, 2500);
 				})
 				.catch((e) => {
 					console.log("error occured in then block", e);

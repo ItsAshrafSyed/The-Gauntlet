@@ -8,8 +8,10 @@ import {
 	Spacer,
 	Heading,
 	Button,
+	IconButton,
 } from "@chakra-ui/react";
 import "@fontsource-variable/readex-pro";
+import "@fontsource/bangers";
 
 export const Footer = () => {
 	return (
@@ -19,18 +21,15 @@ export const Footer = () => {
 					<HStack justifyContent="center" mt={"10vh"}>
 						<VStack>
 							<HStack>
-								<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
-								{/* <Image
-									src="/icons/solana.svg"
-									width={107}
-									height={16}
-									alt="logo"
-								/> */}
-								<Text
-									fontSize={"48"}
-									fontWeight={"500"}
-									fontFamily={"Readex Pro Variable"}
-								>
+								<IconButton
+									aria-label="logo"
+									icon={
+										<Image src="/icons/logo.svg" alt="logo" width={"9vh"} />
+									}
+									variant="ghost"
+								/>
+
+								<Text fontFamily={"Bangers"} fontSize={"48"} fontWeight={"500"}>
 									The Gauntlet
 								</Text>
 							</HStack>

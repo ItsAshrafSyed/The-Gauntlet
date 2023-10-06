@@ -1,23 +1,4 @@
-import {
-	Badge,
-	Card,
-	CardBody,
-	CardHeader,
-	HStack,
-	VStack,
-	Text,
-	Flex,
-	CardFooter,
-	Button,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
-	useDisclosure,
-} from "@chakra-ui/react";
+import { Card, HStack, VStack, Text, Button } from "@chakra-ui/react";
 import UserAvatarLink from "./UserAvatarLink";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -25,6 +6,7 @@ import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
 import { getSubmissionStateFromString } from "@/util/lib";
 import { useRouter } from "next/router";
+import ContentWithLinks from "./ContentWithLinks";
 
 const SubmissionCard = ({
 	submission,
@@ -176,7 +158,7 @@ const SubmissionCard = ({
 						fontWeight={"350"}
 						textColor={"#AAABAE)"}
 					>
-						{submission}
+						<ContentWithLinks content={submission} />
 					</Text>
 				</VStack>
 

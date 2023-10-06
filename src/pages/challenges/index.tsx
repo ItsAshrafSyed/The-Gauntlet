@@ -164,7 +164,7 @@ export default function Challenges() {
 		}
 		getChallenges();
 	}, [program]);
-	console.log(challenges);
+	// console.log(challenges);
 
 	const handleGridClick = () => {
 		setGridView(true);

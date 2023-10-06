@@ -1140,6 +1140,11 @@
   resolved "https://registry.npmjs.org/@fontsource-variable/readex-pro/-/readex-pro-5.0.8.tgz"
   integrity sha512-hl1pW5gcDtKxufNLf7Tjxw3uUO/kp/dfK0UmiZlCNZqyOQI/awvVtsOXcAHceU4BhnRsoVf8QYvR95SSidBC6g==
 
+"@fontsource/bangers@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.npmjs.org/@fontsource/bangers/-/bangers-5.0.14.tgz"
+  integrity sha512-WigqhPEsuJpQEmloRT5Rt+lGNWG899vwEh/5+2CEYA1RWawQoptP09atv3wUCs2QJqwAuAb1YuLEJcMAm8wNpw==
+
 "@fontsource/inter@^5.0.8":
   version "5.0.8"
   resolved "https://registry.npmjs.org/@fontsource/inter/-/inter-5.0.8.tgz"

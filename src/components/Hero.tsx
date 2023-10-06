@@ -25,6 +25,7 @@ import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
 import { PublicKey } from "@solana/web3.js";
 import { fetchApiResponse } from "../util/lib";
 import "@fontsource-variable/readex-pro";
+import "@fontsource/bangers";
 
 export const Hero = () => {
 	const router = useRouter();
@@ -56,7 +57,7 @@ export const Hero = () => {
 							textAlign={"center"}
 							textTransform={"uppercase"}
 							color={"#F4F4F4"}
-							fontFamily={"Readex Pro Variable"}
+							fontFamily={"Bangers"}
 							textShadow="-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000"
 						>
 							The Gauntlet
@@ -67,11 +68,12 @@ export const Hero = () => {
 							fontWeight={400}
 							color={"#cfcfcf"}
 							textShadow="-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000"
+							fontFamily={"Bangers"}
 						>
 							Complete Challenges. Develop New Skills. Earn Rewards. Share Your
 							Achievements.
 						</Text>
-						<Center p={7}>
+						<Center p={7} mt={"-2vh"}>
 							<Button
 								leftIcon={
 									<Image

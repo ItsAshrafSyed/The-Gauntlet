@@ -14,9 +14,8 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import "@fontsource-variable/readex-pro";
 import { WalletConnect } from "./Modals/wallet/WalletConnect";
-
+import "@fontsource/bangers";
 import { useState } from "react";
-import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 export const Navbar = () => {
 	const router = useRouter();
@@ -46,12 +45,16 @@ export const Navbar = () => {
 			>
 				<Box p="2" onClick={() => router.push("/")}>
 					<HStack>
-						<Image src="/icons/logo.png" width={10} height={9} alt="logo" />
+						<IconButton
+							aria-label="logo"
+							icon={<Image src="/icons/logo.svg" alt="logo" width={"5vh"} />}
+							variant="ghost"
+						/>
 						<Heading
 							size="md"
 							fontWeight={500}
 							fontSize={24}
-							fontFamily={"Readex Pro Variable"}
+							fontFamily={"Bangers"}
 						>
 							The Gauntlet
 						</Heading>

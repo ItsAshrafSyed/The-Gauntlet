@@ -114,7 +114,7 @@ async function updateUser(req: NextApiRequest, res: NextApiResponse) {
 			},
 		});
 
-		console.log("User updated", user);
+		// console.log("User updated", user);
 		return res.status(200).json({ data: { user } });
 	} catch (error) {
 		console.error("Request error", error);

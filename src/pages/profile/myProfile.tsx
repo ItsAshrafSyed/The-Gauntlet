@@ -50,7 +50,7 @@ export default function MyProfile() {
 		};
 		loadData();
 	}, [publicKey, router, router.query, pubKey]);
-	console.log(userProfile);
+	// console.log(userProfile);
 
 	const handleEdit = () => {
 		setIsEditing(true);

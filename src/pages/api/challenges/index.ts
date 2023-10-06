@@ -59,7 +59,7 @@ async function createChallenge(req: NextApiRequest, res: NextApiResponse) {
 				challengerPubKey: CHALLENGER_PUBKEY.toBase58(),
 			},
 		});
-		console.log("after creating", challenge);
+		// console.log("after creating", challenge);
 		return res.status(200).json({ data: challenge });
 	} catch (e) {
 		console.error("Request error", e);
@@ -79,7 +79,7 @@ async function updateChallenge(req: NextApiRequest, res: NextApiResponse) {
 				pubKey: data.pubKey,
 			},
 		});
-		console.log("after updating", challenge);
+		// console.log("after updating", challenge);
 		return res.status(200).json({ data: challenge });
 	} catch (e) {
 		console.error("Request error", e);

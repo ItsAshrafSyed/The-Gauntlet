@@ -2,17 +2,11 @@ import { useSessionUser } from "@/providers/SessionUserProvider";
 import { fetchApiResponse } from "@/util/lib";
 import {
 	Box,
-	Heading,
 	Flex,
 	HStack,
 	Image,
 	Text,
-	Card,
-	Stack,
-	Badge,
-	Wrap,
 	VStack,
-	Divider,
 	Button,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -25,7 +19,7 @@ import { shortenWalletAddress } from "../../util/lib";
 import { FaDiscord } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import ContentWithLinks from "@/components/ContentWithLinks";
-import Linkify from "linkify-react";
+
 import "@fontsource-variable/readex-pro";
 
 export default function Challenge() {

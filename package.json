@@ -16,6 +16,7 @@
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@fontsource-variable/readex-pro": "^5.0.8",
+		"@fontsource/bangers": "^5.0.14",
 		"@fontsource/inter": "^5.0.8",
 		"@mui/material": "^5.14.2",
 		"@prisma/client": "5.0.0",
