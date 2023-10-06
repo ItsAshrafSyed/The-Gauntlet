@@ -33,7 +33,8 @@ type Challenge = {
 	pubKey: string;
 	authorPubKey: string;
 	reputation: number;
-	tags: string;
+	tags: string | string[];
+	challengePeriod: string;
 	avatarUrl: string;
 	dateUpdated: Date;
 	challengeExpiration: number;
@@ -148,18 +149,22 @@ export default function Challenges() {
 			const { data } = await fetchApiResponse<any>({
 				url: "/api/challenges",
 			});
-			const challenges = data.challenges;
-			challenges.sort((a: Challenge, b: Challenge) =>
-				moment(b.dateUpdated).diff(moment(a.dateUpdated))
-			);
+			// Process tags and split them into arrays
+			const challenges = data.challenges.map((challenge: Challenge) => ({
+				...challenge,
+				tags:
+					typeof challenge.tags === "string"
+						? challenge.tags.split(",")
+						: challenge.tags,
+			}));
 
-			setChallenges(challenges);
-			setChallengesCount(data.challengesCount);
+			setChallenges(challenges.reverse());
 
 			setIsLoading(false);
 		}
 		getChallenges();
 	}, [program]);
+	console.log(challenges);
 
 	const handleGridClick = () => {
 		setGridView(true);
@@ -237,7 +242,7 @@ export default function Challenges() {
 								placeholder="All Categories"
 								value={
 									selectedTag.length === 0
-										? { value: "", label: "All Categories" }
+										? null // Use null when "All Categories" is selected
 										: selectedTag.map((tag) => ({ value: tag, label: tag }))
 								}
 								onChange={(selectedOptions) => {
@@ -253,7 +258,6 @@ export default function Challenges() {
 								options={
 									challenges
 										? [
-												{ value: "", label: "All Categories" },
 												...Array.from(
 													new Set(
 														challenges.flatMap((challenge) => challenge.tags)
@@ -316,7 +320,7 @@ export default function Challenges() {
 								</GridItem>
 								<GridItem textAlign="center">
 									<Text fontSize={"20"} fontWeight={"700"}>
-										Reputation Earned
+										Reputation Points
 									</Text>
 								</GridItem>
 								<GridItem textAlign="center">
@@ -342,12 +346,16 @@ export default function Challenges() {
 												title={challenge.title}
 												content={challenge.content}
 												reputation={challenge.reputation}
-												tags={challenge.tags}
+												tags={
+													typeof challenge.tags === "string"
+														? [challenge.tags]
+														: challenge.tags
+												}
 												id={challenge.id}
 												authorPubKey={challenge.authorPubKey}
 												authorAvatarUrl={challenge.avatarUrl}
 												lastActivity={challenge.dateUpdated}
-												challengeExpiration={challenge.challengeExpiration}
+												challengeExpiration={challenge.challengePeriod}
 											/>
 										)
 							  )
@@ -360,12 +368,16 @@ export default function Challenges() {
 												title={challenge.title}
 												content={challenge.content}
 												reputation={challenge.reputation}
-												tags={challenge.tags}
+												tags={
+													typeof challenge.tags === "string"
+														? [challenge.tags]
+														: challenge.tags
+												}
 												id={challenge.id}
 												authorPubKey={challenge.authorPubKey}
 												authorAvatarUrl={challenge.avatarUrl}
 												lastActivity={challenge.dateUpdated}
-												challengeExpiration={challenge.challengeExpiration}
+												challengeExpiration={challenge.challengePeriod}
 											/>
 										)
 							  )}
@@ -391,14 +403,16 @@ export default function Challenges() {
 															title={challenge.title}
 															content={challenge.content}
 															reputation={challenge.reputation}
-															tags={challenge.tags}
+															tags={
+																typeof challenge.tags === "string"
+																	? [challenge.tags]
+																	: challenge.tags
+															}
 															id={challenge.id}
 															authorPubKey={challenge.authorPubKey}
 															authorAvatarUrl={challenge.avatarUrl}
 															lastActivity={challenge.dateUpdated}
-															challengeExpiration={
-																challenge.challengeExpiration
-															}
+															challengeExpiration={challenge.challengePeriod}
 														/>
 													</GridItem>
 												)
@@ -412,14 +426,16 @@ export default function Challenges() {
 															title={challenge.title}
 															content={challenge.content}
 															reputation={challenge.reputation}
-															tags={challenge.tags}
+															tags={
+																typeof challenge.tags === "string"
+																	? [challenge.tags]
+																	: challenge.tags
+															}
 															id={challenge.id}
 															authorPubKey={challenge.authorPubKey}
 															authorAvatarUrl={challenge.avatarUrl}
 															lastActivity={challenge.dateUpdated}
-															challengeExpiration={
-																challenge.challengeExpiration
-															}
+															challengeExpiration={challenge.challengePeriod}
 														/>
 													</GridItem>
 												)

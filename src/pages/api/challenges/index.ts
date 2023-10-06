@@ -97,6 +97,7 @@ async function getChallenges(req: NextApiRequest, res: NextApiResponse) {
 				pubKey: true,
 				authorPubKey: true,
 				dateUpdated: true,
+				challengePeriod: true,
 				tags: true,
 				reputation: true,
 			},

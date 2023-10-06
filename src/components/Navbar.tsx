@@ -93,7 +93,8 @@ export const Navbar = () => {
 				<IconButton
 					aria-label="Open Menu"
 					size={"lg"}
-					bg={"#666"}
+					colorScheme="#111"
+					color={"white"}
 					icon={<HamburgerIcon />}
 					display={["flex", "flex", "none", "none"]}
 					onClick={() => setIsOpen("flex")}
@@ -115,7 +116,8 @@ export const Navbar = () => {
 					<IconButton
 						aria-label="Close Menu"
 						size={"lg"}
-						bg={"#666"}
+						bg={"#111"}
+						color={"white"}
 						icon={<CloseIcon />}
 						onClick={() => setIsOpen("none")}
 					/>

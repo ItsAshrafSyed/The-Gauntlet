@@ -22,11 +22,11 @@ type ChallengeGridViewProps = {
 	title?: string;
 	content?: string;
 	reputation: number;
-	tags?: string;
+	tags?: string[];
 	id: string;
 	authorPubKey: string;
 	authorAvatarUrl: string;
-	challengeExpiration: number;
+	challengeExpiration: string;
 	lastActivity?: Date;
 };
 
@@ -73,35 +73,36 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 	const router = useRouter();
 
 	// Determine the background color based on the first tag (assuming each challenge has at least one tag)
-	const tagsArray = props.tags?.split(",") || [];
-	const firstTag = tagsArray[0] || "";
+	const firstTag = props.tags?.[0] || "";
 	const selectedGradient = categoryColors[firstTag] || "";
 
 	// Countdown function
-	function unixTimestampToCountdown(targetUnixTimestamp: number): string {
-		const currentTime = new Date().getTime();
-		const targetTime = targetUnixTimestamp * 1000; // Convert target timestamp to milliseconds
+	function calculateTimeLeft(targetDate: any) {
+		// Convert the target date string to a Date object
+		const targetDateTime: any = new Date(targetDate);
 
-		const timeDifference = targetTime - currentTime;
+		// Get the current date and time
+		const currentDateTime: any = new Date();
 
-		if (timeDifference <= 0) {
-			return "Challenge Expired";
-		}
+		// Calculate the time difference in milliseconds
+		const timeDiff = targetDateTime - currentDateTime;
 
-		const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-		const hours = Math.floor(
-			(timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		// Calculate days, hours, and minutes left
+		const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+		const hoursLeft = Math.floor(
+			(timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 		);
-		const minutes = Math.floor(
-			(timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-		);
+		const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-		const countdownString = `${days}d:${hours}h:${minutes}m`;
-		return countdownString;
+		// Format the time left as a string
+		const timeLeftString = `${daysLeft}d:${hoursLeft}h:${minutesLeft}m left`;
+
+		return timeLeftString;
 	}
 
-	const targetTimestamp = props.challengeExpiration;
-	const countdown = unixTimestampToCountdown(targetTimestamp);
+	// Example usage:
+	const targetDate = props.challengeExpiration;
+	const timeLeft = calculateTimeLeft(targetDate);
 
 	return (
 		<Card
@@ -112,12 +113,12 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 			border={"1px solid #1E1E23"}
 			borderRadius={"16"}
 			width={["90vw", "90vw", "30vw", "30vw"]}
-			height={["45vh", "45vh", "60vh", "60vh"]}
+			height={["48vh", "48vh", "60vh", "60vh"]}
 			onClick={() => router.push(`/challenges/${props.id}`)}
 		>
 			<CardHeader>
 				<Wrap width={"fit-content"}>
-					{props?.tags?.split(",").map((tag, index) => (
+					{props?.tags?.map((tag: string, index: number) => (
 						<Box
 							background={tagColors[tag] || "gray"}
 							px={"4"}
@@ -133,7 +134,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 				</Wrap>
 			</CardHeader>
 
-			<CardBody mt={["9vh", "9vh", "16vh", "16vh"]}>
+			<CardBody mt={["8vh", "8vh", "16vh", "16vh"]}>
 				<VStack alignItems={"flex-start"}>
 					<Text fontSize={["18", "18", "20", "20"]} fontWeight={"500"}>
 						{props.title}
@@ -163,7 +164,7 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 							? `posted ${moment(props.lastActivity).fromNow()}`
 							: ""}
 					</Text>
-					<Text width={"auto"}>{countdown}</Text>
+					<Text width={"auto"}>{timeLeft}</Text>
 				</HStack>
 			</CardFooter>
 		</Card>

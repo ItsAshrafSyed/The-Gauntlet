@@ -23,11 +23,11 @@ type ChallengeTableViewProps = {
 	title?: string;
 	content?: string;
 	reputation: number;
-	tags?: string;
+	tags?: string[];
 	id: string;
 	authorPubKey: string;
 	authorAvatarUrl: string;
-	challengeExpiration: number;
+	challengeExpiration: string;
 	lastActivity?: Date;
 };
 
@@ -51,29 +51,32 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 	const firstTag = props.tags?.[0] || "";
 
 	// Countdown function
-	function unixTimestampToCountdown(targetUnixTimestamp: number): string {
-		const currentTime = new Date().getTime();
-		const targetTime = targetUnixTimestamp * 1000; // Convert target timestamp to milliseconds
+	function calculateTimeLeft(targetDate: any) {
+		// Convert the target date string to a Date object
+		const targetDateTime: any = new Date(targetDate);
 
-		const timeDifference = targetTime - currentTime;
+		// Get the current date and time
+		const currentDateTime: any = new Date();
 
-		if (timeDifference <= 0) {
-			return "Challenge Expired";
-		}
+		// Calculate the time difference in milliseconds
+		const timeDiff = targetDateTime - currentDateTime;
 
-		const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-		const hours = Math.floor(
-			(timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		// Calculate days, hours, and minutes left
+		const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+		const hoursLeft = Math.floor(
+			(timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 		);
-		const minutes = Math.floor(
-			(timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-		);
+		const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-		const countdownString = `${days}d:${hours}h:${minutes}m`;
-		return countdownString;
+		// Format the time left as a string
+		const timeLeftString = `${daysLeft}d:${hoursLeft}h:${minutesLeft}m left`;
+
+		return timeLeftString;
 	}
-	// Replace this with your target UNIX timestamp
-	const countdown = unixTimestampToCountdown(props.challengeExpiration);
+
+	// Example usage:
+	const targetDate = props.challengeExpiration;
+	const timeLeft = calculateTimeLeft(targetDate);
 
 	return (
 		<Flex justifyContent="center" alignItems="center">
@@ -95,7 +98,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					</GridItem>
 					<GridItem textAlign="center">
 						<Flex flexWrap="wrap" justifyContent="center" alignItems="center">
-							{props?.tags?.split(",").map((tag, index) => (
+							{props?.tags?.map((tag: string, index: number) => (
 								<Box
 									background={tagColors[tag] || "gray"}
 									px={"4"}
@@ -141,7 +144,7 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 					</GridItem>
 					<GridItem textAlign="center">
 						<Text fontSize={"20"} fontWeight={"500"}>
-							{countdown}
+							{timeLeft}
 						</Text>
 					</GridItem>
 				</Grid>
