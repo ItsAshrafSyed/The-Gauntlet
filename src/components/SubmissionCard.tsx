@@ -14,9 +14,8 @@ const SubmissionCard = ({
 	userAvatarUrl,
 	userProfilePubKey,
 	submissionPubKey,
-	awarded,
 }: any) => {
-	const { isModerator, hasProfile } = useSessionUser();
+	const { isModerator, hasProfile, userPublicKey } = useSessionUser();
 	const { program, wallet, challengerClient } = useWorkspace();
 	const [isAcceptHandled, setIsAcceptHandled] = useState(false);
 	const [isRejectHandled, setIsRejectHandled] = useState(false);
@@ -26,14 +25,7 @@ const SubmissionCard = ({
 
 	useEffect(() => {
 		const checkSubmissionState = async () => {
-			if (
-				!program ||
-				!wallet ||
-				!isModerator ||
-				!hasProfile ||
-				!challengerClient
-			)
-				return;
+			if (!program || !wallet || !hasProfile || !challengerClient) return;
 			try {
 				const submissionState = await program?.account.submission.fetchNullable(
 					submissionPubKey
@@ -161,6 +153,25 @@ const SubmissionCard = ({
 						<ContentWithLinks content={submission} />
 					</Text>
 				</VStack>
+				<HStack justify={"end"}>
+					{completed || rejected ? (
+						userProfilePubKey === userPublicKey && (
+							<Button
+								background="#FFB84D"
+								borderRadius={"8"}
+								variant={"solid"}
+								textColor={"white"}
+								_hover={{
+									bg: "#FFB84D",
+								}}
+							>
+								{completed ? "Accepted" : "Rejected"}
+							</Button>
+						)
+					) : (
+						<></>
+					)}
+				</HStack>
 
 				<HStack justify={"end"}>
 					{hasProfile &&
