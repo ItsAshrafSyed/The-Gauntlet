@@ -4,6 +4,7 @@ import globalStyles from "@/styles/globalstyles";
 import AppLayout from "../components/AppLayout";
 import Script from "next/script";
 import { GA_TRACKING_ID } from "../util/constants";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
           `,
 				}}
 			/>
+			<Analytics />
 			<ChakraProvider theme={globalStyles}>
 				<Component {...pageProps} />
 			</ChakraProvider>

@@ -27,6 +27,7 @@
 		"@types/node": "20.3.1",
 		"@types/react": "18.2.13",
 		"@types/react-dom": "18.2.6",
+		"@vercel/analytics": "^1.1.0",
 		"blake3": "^2.1.7",
 		"chakra-react-select": "^4.7.0",
 		"dayjs": "^1.11.9",
