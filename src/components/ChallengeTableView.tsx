@@ -74,7 +74,6 @@ const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 		return timeLeftString;
 	}
 
-	// Example usage:
 	const targetDate = props.challengeExpiration;
 	const timeLeft = calculateTimeLeft(targetDate);
 

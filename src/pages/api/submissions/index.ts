@@ -116,17 +116,18 @@ async function getSubmissionsForChallenge(
 		let submissionsWithOnChainData = await Promise.all(
 			submissions.map(async (submission) => {
 				if (!submission.pubKey) return null;
-				const submissionPubKey = new PublicKey(submission.pubKey);
-				const onChainData = await program.account.submission.fetchNullable(
-					submissionPubKey
-				);
-				if (!onChainData) return null;
+				// const submissionPubKey = new PublicKey(submission.pubKey);
+				// const onChainData = await program.account.submission.fetchNullable(
+				// 	submissionPubKey
+				// );
+				// if (!onChainData) return null;
 
-				return onChainData
-					? {
-							...submission,
-					  }
-					: null;
+				// return onChainData
+				// 	? {
+				// 			...submission,
+				// 	  }
+				// 	: null;
+				return submission;
 			})
 		);
 

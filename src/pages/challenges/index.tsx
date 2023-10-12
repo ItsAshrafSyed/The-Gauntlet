@@ -204,6 +204,22 @@ export default function Challenges() {
 				<LoadingSpinner isLoading={isLoading} />
 			) : (
 				<Box>
+					<Flex
+						border={"1px solid #1E1E23"}
+						textColor={"#FF9728"}
+						m={{ base: "1vh", md: "3vh" }}
+						bg={"#151519"}
+						justify={"center"}
+						p={"5"}
+					>
+						<Text fontFamily={"Readex Pro Variable"} fontSize={"md"}>
+							GM anon, want to take home a cash prize in this H Y P E R D R I V
+							E themed event? Complete the challenges below to earn Reputation
+							Points(RP) and fight your way to the Top 5 on the Leaderboard by
+							October 27th. Get started with an easy one by filtering to the
+							social category 😎
+						</Text>
+					</Flex>
 					{isModerator && (
 						<Button
 							display={["none", "none", "block", "block"]}
@@ -217,7 +233,6 @@ export default function Challenges() {
 							}
 							position={"absolute"}
 							right={"20vh"}
-							mt={"-7vh"}
 							variant="solid"
 							fontSize={14}
 							textColor="white"
@@ -233,22 +248,7 @@ export default function Challenges() {
 							CREATE CHALLENGE
 						</Button>
 					)}
-					<Flex
-						border={"1px solid #1E1E23"}
-						textColor={"#FF9728"}
-						m={{ base: "1vh", md: "3vh" }}
-						bg={"#151519"}
-						justify={"center"}
-						p={"5"}
-					>
-						<Text fontFamily={"Readex Pro Variable"} fontSize={"md"}>
-							GM anon, want to take home a cash prize in this H Y P E R D R I V
-							E themed event? Complete the challenges below to earn Reputation
-							Points(RP) and fight your way to the Top 5 on the Leaderboard by
-							October 22nd. Get started with an easy one by filtering to the
-							social category 😎
-						</Text>
-					</Flex>
+
 					<HStack m={["10", "10", "20", "20"]} justify={"space-between"}>
 						<Text fontSize={["28", "28", "48", "48"]} fontWeight={"700"}>
 							All Challenges
