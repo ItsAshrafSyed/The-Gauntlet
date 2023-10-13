@@ -70,7 +70,9 @@ export const Hero = () => {
 							textShadow="-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000"
 							fontFamily={"Readex Pro Variable"}
 						>
-							Solana&apos;s Social Engagement Layer
+							Solana&apos;s Social Engagement Layer <br />
+							Complete Challenges. Climb your way to the top of the Leaderboard.
+							Earn Reputation & Rewards.
 						</Text>
 						<Center p={7} mt={"-2vh"}>
 							<Button
