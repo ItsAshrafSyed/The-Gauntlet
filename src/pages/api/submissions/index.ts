@@ -17,6 +17,7 @@ interface createSubmissionPayload {
 }
 interface updateSubmissionPayload {
 	id: number;
+	status: string;
 	pubKey: string;
 }
 
@@ -77,10 +78,9 @@ async function updateSubmission(req: NextApiRequest, res: NextApiResponse) {
 				id: data.id,
 			},
 			data: {
-				pubKey: data.pubKey,
+				status: data.status,
 			},
 		});
-
 		return res.status(200).json({ data: submission });
 	} catch (e) {
 		console.error("Request error", e);
@@ -110,6 +110,7 @@ async function getSubmissionsForChallenge(
 				pubKey: true,
 				authorPubKey: true,
 				dateUpdated: true,
+				status: true,
 			},
 		});
 

@@ -78,15 +78,7 @@ export default function Challenge() {
 						)
 						.reverse();
 				}
-				// const challengeAuthor =
-				// 	challenge.authorPubKey === sessionUserPubKey
-				// 		? {
-				// 				avatarUrl: sessionUserMetadata?.avatarUrl,
-				// 				pubKey: sessionUserPubKey,
-				// 		  }
-				// 		: await fetchApiResponse<any>({
-				// 				url: `/api/users/${challenge.authorPubKey}`,
-				// 		  });
+
 				setAuthorAvatarUrl(challenge.avatarUrl);
 				setAuthorPubKey(challenge.authorPubKey);
 				setTitle(challenge.title);
@@ -278,6 +270,7 @@ export default function Challenge() {
 								{submissions.map((submission: any, index: number) => (
 									<SubmissionCard
 										key={index}
+										submissionId={submission.id}
 										submission={submission.content}
 										submissionTimestamp={submission.dateUpdated}
 										userAvatarUrl={submission.authorAvatarUrl}
@@ -386,110 +379,3 @@ export default function Challenge() {
 		</>
 	);
 }
-
-// <Box m={14}>
-// 	<Box>
-// 		<Text fontSize={"64"} fontWeight={"700"}>
-// 			{title}
-// 		</Text>
-// 		<Text fontSize={20} fontWeight={500} mt={4}>
-// 			Author: {authorProfileId}
-// 		</Text>
-// 		<HStack spacing={6}>
-// 			{/* <Box
-// 			background={"#111"}
-// 			borderRadius={"20"}
-// 			width={"60vw"}
-// 			position={"relative"}
-// 		> */}
-// 			<Box
-// 				background={"#1B1B1B"}
-// 				width={"60vw"}
-// 				borderRadius={"12"}
-// 				// position={"absolute"}
-// 			>
-// 				<Text
-// 					padding={"6"}
-// 					fontSize={"16"}
-// 					fontWeight={"500"}
-// 					style={{ whiteSpace: "pre-wrap" }}
-// 				>
-// 					{content}
-// 				</Text>
-// 			</Box>
-// 			{/* </Box> */}
-// 			<Box>
-// 				<Stack spacing={8}>
-// 					<Box
-// 						background={"#111"}
-// 						width={"20vw"}
-// 						padding={"10"}
-// 						borderRadius={"20"}
-// 					>
-// 						<Text fontSize={"24"} fontWeight={"700"}>
-// 							Reward
-// 						</Text>
-// 						<Wrap>
-// 							<Image src="/icons/xp.svg" alt="xp" />
-// 							{reputation}
-// 						</Wrap>
-// 					</Box>
-// 					<Box>
-// 						<Box
-// 							background={"#111"}
-// 							width={"20vw"}
-// 							padding={"10"}
-// 							borderRadius={"20"}
-// 						>
-// 							<Text fontSize={"24"} fontWeight={"700"}>
-// 								Players{" "}
-// 								{!submissions.length || submissions.length === 0
-// 									? "0"
-// 									: `${submissions.length}`}
-// 							</Text>
-// 						</Box>
-// 					</Box>
-// 				</Stack>
-// 			</Box>
-// 		</HStack>
-// 	</Box>
-// 	<Box mt={"6"}>
-// 		<Divider />
-// 		<HStack justifyContent={"space-between"}>
-// 			<Heading as="h3" size="lg" my={4}>
-// 				{!submissions.length || submissions.length === 0
-// 					? "No submissions yet"
-// 					: `${submissions.length} Submission${
-// 							submissions.length > 1 ? "s" : ""
-// 					  }`}
-// 			</Heading>
-// 		</HStack>
-// 		<VStack spacing={6} minWidth={"80%"} align={"center"}>
-// 			{hasProfile ? (
-// 				isModerator ? (
-// 					<></>
-// 				) : (
-// 					<SubmitSubmissionCard
-// 						userProfilePubKey={sessionUserPubKey}
-// 						userAvatarUrl={sessionUserMetadata?.avatarUrl}
-// 						challengePubKey={challengePubKey}
-// 						challengeId={challengeId}
-// 					/>
-// 				)
-// 			) : (
-// 				<></>
-// 			)}
-// 			{submissions.map((submission: any, index: number) => (
-// 				<SubmissionCard
-// 					key={index}
-// 					submission={submission.content}
-// 					submissionTimestamp={submission.dateUpdated}
-// 					userAvatarUrl={submission.authorAvatarUrl}
-// 					userProfilePubKey={submission.authorPubKey}
-// 					awarded={submission.awarded}
-// 					submissionPubKey={submission.pubKey}
-// 				/>
-// 			))}
-// 		</VStack>
-// 	</Box>
-// </Box>

@@ -68,10 +68,9 @@ export const Hero = () => {
 							fontWeight={400}
 							color={"#cfcfcf"}
 							textShadow="-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000"
-							fontFamily={"Bangers"}
+							fontFamily={"Readex Pro Variable"}
 						>
-							Complete Challenges. Develop New Skills. Earn Rewards. Share Your
-							Achievements.
+							Solana&apos;s Social Engagement Layer
 						</Text>
 						<Center p={7} mt={"-2vh"}>
 							<Button

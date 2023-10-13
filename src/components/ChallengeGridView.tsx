@@ -15,8 +15,11 @@ import {
 	CardFooter,
 } from "@chakra-ui/react";
 import moment from "moment";
-import { FC } from "react";
+import { FC, use } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { fetchApiResponse } from "@/util/lib";
+import { useSessionUser } from "@/providers/SessionUserProvider";
 
 type ChallengeGridViewProps = {
 	title?: string;
@@ -71,7 +74,29 @@ const tagColors: { [key: string]: string } = {
 
 const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 	const router = useRouter();
+	const [needsEvaluation, setNeedsEvaluation] = useState<number>(0);
+	const { isModerator } = useSessionUser();
 
+	useEffect(() => {
+		async function loadData() {
+			try {
+				const submissionResult = await fetchApiResponse<any>({
+					url: `/api/submissions?challengeId=${props.id}`,
+				});
+				const submissions = submissionResult.data.submissions ?? [];
+				const nullStatusSubmissions = submissions.filter(
+					(submission: any) => submission.status === null
+				);
+				const increasedNeedsEvaluation = nullStatusSubmissions.length;
+				setNeedsEvaluation(increasedNeedsEvaluation);
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		loadData();
+	}, [props.id]);
+
+	console.log("needsEvaluation", needsEvaluation);
 	// Determine the background color based on the first tag (assuming each challenge has at least one tag)
 	const firstTag = props.tags?.[0] || "";
 	const selectedGradient = categoryColors[firstTag] || "";
@@ -132,6 +157,20 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 						</Box>
 					))}
 				</Wrap>
+				{isModerator && needsEvaluation > 0 && (
+					<Box
+						position={"absolute"}
+						top={"-1"}
+						right={"-1"}
+						background={"#FF6262"}
+						borderRadius={"50%"}
+						p={"2"}
+					>
+						<Text fontSize={"12"} fontWeight={"600"} color={"white"}>
+							{needsEvaluation}
+						</Text>
+					</Box>
+				)}
 			</CardHeader>
 
 			<CardBody mt={["8vh", "8vh", "16vh", "16vh"]}>

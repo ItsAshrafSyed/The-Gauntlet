@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useSessionUser } from "../providers/SessionUserProvider";
 import { useWorkspace } from "../providers/WorkspaceProvider";
-import { getSubmissionStateFromString } from "@/util/lib";
+import { fetchApiResponse, getSubmissionStateFromString } from "@/util/lib";
 import { useRouter } from "next/router";
 import ContentWithLinks from "./ContentWithLinks";
 
 const SubmissionCard = ({
 	submission,
+	submissionId,
 	submissionTimestamp,
 	userAvatarUrl,
 	userProfilePubKey,
@@ -65,16 +66,33 @@ const SubmissionCard = ({
 				return;
 			const submissionState = getSubmissionStateFromString("Completed");
 
-			const transaction = await challengerClient.evaluateSubmission(
-				submissionPubKey,
-				wallet.publicKey,
-				// @ts-ignore hack to support Anchor enums
-				submissionState
-			);
-			if (transaction) {
-				alert("Successfully Accepted Submission");
-				router.reload();
-			}
+			await challengerClient
+				.evaluateSubmission(
+					submissionPubKey,
+					wallet.publicKey,
+					// @ts-ignore hack to support Anchor enums
+					submissionState
+				)
+				.then(async () => {
+					await fetchApiResponse({
+						method: "PUT",
+						url: "/api/submissions/",
+						body: {
+							id: submissionId,
+							status: "Completed",
+						},
+					});
+				})
+				.then(() => {
+					alert("Successfully Accepted Submission");
+					router.reload();
+				})
+				.catch((e) => {
+					console.log(
+						"error occured in then block  catch in submission card",
+						e
+					);
+				});
 		} catch (e) {
 			console.log(
 				"error occured handleacceptsubmission in try block in submission card"
@@ -95,17 +113,33 @@ const SubmissionCard = ({
 				return;
 			const submissionState = getSubmissionStateFromString("Rejected");
 
-			const transaction = await challengerClient.evaluateSubmission(
-				submissionPubKey,
-				wallet.publicKey,
-				// @ts-ignore hack to support Anchor enums
-				submissionState
-			);
-
-			if (transaction) {
-				alert("Successfully Rejected Submission");
-				router.reload();
-			}
+			await challengerClient
+				.evaluateSubmission(
+					submissionPubKey,
+					wallet.publicKey,
+					// @ts-ignore hack to support Anchor enums
+					submissionState
+				)
+				.then(async () => {
+					await fetchApiResponse({
+						method: "PUT",
+						url: "/api/submissions/",
+						body: {
+							id: submissionId,
+							status: "Rejected",
+						},
+					});
+				})
+				.then(() => {
+					alert("Successfully Rejected Submission");
+					router.reload();
+				})
+				.catch((e) => {
+					console.log(
+						"error occured in then block  catch in submission card",
+						e
+					);
+				});
 		} catch (e) {
 			console.log(
 				"error occured handlerejectsubmission in try block in submission card"
