@@ -15,7 +15,7 @@ import {
 	CardFooter,
 } from "@chakra-ui/react";
 import moment from "moment";
-import { FC, use } from "react";
+import { FC } from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetchApiResponse } from "@/util/lib";
@@ -96,7 +96,6 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 		loadData();
 	}, [props.id]);
 
-	console.log("needsEvaluation", needsEvaluation);
 	// Determine the background color based on the first tag (assuming each challenge has at least one tag)
 	const firstTag = props.tags?.[0] || "";
 	const selectedGradient = categoryColors[firstTag] || "";
