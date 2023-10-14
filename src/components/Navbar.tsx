@@ -49,6 +49,7 @@ export const Navbar = () => {
 							aria-label="logo"
 							icon={<Image src="/icons/logo.svg" alt="logo" width={"5vh"} />}
 							variant="ghost"
+							colorScheme="transparent"
 						/>
 						<Heading
 							size="md"

@@ -322,7 +322,7 @@ export default function CreateChallenge() {
 						<FormLabel mt={3}>Challenge Details</FormLabel>
 						<Textarea
 							name="challengeDetails"
-							placeholder="Enter a challenge details"
+							placeholder="Enter challenge details"
 							value={challengeDetails}
 							onChange={(e) => {
 								setChallengeDetails(e.target.value);

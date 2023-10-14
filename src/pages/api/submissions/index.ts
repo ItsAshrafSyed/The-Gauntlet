@@ -4,7 +4,6 @@ import { hash } from "blake3";
 import { PublicKey } from "@solana/web3.js";
 import { CHALLENGER_PUBKEY } from "../../../util/constants";
 import { createWorkspace } from "../../../util/api";
-import { on } from "events";
 
 const prisma = new PrismaClient();
 

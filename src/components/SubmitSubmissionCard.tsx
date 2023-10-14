@@ -117,39 +117,6 @@ export default function SubmitSubmissionCard({
 		}
 		setIsSubmitting(false);
 		setSubmission("");
-
-		// await fetchApiResponse({
-		// 	url: "/api/submissions",
-		// 	method: "POST",
-		// 	body: {
-		// 		content: submission,
-		// 		challengePubKey: challengePubKey,
-		// 		challengeId: challengeId,
-		// 		authorPubKey: wallet?.publicKey?.toBase58(),
-		// 	},
-		// })
-		// 	(async (res: any) => {
-		// 		const result = await challengerClient?.createSubmission(
-		// 			challengePubKey,
-		// 			wallet?.publicKey,
-		// 			hashedSubmissionAsPubkey
-		// 		);
-
-		// 		await fetchApiResponse({
-		// 			url: "/api/submissions",
-		// 			method: "PUT",
-		// 			body: {
-		// 				id: res.data.id,
-		// 				pubKey: result?.submission.toBase58(),
-		// 			},
-		// 		});
-		// 		if (result.txSigMessage) {
-		// 			setSubmitted(true);
-		// 			setResponseMessage("Successfully submitted your submission");
-		// 		} else {
-		// 			alert("Something went wrong");
-		// 		}
-		// 	})
 	};
 
 	return (

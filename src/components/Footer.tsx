@@ -27,6 +27,7 @@ export const Footer = () => {
 										<Image src="/icons/logo.svg" alt="logo" width={"9vh"} />
 									}
 									variant="ghost"
+									colorScheme="transparent"
 								/>
 
 								<Text fontFamily={"Bangers"} fontSize={"48"} fontWeight={"500"}>
