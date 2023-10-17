@@ -38,6 +38,7 @@ const SubmissionCard = ({
 	const [submissionContent, setSubmissionContent] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
+	console.log("submissionID", submissionId);
 
 	useEffect(() => {
 		const checkSubmissionState = async () => {
@@ -200,6 +201,16 @@ const SubmissionCard = ({
 						},
 					});
 				})
+				.then(async () => {
+					await fetchApiResponse({
+						method: "PUT",
+						url: "/api/submissions/",
+						body: {
+							id: submissionId,
+							status: null,
+						},
+					});
+				})
 				.then(() => {
 					setIsEditing(false);
 					setIsLoading(false);
@@ -254,7 +265,7 @@ const SubmissionCard = ({
 								bg="#FFB84D"
 								borderRadius={"8"}
 								variant={"ghost"}
-								isDisabled={completed || rejected}
+								isDisabled={completed}
 								onClick={() => setIsEditing(!isEdting)}
 							/>
 						)}
@@ -289,6 +300,7 @@ const SubmissionCard = ({
 							fontSize={["12", "12", "18", "18"]}
 							fontWeight={"350"}
 							textColor={"#AAABAE)"}
+							width={{ base: "90vw", md: "65vw" }}
 						>
 							<ContentWithLinks content={submission} />
 						</Text>

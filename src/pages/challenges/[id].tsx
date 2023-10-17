@@ -19,7 +19,6 @@ import { shortenWalletAddress } from "../../util/lib";
 import { FaDiscord } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import ContentWithLinks from "@/components/ContentWithLinks";
-
 import "@fontsource-variable/readex-pro";
 
 export default function Challenge() {
@@ -260,12 +259,14 @@ export default function Challenge() {
 								</Text>
 							</HStack>
 							<VStack spacing={6} minWidth={"80%"} align={"center"}>
-								<SubmitSubmissionCard
-									userProfilePubKey={sessionUserPubKey}
-									userAvatarUrl={sessionUserMetadata?.avatarUrl}
-									challengePubKey={challengePubKey}
-									challengeId={challengeId}
-								/>
+								{moment().isBefore(challengeEndTime) && (
+									<SubmitSubmissionCard
+										userProfilePubKey={sessionUserPubKey}
+										userAvatarUrl={sessionUserMetadata?.avatarUrl}
+										challengePubKey={challengePubKey}
+										challengeId={challengeId}
+									/>
+								)}
 
 								{submissions.map((submission: any, index: number) => (
 									<SubmissionCard

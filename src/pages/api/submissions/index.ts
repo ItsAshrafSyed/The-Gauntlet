@@ -16,7 +16,7 @@ interface createSubmissionPayload {
 }
 interface updateSubmissionPayload {
 	id: number;
-	status: string;
+	status: string | null;
 	pubKey: string;
 }
 
