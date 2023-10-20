@@ -48,29 +48,20 @@ const tagColors: { [key: string]: string } = {
 const ChallengeTableView: FC<ChallengeTableViewProps> = (props) => {
 	const router = useRouter();
 
-	const firstTag = props.tags?.[0] || "";
-
 	// Countdown function
 	function calculateTimeLeft(targetDate: any) {
-		// Convert the target date string to a Date object
 		const targetDateTime: any = new Date(targetDate);
-
-		// Get the current date and time
 		const currentDateTime: any = new Date();
-
-		// Calculate the time difference in milliseconds
 		const timeDiff = targetDateTime - currentDateTime;
-
-		// Calculate days, hours, and minutes left
+		if (timeDiff < 0) {
+			return "Expired";
+		}
 		const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 		const hoursLeft = Math.floor(
 			(timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 		);
 		const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-		// Format the time left as a string
 		const timeLeftString = `${daysLeft}d:${hoursLeft}h:${minutesLeft}m left`;
-
 		return timeLeftString;
 	}
 

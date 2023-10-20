@@ -13,6 +13,7 @@ import {
 	CardHeader,
 	CardBody,
 	CardFooter,
+	Spacer,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { FC } from "react";
@@ -102,29 +103,20 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 
 	// Countdown function
 	function calculateTimeLeft(targetDate: any) {
-		// Convert the target date string to a Date object
 		const targetDateTime: any = new Date(targetDate);
-
-		// Get the current date and time
 		const currentDateTime: any = new Date();
-
-		// Calculate the time difference in milliseconds
 		const timeDiff = targetDateTime - currentDateTime;
-
-		// Calculate days, hours, and minutes left
+		if (timeDiff < 0) {
+			return "Expired";
+		}
 		const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 		const hoursLeft = Math.floor(
 			(timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 		);
 		const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-		// Format the time left as a string
 		const timeLeftString = `${daysLeft}d:${hoursLeft}h:${minutesLeft}m left`;
-
 		return timeLeftString;
 	}
-
-	// Example usage:
 	const targetDate = props.challengeExpiration;
 	const timeLeft = calculateTimeLeft(targetDate);
 
@@ -196,12 +188,13 @@ const ChallengeGridView: FC<ChallengeGridViewProps> = (props) => {
 				</VStack>
 			</CardBody>
 			<CardFooter>
-				<HStack spacing={"8"} textColor={"gray.400"}>
+				<HStack textColor={"gray.400"}>
 					<Text width={"auto"}>
 						{props.lastActivity
 							? `posted ${moment(props.lastActivity).fromNow()}`
 							: ""}
 					</Text>
+					<Spacer />
 					<Text width={"auto"}>{timeLeft}</Text>
 				</HStack>
 			</CardFooter>

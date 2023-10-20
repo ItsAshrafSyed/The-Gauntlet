@@ -38,7 +38,6 @@ const SubmissionCard = ({
 	const [submissionContent, setSubmissionContent] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
-	console.log("submissionID", submissionId);
 
 	useEffect(() => {
 		const checkSubmissionState = async () => {
