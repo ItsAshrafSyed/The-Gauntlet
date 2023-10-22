@@ -243,7 +243,7 @@ export default function Challenges() {
 							_hover={{
 								bg: "transparent",
 							}}
-							onClick={() => Router.push("/createChallenge")}
+							onClick={() => Router.push("/challenges/createChallenge")}
 						>
 							CREATE CHALLENGE
 						</Button>

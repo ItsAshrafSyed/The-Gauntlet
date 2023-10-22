@@ -6,6 +6,16 @@ import { getDisplayStringFromTag } from "../../../util/lib";
 
 const prisma = new PrismaClient();
 
+interface updateChallengePayload {
+	title: string;
+	content: string;
+	contentHash: string;
+	tags: string;
+	reputation: string;
+	authorPubKey: string;
+	challengePeriod: string;
+}
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
@@ -13,6 +23,9 @@ export default async function handler(
 	switch (req.method) {
 		case "GET": {
 			return await getChallenge(req, res);
+		}
+		case "PUT": {
+			return await updateChallenge(req, res);
 		}
 		default: {
 			return res.status(405).json({ message: "Method not allowed" });
@@ -60,6 +73,39 @@ async function getChallenge(req: NextApiRequest, res: NextApiResponse) {
 				},
 			},
 		});
+	} catch (error) {
+		console.error("Request error", error);
+		res.status(500).json({
+			error: "Error getting question",
+		});
+	}
+}
+
+async function updateChallenge(req: NextApiRequest, res: NextApiResponse) {
+	const { program, provider } = createWorkspace();
+
+	const { id } = req.query;
+
+	if (!id || typeof id !== "string") {
+		return res.status(400).json({ message: "Invalid id" });
+	}
+	const data = req.body as updateChallengePayload;
+	try {
+		const challenge = await prisma.challenge.update({
+			where: {
+				id: parseInt(id),
+			},
+			data: {
+				title: data.title,
+				content: data.content,
+				contentHash: data.contentHash,
+				tags: data.tags,
+				reputation: data.reputation,
+				authorPubKey: data.authorPubKey,
+				challengePeriod: data.challengePeriod,
+			},
+		});
+		return res.status(200).json({ data: challenge });
 	} catch (error) {
 		console.error("Request error", error);
 		res.status(500).json({

@@ -8,6 +8,8 @@ export const CHALLENGER_PUBKEY = new PublicKey(
 	process.env.NEXT_PUBLIC_CHALLENGER_PUBKEY ?? ""
 );
 
+export const CHALLENGER_SITE_URL = process.env.NEXT_PUBLIC_CHALLENGER_SITE_URL;
+
 export const CRUX_KEY = new PublicKey(process.env.NEXT_PUBLIC_CRUX_KEY ?? "");
 
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;

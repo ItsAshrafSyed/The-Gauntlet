@@ -20,6 +20,7 @@ import { FaDiscord } from "react-icons/fa";
 import { FaShareAlt } from "react-icons/fa";
 import ContentWithLinks from "@/components/ContentWithLinks";
 import "@fontsource-variable/readex-pro";
+import { FiEdit3 } from "react-icons/fi";
 
 export default function Challenge() {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -212,7 +213,15 @@ export default function Challenge() {
 									{formattedCreatedTime} - {formattedEndTime}
 								</Text>
 
-								<FaShareAlt size={"36"} onClick={copyToClipboard} />
+								<FaShareAlt size={"28"} onClick={copyToClipboard} />
+								{isModerator && (
+									<FiEdit3
+										size={"30"}
+										onClick={() => {
+											router.push(`/challenges/edit/${id}`);
+										}}
+									/>
+								)}
 							</HStack>
 							<Box mt={"1vh"}>
 								<Text

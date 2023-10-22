@@ -4,23 +4,13 @@ import {
 	Input,
 	Textarea,
 	Button,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
 	useDisclosure,
-	ModalCloseButton,
 	NumberInput,
 	NumberInputField,
-	NumberInputStepper,
-	NumberIncrementStepper,
-	NumberDecrementStepper,
+	HStack,
+	Image,
 } from "@chakra-ui/react";
-//import { Select } from "chakra-react-select";
 import Select from "react-select";
-//import { customStyles } from "../styles/selectStyles";
 import { createRoot } from "react-dom/client";
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -28,15 +18,21 @@ import DateTimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-import styles from "../styles/pages";
-import { fetchApiResponse, getTagFromString } from "../util/lib";
-import { useWorkspace } from "../providers/WorkspaceProvider";
+import styles from "../../styles/pages";
+import { fetchApiResponse, getTagFromString } from "../../util/lib";
+import { useWorkspace } from "../../providers/WorkspaceProvider";
 import { PublicKey } from "@solana/web3.js";
-import { CHALLENGER_PROGRAM_ID, CRUX_KEY } from "../util/constants";
+import {
+	CHALLENGER_PROGRAM_ID,
+	CRUX_KEY,
+	CHALLENGER_SITE_URL,
+} from "../../util/constants";
 import { BN } from "@coral-xyz/anchor";
 import { useRouter } from "next/router";
-import { useSessionUser } from "../providers/SessionUserProvider";
+
+import { useSessionUser } from "../../providers/SessionUserProvider";
 import SuccessMessage from "@/components/Modals/SuccessMessage";
+import "@fontsource-variable/readex-pro";
 
 type ValuePiece = Date | null;
 
@@ -69,7 +65,6 @@ const tagOptions = [
 ] as TagMultiSelectOptions[];
 
 const customStyles = {
-	//make text of selected option white
 	multiValueLabel: (provided: any) => ({
 		...provided,
 		color: "white",
@@ -106,8 +101,7 @@ const customStyles = {
 
 export default function CreateChallenge() {
 	const { provider, program, challengerClient, wallet } = useWorkspace();
-	const [isModerator, setIsModerator] = useState(false);
-	const [hasProfile, setHasProfile] = useState(false);
+
 	const [selectedTags, setSelectedTags] = useState<TagMultiSelectOptions[]>([]);
 	const [challengePeriod, setChallengePeriod] = useState<Value>(new Date());
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -119,8 +113,7 @@ export default function CreateChallenge() {
 	const [challengeDetails, setChallengeDetails] = useState("");
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const router = useRouter();
-	const { hasProfile: hasProfileSession, isModerator: isModeratorSession } =
-		useSessionUser();
+	const { hasProfile, isModerator } = useSessionUser();
 
 	useEffect(() => {
 		setCanSubmitChallenge(
@@ -137,28 +130,6 @@ export default function CreateChallenge() {
 		selectedTags,
 		challengePeriod,
 	]);
-
-	useEffect(() => {
-		if (!provider) return;
-		if (!provider.wallet) return;
-		if (!program) return;
-		const [profilePda] = PublicKey.findProgramAddressSync(
-			[
-				Buffer.from("user_profile"),
-				CRUX_KEY.toBytes(),
-				provider.wallet.publicKey.toBytes(),
-			],
-			CHALLENGER_PROGRAM_ID
-		);
-		async function checkProfile() {
-			const profileAccount = await program?.account.userProfile.fetchNullable(
-				profilePda
-			);
-			setIsModerator(profileAccount?.isModerator ? true : false);
-			setHasProfile(profileAccount ? true : false);
-		}
-		checkProfile();
-	}, [provider, program, hasProfile, provider?.wallet, wallet]);
 
 	useEffect(() => {
 		const datePickerContainer = document.getElementById("datePickerContainer");
@@ -178,7 +149,6 @@ export default function CreateChallenge() {
 					minutePlaceholder="mm"
 				/>
 			);
-			// ReactDOM.render(dateTimePicker, datePickerContainer);
 			createRoot(datePickerContainer).render(dateTimePicker);
 		}
 	}, [challengePeriod]);
@@ -250,7 +220,7 @@ export default function CreateChallenge() {
 				},
 			})
 				.then(async (res: any) => {
-					const contentDataUrl = `https://thegauntlet.vercel.app/challenges/${res.data.id}`;
+					const contentDataUrl = `${CHALLENGER_SITE_URL}/challenges/${res.data.id}`;
 
 					const result = await challengerClient?.createChallenge(
 						CRUX_KEY,
@@ -301,13 +271,24 @@ export default function CreateChallenge() {
 	return (
 		<>
 			<Box position={"relative"} mx={"25vw"} my={"4vh"}>
-				<Text fontSize={"30"} fontWeight={"500"}>
-					Create Challenge
+				<Text
+					fontSize={"30"}
+					fontWeight={"500"}
+					fontFamily={"Readex Pro Variable"}
+				>
+					CREATE CHALLENGE
 				</Text>
 				<Box>
-					<FormControl>
-						<FormLabel mt={5}>Challenge Title</FormLabel>
+					<FormControl mt={"5vh"}>
+						<FormLabel fontSize={18} fontWeight={500}>
+							Challenge Title
+						</FormLabel>
 						<Input
+							bg={"#060606"}
+							borderRadius={"8"}
+							fontSize={"16"}
+							fontWeight={"400"}
+							border={" 1px solid #76777A"}
 							type="text"
 							name="challengeTitle"
 							placeholder="Enter a challenge Title"
@@ -318,11 +299,18 @@ export default function CreateChallenge() {
 						/>
 					</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}>Challenge Details</FormLabel>
+					<FormControl mt={"3vh"}>
+						<FormLabel fontSize={18} fontWeight={500}>
+							Challenge Description
+						</FormLabel>
 						<Textarea
+							bg={"#060606"}
+							borderRadius={"8"}
+							fontSize={"16"}
+							fontWeight={"400"}
+							border={" 1px solid #76777A"}
 							name="challengeDetails"
-							placeholder="Enter challenge details"
+							placeholder="Enter a challenge Challenge Description"
 							value={challengeDetails}
 							onChange={(e) => {
 								setChallengeDetails(e.target.value);
@@ -331,33 +319,46 @@ export default function CreateChallenge() {
 						/>
 					</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}> Select Challange Period</FormLabel>
+					<FormControl mt={"3vh"}>
+						<FormLabel fontSize={18} fontWeight={500}>
+							{" "}
+							Select Challange Period
+						</FormLabel>
 						<div id="datePickerContainer" />
 					</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3}>Points</FormLabel>
-						<NumberInput
-							name="challengeReward"
-							textColor={"white"}
-							placeholder="Enter reputation number "
-							value={reputationString}
-							onChange={(e) => {
-								setReputationString(e);
-							}}
-						>
-							<NumberInputField placeholder="Enter reputation reward" />
-							<NumberInputStepper>
-								<NumberIncrementStepper />
-								<NumberDecrementStepper />
-							</NumberInputStepper>
-						</NumberInput>
+					<FormControl mt={"3vh"}>
+						<FormLabel fontSize={18} fontWeight={500}>
+							Reputation Points
+						</FormLabel>
+						<HStack>
+							<Image
+								src="/images/rp.png"
+								alt="rp"
+								width={"40px"}
+								height={"40px"}
+							/>
+							<NumberInput
+								bg={"#060606"}
+								borderRadius={"8"}
+								fontSize={"16"}
+								fontWeight={"400"}
+								border={" 1px solid #76777A"}
+								name="challengeReward"
+								placeholder="Enter reputation number "
+								value={reputationString}
+								onChange={(e) => {
+									setReputationString(e);
+								}}
+							>
+								<NumberInputField placeholder="Enter reputation reward" />
+							</NumberInput>
+						</HStack>
 					</FormControl>
 
-					<FormControl>
-						<FormLabel mt={3} textColor={"white"}>
-							Tags
+					<FormControl mt={"3vh"} width={"20vw"}>
+						<FormLabel fontSize={18} fontWeight={500}>
+							Category
 						</FormLabel>
 						<Select
 							isMulti
@@ -371,7 +372,7 @@ export default function CreateChallenge() {
 						/>
 					</FormControl>
 
-					<FormControl mt={5}>
+					<FormControl mt={"4vh"}>
 						<Button
 							variant={"solid"}
 							textColor={"white"}
