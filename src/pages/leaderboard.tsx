@@ -121,14 +121,12 @@ export default function Leaderboard() {
 							</GridItem>
 						</Grid>
 						<Box mt={"-2"}>
-							{rankedUserProfiles
-								?.slice(0, 10) // This will select the first 10 elements
-								.map((rankedUserProfile, index: number) => (
-									<LeaderboardUserProfileCard
-										key={index}
-										userProfile={rankedUserProfile}
-									/>
-								))}
+							{rankedUserProfiles?.map((rankedUserProfile, index: number) => (
+								<LeaderboardUserProfileCard
+									key={index}
+									userProfile={rankedUserProfile}
+								/>
+							))}
 						</Box>
 					</VStack>
 				</Flex>
